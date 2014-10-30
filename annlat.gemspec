@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Alexander Shevtsov"]
   spec.email         = ["randomlogin76@gmail.com"]
   spec.summary       = "Learnleague gem with libraries"
-  spec.description   = ''
-  spec.homepage      = ""
+  spec.description   = 'Gem containing libraries used by learnlague.'
+  spec.homepage      = "http://github/fwpnetwork/annlat"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -19,5 +19,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.6"
+  spec.add_development_dependency 'pry'
 
 end

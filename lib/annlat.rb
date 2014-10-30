@@ -1,12 +1,8 @@
 require "annlat/version"
-require 'annlat/LaRuby'
-require 'annlat/Concept'
-require 'annlat/Sundries'
-require 'annlat/Image'
-require 'annlat/AnnLat'
-require 'annlat/Table'
-require 'annlat/Other'
-
-module Annlat
-  # Your code goes here...
-end
+require 'annlat/latex_ruby'
+require 'annlat/concept'
+require 'annlat/sundries'
+require 'annlat/image'
+require 'annlat/annlat'
+require 'annlat/table'
+require 'annlat/other'

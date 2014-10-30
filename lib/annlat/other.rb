@@ -46,3 +46,32 @@ class Array
   end
 
 end
+
+class Fixnum
+
+  def prettify
+    self
+  end
+
+end
+
+class Float
+
+  def prettify
+    to_i == self ? to_i : self
+  end
+
+end
+
+class Rational
+
+  def prettify
+    denominator == 1 ? numerator : self
+  end
+
+end
+
+def final?
+  instance_methods(false).include? :showHow
+end
+

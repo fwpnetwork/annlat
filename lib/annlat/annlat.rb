@@ -1,13 +1,4 @@
-# The class AnnLat, short for AnnotatedLatex, allows a concept to create 
-# step-by-step solutions with text, latex, hints, more hints, and embedded prerequisite concepts. 
-# It also allows for the creation of questions with text, latex, hints, and suggestions.
-# The communication between the engine and the concepts is faciliated by AnnLat 
-# by the agreement that all communication from a concept back to the engine that is intended
-# to be displayed to the user is an AnnLat object.
 
-# An instance object maintains an array of objects to be presented on the screen together
-# with an array indicating the type of each object. The engine can then access both arrays 
-# and decide how to encode each object, and which ones to present on the screen.
 public
 
 def my_json
@@ -26,10 +17,23 @@ def get_type(thing)
   end
 end
 
-class AnnLat #just the scafolds, the idea is to implement this so it will support the example concepts
+##
+# The class AnnLat, short for AnnotatedLatex allows a concept to create step-by-step solutions
+# with text, latex, hints, images, and embedded prerequisite concepts (not yet).
+#
+# That gem is used both at the developer-side and server-side, however usage in the latter is increasingly small.
+#
+# An instance off AnnLat objects is described by three arrays:
+# objects, tags (in future it would be possibly renamed to types) and options.
+class AnnLat
 
   attr_accessor :objects, :tags
   attr_reader :options
+
+  def ==(x)
+    return false unless x.class AnnLat
+    @objects==x.objects and @tags==x.tags and @options==x.options
+  end
 
   def options=(opt)
     @options.unshift(opt)
@@ -41,6 +45,8 @@ class AnnLat #just the scafolds, the idea is to implement this so it will suppor
     @options = options
   end
 
+  ##
+  # Works just as with arrays, can be provided both with range or just integer.
   def [](range)
     if range.class == Range
       AnnLat.new(@objects[range],@tags[range], @options[range])
@@ -48,6 +54,7 @@ class AnnLat #just the scafolds, the idea is to implement this so it will suppor
       AnnLat.new([@objects[range]],[@tags[range]],[@options[range]])
     end
   end
+
 
   def +(x)
     AnnLat.new(@objects + x.objects, @tags + x.tags, @options + x.options)
@@ -67,32 +74,22 @@ class AnnLat #just the scafolds, the idea is to implement this so it will suppor
   # it should be the first argument, if you want to provide options
   # for just one object you're going to add wrap it in hash of this form
   # {:object => your_object, :options => {tag: :font, color: 'blue', ...}}
-
   def add(options, *objs)
     opts = {}
     objects, tags, option_arr = [], [], []
-    case options
-      when Hash
-        if objs.empty?                # It's the case when you only pass a hash
-          objects << options[:object] # then it's definitely just one object (in form of hash) to be added
-          tags << get_type(options[:object])
-          option_arr << options[:options] || {}
-          opts[:sentence_options] = {}
-        else
-          opts[:sentence_options] = options
-        end
-      else
-        opts[:sentence_options] = {}
-        objs.unshift(options)
+    if objs.empty? or options.class != Hash or options.has_key?(:object)
+      opts[:sentence_options] = {}
+      objs.unshift(options)
+    else
+      opts[:sentence_options] = options
     end
-    objs.each do |object|
+    objs.flatten.each do |object|
       case object
         when Hash
           objects << object[:object]
           tags << get_type(object[:object])
           option_arr << object[:options]
-        when Array
-          add(options, *object)
+
         else
           objects << object
           tags << get_type(object)
@@ -169,7 +166,9 @@ class AnnLat #just the scafolds, the idea is to implement this so it will suppor
           when 'String', 'Image'
             obj
           when 'Latex'
-            '\(' + obj + '\)'
+            ' \(' + obj + '\) '
+          else
+            obj.to_s
         end
       end
     end

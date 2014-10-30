@@ -1,3 +1,5 @@
+# this file was named LaRuby some time ago
+
 class Latex
 
   def wrap
