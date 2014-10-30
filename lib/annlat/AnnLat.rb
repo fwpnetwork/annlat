@@ -8,13 +8,10 @@
 # An instance object maintains an array of objects to be presented on the screen together
 # with an array indicating the type of each object. The engine can then access both arrays 
 # and decide how to encode each object, and which ones to present on the screen.
-require 'json'
-require 'securerandom'
-
-
 public
+
 def my_json
-  self.to_s
+  to_s
 end
 
 def get_type(thing)
@@ -29,207 +26,162 @@ def get_type(thing)
   end
 end
 
-def which_types(stuff)
-  subtypes = []
-  stuff.each do |stuffoid|
-    subtypes.insert(-1, get_type(stuffoid))
-  end
-  subtypes
-end
-
 class AnnLat #just the scafolds, the idea is to implement this so it will support the example concepts
 
-  include Enumerable
+  attr_accessor :objects, :tags
+  attr_reader :options
 
-  attr_accessor :objects, :tags, :options
-  def initialize
-    @objects = []
-    @tags = []
-    @options = {}
-  end 
-
-  def each_with_symbols
-    @objects.each_with_index do |x,i|
-      yield(@objects[i][0],@tags[i][0])
-    end
+  def options=(opt)
+    @options.unshift(opt)
   end
 
-  def each
-    @objects.each {|x| yield(x)}
+  def initialize(objects=[], tags=[], options=[])
+    @objects = objects
+    @tags = tags
+    @options = options
+  end
+
+  def [](range)
+    if range.class == Range
+      AnnLat.new(@objects[range],@tags[range], @options[range])
+    else
+      AnnLat.new([@objects[range]],[@tags[range]],[@options[range]])
+    end
   end
 
   def +(x)
-    out=AnnLat.new
-    out.objects=self.objects+x.objects
-    out.tags=self.tags+x.tags
-    out
+    AnnLat.new(@objects + x.objects, @tags + x.tags, @options + x.options)
   end
 
-  def add(*stuff) # adds stuff to the @objects array, in sequential order. 
-    arr1=[]
-    arr2=[]
-    stuff.flatten.each do |object|
-      case get_type(object)
-      when :Table
-        hash = {}
-        hash[:objects]=object.objects
-        hash[:types]=object.types
-        arr1 << hash
-        arr2 << :Table
-      #when :Image
-      #  str = object.path
-      #  arr1 << str
-      #  arr2 << get_type(object)
+  def self.empty
+    new([],[],[])
+  end
+
+  def empty?
+    @objects.length==0
+  end
+
+  ##
+  # Adds arbitrary amount of objects to AnnLat object
+  # If you want to provide the whole AnnLat object with options hash
+  # it should be the first argument, if you want to provide options
+  # for just one object you're going to add wrap it in hash of this form
+  # {:object => your_object, :options => {tag: :font, color: 'blue', ...}}
+
+  def add(options, *objs)
+    opts = {}
+    objects, tags, option_arr = [], [], []
+    case options
+      when Hash
+        if objs.empty?                # It's the case when you only pass a hash
+          objects << options[:object] # then it's definitely just one object (in form of hash) to be added
+          tags << get_type(options[:object])
+          option_arr << options[:options] || {}
+          opts[:sentence_options] = {}
+        else
+          opts[:sentence_options] = options
+        end
       else
-        arr1 << object
-        arr2 << get_type(object)
-      end
-
+        opts[:sentence_options] = {}
+        objs.unshift(options)
     end
-    @objects << arr1
-    @tags << arr2
+    objs.each do |object|
+      case object
+        when Hash
+          objects << object[:object]
+          tags << get_type(object[:object])
+          option_arr << object[:options]
+        when Array
+          add(options, *object)
+        else
+          objects << object
+          tags << get_type(object)
+          option_arr << {}
+      end
+    end
+    opts[:option_array] = option_arr
+    @objects << objects
+    @tags << tags
+    @options << opts
     self
   end
 
-  #hint is new AnnLat object that is passed with tag :Hint
-  def addHint(*stuff)
-    x=AnnLat.new
-    x.add(*stuff)
-    @objects << [x]
-    @tags << [:Hint]
-    self
+  def add_hint(opts = {}, *objs)
+    case opts
+      when Hash
+        opts[:hint] = true
+        add(opts, *objs)
+      else
+        add({hint: true}, *objs.unshift(opts))
+    end
+  end
+
+  alias_method :addHint, :add_hint
+
+  def filter_by_option
+    raise 'No block given' unless block_given?
+    output = []
+    @options.each_with_index do |option_hash, i|
+      output << self[i] if yield(option_hash[:sentence_options])
+    end
+    output.inject(:+) || AnnLat.empty
+  end
+
+  def hints
+    filter_by_option{|option| option[:hint]}
+  end
+
+  def not_hints
+    filter_by_option{|option| not option[:hint]}
+  end
+
+  def multiple
+    filter_by_option{|option| option[:multiple]}
+  end
+
+  def not_multiple
+    filter_by_option{|option| not option[:multiple]}
   end
 
   def my_json
-    output={} 
-    obs=[]
-    tags=[]
+    obs, tags =[], []
     @objects.each_with_index do |array, external_index|
-      arr=[]
-      tags_arr = []
+      arr, tags_arr =[], []
       array.each_with_index do |object, index|
-        tag=@tags[external_index][index]
-        unless tag == :Hint
-          arr << object.my_json
-          tags_arr << tag
-        end
-      end  
+        tag = @tags[external_index][index]
+        arr << object.my_json
+        tags_arr << tag
+      end
       obs << arr unless arr == []
       tags << tags_arr unless arr == []
     end
-    output[:objects]=obs
-    output[:tags]=tags
-    output[:options]=@options
-    output
+    {objects: obs, tags: tags, options: @options}
   end
- 
-  #returns all the hints — an array of AnnLat objects
-  def hints
-    output = []
-    @objects.each_with_index do |hint, index|
-      if @tags[index] == [:Hint]
-        output << hint[0]
+
+  ##
+  # Used at the server side only
+
+  def to_html
+    objects = @objects.each_with_index.map do |arr, external_index |
+      arr.each_with_index.map do |obj, index|
+        tag = @tags[external_index][index]
+        case tag
+          when 'String', 'Image'
+            obj
+          when 'Latex'
+            '\(' + obj + '\)'
+        end
       end
     end
-    output
+    AnnLat.new(objects, @tags, @options)
   end
 
-end
-
-class String 
-  def my_json
-    self
-  end
-end
-
-class Latex
-  def my_json
-    latex
-  end
-end
-
-class Image
-  attr_accessor :path    
-  attr_reader :uuid
-  attr_reader :options
-
-
-  def initialize(path, options={:dynamic => true})
-    @options=options
-    @path=path
-    @uuid=SecureRandom.uuid
-  end
-
-  def my_json
-    path
-  end
-
-end
-
-class Hash
-  def my_json
-    if self[:objects] and self[:types]
-      hash={}
-      hash[:objects] = self[:objects].map {|row| row.map {|cell| cell.my_json }}
-      hash[:types]=self[:types]
-      hash
+  def self.wrap(hash)
+      hash[:objects] ? new(hash[:objects], hash[:tags], hash[:options]) : empty
     end
-  end
-end
 
-#this class represents a table, it's just a two-dimensional array, [[a,x,f],[q]]
-class Table
-  include Enumerable
-  attr_accessor :objects, :types
-
-  def my_json
-    t=Table.new
-    t.objects = self.objects.map {|row| row.map {|cell| cell.my_json }}
-    t.types=self.types
-    t
-  end
-
-  def initialize
-    @objects=[]
-    @types=[]
-  end
-
-  def each
-    @objects.each {|row| yield(row)}
-  end
-
-  alias_method :each_row, :each
-end
-
-class Array
-
-  def to_table
-  #  raise "It must be two-dimensional array" unless self.depth==2
-    table=Table.new
-    self.each_with_index do |row,i|
-      table.objects[i]=row
-      temp=[]
-      row.each do |item|
-        temp << get_type(item)
-      end
-      table.types[i]=temp
-    end
-    table
-  end
-
-
-  #depth of an array
-  def depth
-  return 0 if self.class != Array
-  result = 1
-  self.each do |sub_a|
-    if sub_a.class == Array
-      dim = sub_a.depth
-      result = dim + 1 if dim + 1 > result
-    end
-  end
-  result
+  def to_hash
+    {objects: @objects, tags: @tags, options: @options}
   end
 
 end
-

@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Annlat::VERSION
   spec.authors       = ["Alexander Shevtsov"]
   spec.email         = ["randomlogin76@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = "Learnleague gem with libraries"
+  spec.description   = ''
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -19,5 +19,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.6"
-  spec.add_development_dependency "rake"
+
 end

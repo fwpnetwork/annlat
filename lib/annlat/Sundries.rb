@@ -33,23 +33,21 @@ class Concept
 
 
   def move_image(img)
-      uuid=img.uuid
-      path=img.path
+      ext = File.extname(img.path)
       if !img.options[:dynamic]
         begin
-          FileUtils.mv("engine/concepts/#{path}", "public/images/#{self.class}/static/#{path}")
+          FileUtils.mv("engine/concepts/#{img.path}", "public/images/#{self.class}/static/#{img.path}")
         rescue Errno::ENOENT
         end
-        img.path = "#{self.class}/static/#{path}"
+        img.path = "#{self.class}/static/#{img.path}"
       else
-        img.path= "#{self.class}/#{uuid}"
-        FileUtils.mv("#{path}", "public/images/#{self.class}/#{uuid}")
+        FileUtils.mv("#{img.path}", "public/images/#{self.class}/#{img.uuid}#{ext}")
+        img.path= "#{self.class}/#{img.uuid}#{ext}"
       end    
       img
   end
 
   def move_images
-    concept=self
     @images=[] if @images.nil?
     begin
       Dir.mkdir("public/images/#{self.class}")

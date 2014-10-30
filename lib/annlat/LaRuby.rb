@@ -1,10 +1,15 @@
 class Latex
+
   def wrap
     Wrapped.new(self)
   end
 
   def latex
     ""
+  end
+
+  def my_json
+    latex
   end
 
   def to_ltx
