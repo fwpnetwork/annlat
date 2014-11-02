@@ -71,7 +71,3 @@ class Rational
 
 end
 
-def final?
-  instance_methods(false).include? :showHow
-end
-

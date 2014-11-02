@@ -20,25 +20,21 @@ class Concept
     nil 
   end
 
-  alias_method :show_question, :showQuestion
-
   def showAnswer
     nil
   end
-
-  alias_method :show_answer, :showAnswer
 
   def showHow
     nil
   end
 
-  alias_method :show_how, :showHow
-
   def self.whichConcepts
     nil
   end
 
-  alias_method :which_concepts, :whichConcepts
+  class << self
+    alias :which_concepts :whichConcepts
+  end
 
   def variants
     nil

@@ -183,4 +183,14 @@ class AnnLat
     {objects: @objects, tags: @tags, options: @options}
   end
 
+  def update
+    return self if @options.empty?
+    if @options[0].has_key?(:multiple_answer)
+      @options[-1][:sentence_options] = {:multiple => true}
+      @options.shift
+    end
+    self
+  end
+
+
 end
