@@ -4,7 +4,7 @@ This gem contains all used in Learnleague platform and testengine libraries.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile (that is already don in CDK):
 
     gem 'annlat', git: 'https://github.com/fwpnetwork/annlat'
 
