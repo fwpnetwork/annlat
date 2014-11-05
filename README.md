@@ -71,6 +71,8 @@ Now you can just pass options for the sentence indicating that it's an answer va
     r.add({:multiple => true}, 'It\'s even possible to add an image to the variant of multiple-answer question.')
     r.add({:multiple => true}, {object: @img, options:{width: '30%'}})
     
+Answer passed is just `"i)"` where `i` is just number of the variant (starting from 1). 
+    
 ## Contributing
 
 1. Fork it ( https://github.com/fwpnetwork/annlat/fork )
