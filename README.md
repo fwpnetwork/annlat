@@ -14,15 +14,24 @@ And then execute:
 
 ## Usage
 
-Example of usage: https://gist.github.com/randomlogin/7e019b8f6bb32b679810
+[Example of usage](https://gist.github.com/randomlogin/7e019b8f6bb32b679810)
+[Result](http://dev.learnleague.com/subjects/16/domains/23/lessons/54/worksheets/785?preview=true)
 
-Addition of the object is the same as before:
+You can think about AnnLat object as a set of sentences, each sentence is displayed on a new line or in a new bubble
+(if it's hint).
+
+New sentence is added on the every call of `add`
+`add` method can take any number of arguments.
 
     r = AnnLat.new
     r.add("Hello world!")
-    r.add("The new string")
+    r.add("I","want","to","have","more","imagination.")
+    r.add("Because my examples are not interesting")
     
-Each call of `add` will create a new 'sentence' that will be displayed on a new line or in another bubble if it is a hint.
+You can add numbers, strings, images, latex objects and probably even more objects.
+
+Addition of the object is the same as before:
+
 `add` now returns AnnLat objects, so there is no need to explicitly return `r` after you added something to it at the end of method definition.
 
 ### Options
