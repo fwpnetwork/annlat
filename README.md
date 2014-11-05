@@ -15,13 +15,17 @@ And then execute:
 ## Usage
 
 [Example of usage](https://gist.github.com/randomlogin/7e019b8f6bb32b679810)
---[Result](http://dev.learnleague.com/subjects/16/domains/23/lessons/54/worksheets/785?preview=true)
+
+
+[Result](http://dev.learnleague.com/subjects/16/domains/23/lessons/54/worksheets/785?preview=true)
 
 You can think about AnnLat object as a set of sentences, each sentence is displayed on a new line or in a new bubble
 (if it's hint).
 
 New sentence is added on the every call of `add`.
---`add` method can take any number of arguments.
+
+
+`add` method can take any number of arguments.
 
     r = AnnLat.new
     r.add("Hello world!")
@@ -34,12 +38,12 @@ You can add numbers, strings, images, latex objects (and probably even more type
 
 ### Options
 
-There are two types of options now: options for the sentence as single whole and for each word.
+There are two types of options now: options for the sentence as single whole and for each «word».
 To add options for the whole sentence you can pass them as a hash as first argument of `add`.
 
     r.add({style: 'color:red'}, 'This sentence is displayed in red')
     
-Now each 'word' may have options too. For example, you can empasize or change color of some words:
+Now each «word» may have options too. For example, you can emphasize or change color of some words:
 
     r.add('This last word of this sentence is ', {object: 'cyan', options: {style: 'color:cyan'}})
     
@@ -58,7 +62,7 @@ The latter hint will be displayed just as you expect it.
     
 ### Multiple answer questions.
 
-Now you can just pass options for the sentence indicating that it's an answer variant. (Be carefull, now it's symbol :multiple, not :multiple_answer)
+Now you can just pass options for the sentence indicating that it's an answer variant. (Be careful, now it's symbol :multiple, not :multiple_answer)
 
     r.add({:multiple => true}, 'It\'s even possible to add an image to the variant of multiple-answer question.')
     r.add({:multiple => true}, {object: @img, options:{width: '30%'}})
