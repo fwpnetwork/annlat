@@ -20,21 +20,22 @@ And then execute:
 [Result](http://dev.learnleague.com/subjects/16/domains/23/lessons/54/worksheets/785?preview=true)
 
 You can think about AnnLat object as a set of sentences, each sentence is displayed on a new line or in a new bubble
-(if it's hint).
+(if it's hint). Each sentence consists of «words» (actually they are not single words, but bunch of them).
 
 New sentence is added on the every call of `add`.
 
 
-`add` method can take any number of arguments.
+`add` method can take any number of arguments. These arguments are treated as «words».
 
     r = AnnLat.new
     r.add("Hello world!")
     r.add("I","want","to","have","more","imagination.")
     r.add("Because my examples are not interesting")
     
-You can add numbers, strings, images, latex objects (and probably even more types of objects)
+You can add numbers, strings, images, latex objects (and probably even more types of objects).
 
-`add` now returns AnnLat objects, so there is no need to explicitly return `r` after you added something to it at the end of method definition.
+`add` now returns AnnLat objects, so there is no need to explicitly return `r` after you added something to it
+ at the end of method definition.
 
 ### Options
 
@@ -48,8 +49,11 @@ Now each «word» may have options too. For example, you can emphasize or change
     r.add('This last word of this sentence is ', {object: 'cyan', options: {style: 'color:cyan'}})
     
 Syntax for word-options: a hash with key-value pair for object and options.
-For now options are treated as html options for tags, but with time we can add some styles, so appearance of the concept could be dramatically adjusted.
-You can explicitly pass an html tag you want to use, see Hint paragraph below.
+
+
+For now options are treated as html options for tags, but with time we can add some styles,
+ so appearance of the concept could be adjusted dramatically. 
+You can explicitly pass an html tag you want to use, see Hints paragraph below.
 
 ### Hints
 
