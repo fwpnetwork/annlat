@@ -1,3 +1,7 @@
+# 0.0.7
+
+- Solved error with Latex Negative 
+
 # 0.0.6
 
 - Added multiple methods
