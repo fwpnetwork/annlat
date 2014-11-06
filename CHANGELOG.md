@@ -1,3 +1,7 @@
+# 0.0.8
+
+- Solved error with Expon latex
+
 # 0.0.7
 
 - Solved error with Latex Negative 
