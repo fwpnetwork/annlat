@@ -24,10 +24,6 @@ class Concept
     nil
   end
 
-  def showHow
-    nil
-  end
-
   def self.whichConcepts
     nil
   end

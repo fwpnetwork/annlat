@@ -1,5 +1,4 @@
 # this file was named LaRuby some time ago
-
 class Latex
 
   def wrap
@@ -37,7 +36,7 @@ class Latex
   end
 
   def -@
-    kind_of? Negative ? expr : Negative.new(self)
+    (kind_of? Negative) ? expr : Negative.new(self)
   end
 
   def -(y)
@@ -92,6 +91,7 @@ end
 
 class Negative < Latex     # represents -@expr
   attr_reader :expr
+
   def initialize(some_expr) 
     @expr = some_expr.to_ltx 
     (@expr = @expr.wrap) if (@expr.kind_of?(Sum))
@@ -103,6 +103,7 @@ class Negative < Latex     # represents -@expr
 end
 
 class Atom < Latex
+  attr_reader :expr
   def initialize(some_expr)
     @expr = some_expr.to_s
   end
@@ -110,6 +111,7 @@ class Atom < Latex
   def latex
     @expr
   end
+
 end
 
 class LatexConsec < Latex
