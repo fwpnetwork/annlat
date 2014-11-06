@@ -28,15 +28,11 @@ end
 class AnnLat
 
   attr_accessor :objects, :tags
-  attr_reader :options
+  attr_writer :options
 
   def ==(x)
     return false unless x.class AnnLat
     @objects==x.objects and @tags==x.tags and @options==x.options
-  end
-
-  def options=(opt)
-    @options.unshift(opt)
   end
 
   def initialize(objects=[], tags=[], options=[])
@@ -191,6 +187,5 @@ class AnnLat
     end
     self
   end
-
 
 end

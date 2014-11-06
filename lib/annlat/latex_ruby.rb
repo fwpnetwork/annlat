@@ -90,7 +90,6 @@ class Wrapped < Latex   # should add support for custom wrappings
 end
 
 class Negative < Latex     # represents -@expr
-  attr_reader :expr
 
   def initialize(some_expr) 
     @expr = some_expr.to_ltx 
@@ -103,7 +102,9 @@ class Negative < Latex     # represents -@expr
 end
 
 class Atom < Latex
+
   attr_reader :expr
+
   def initialize(some_expr)
     @expr = some_expr.to_s
   end
@@ -115,6 +116,7 @@ class Atom < Latex
 end
 
 class LatexConsec < Latex
+
   def initialize(*some_parts)
     @parts = some_parts.map{|i| i.to_ltx}
   end
@@ -122,9 +124,11 @@ class LatexConsec < Latex
   def latex
     @parts.map{|i| i.latex}.join
   end
+
 end
 
 class BinOpe < Latex
+
   attr_reader :args
   attr_reader :oper
 
@@ -139,16 +143,19 @@ class BinOpe < Latex
   def latex
     @args.map{|a| a.latex}.join(@oper.latex)
   end
+
 end
 
 class AssocBinOpe < BinOpe
+
   def initialize(some_oper, *some_args) 
     super(some_oper, *(some_args.map{|a| (a.kind_of?(AssocBinOpe) and (a.oper == @oper))? a.args : a}.flatten))
   end
 
   def latex() 
     @args.map{|i| i.latex}.join(@oper.latex)
- end
+  end
+
 end
 
 class Product < AssocBinOpe
@@ -182,15 +189,21 @@ class Frac < Latex
 end
 
 class Expon < Latex
+
   def initialize(some_base, some_exp)
     @base = some_base.to_ltx
     @exp = some_exp.to_ltx
   end
 
   def latex
-    the_base = @base.wrap if (@base.kind_of?(Expon) or @base.kind_of?(Negative) or @base.kind_of?(BinOpe))
+    if @base.kind_of?(Expon) or @base.kind_of?(Negative) or @base.kind_of?(BinOpe)
+      the_base = @base.wrap
+    else
+      the_base = @base
+    end
     the_base.latex + '^{' + @exp.latex +  '}'
   end
+
 end
 
 class Fixnum
@@ -235,6 +248,7 @@ class Array
 end
 
 class LatexSet < Atom
+
   def initialize(s)
     @set = s.to_a
   end
@@ -242,13 +256,16 @@ class LatexSet < Atom
   def latex
     "{" + @set.join(", ") + "}"
   end
+
 end
 
 class Set
+
   def to_ltx
     s = map{ |obj| obj.to_ltx.latex }
     LatexSet.new(s)
   end
+
 end
 
 
