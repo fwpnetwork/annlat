@@ -1,3 +1,13 @@
+# annlat/latex_eval
+# This file extends various objects from standard ruby and annlat/latex_ruby in order to add
+# the ability to simplify and evaluate latex expression trees involving numbers.  There are also
+# methods such as :symbol.l that simplify the creation of latex expression trees.  Additionally, the
+# ability to convert a latex string into a latex expression tree is added to the string class
+# via the #parse_latex method
+#
+# Author:: Larry Reaves
+# License:: MIT
+
 class Symbol
   def l
     self.to_s.l
