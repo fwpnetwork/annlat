@@ -179,6 +179,9 @@ class AnnLat
     {objects: @objects, tags: @tags, options: @options}
   end
 
+  ##
+  # This method it used for back-compatibility it will be removed once all concept at
+  # the working platform would be updated to use new API
   def update
     return self if @options.empty?
     if @options[0].has_key?(:multiple_answer)
