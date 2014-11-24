@@ -14,6 +14,8 @@ And then execute:
 
 ## Usage
 
+Instance off AnnLat class is a wrapper for objects you want to be shown at the concept's page.
+
 [Example of usage](https://gist.github.com/randomlogin/7e019b8f6bb32b679810)
 
 
