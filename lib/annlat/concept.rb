@@ -1,13 +1,5 @@
 class Concept
 
-  class << self
-    alias :which_concepts :whichConcepts
-  end
-
-  def variants
-    nil
-  end
-
   attr_accessor :images
   attr_accessor :uuid
 

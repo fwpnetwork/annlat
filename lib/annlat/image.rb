@@ -11,8 +11,6 @@ class Image
     @uuid=SecureRandom.uuid
   end
 
-  def my_json
-    path
-  end
+  alias_method :to_s, :path
 
 end

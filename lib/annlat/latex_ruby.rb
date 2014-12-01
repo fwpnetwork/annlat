@@ -9,7 +9,7 @@ class Latex
     ""
   end
 
-  def my_json
+  def to_s
     latex
   end
 

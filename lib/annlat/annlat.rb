@@ -1,9 +1,6 @@
+require 'json'
 
 public
-
-def my_json
-  to_s
-end
 
 def get_type(thing)
   if thing.class.ancestors.include? Concept
@@ -27,8 +24,7 @@ end
 # objects, tags (in future it would be possibly renamed to types) and options.
 class AnnLat
 
-  attr_accessor :objects, :tags
-  attr_writer :options
+  attr_accessor :objects, :tags, :options
 
   def ==(x)
     return false unless x.class AnnLat
@@ -42,7 +38,7 @@ class AnnLat
   end
 
   ##
-  # Works just as with arrays, can be provided both with range or just integer.
+  # Works just as with arrays, can be provided both with range and integer
   def [](range)
     if range.class == Range
       AnnLat.new(@objects[range],@tags[range], @options[range])
@@ -54,6 +50,14 @@ class AnnLat
 
   def +(x)
     AnnLat.new(@objects + x.objects, @tags + x.tags, @options + x.options)
+  end
+
+  ## Just bang version of +
+  def sum!(x)
+    @objects += x.objects
+    @tags += x.tags
+    @options += x.options
+    self
   end
 
   def self.empty
@@ -73,8 +77,8 @@ class AnnLat
   def add(options, *objs)
     opts = {}
     objects, tags, option_arr = [], [], []
-    if objs.empty? or options.class != Hash or options.has_key?(:object)
-      opts[:sentence_options] = {}
+    if objs.empty? or options.class != Hash or options.has_key?(:object)  # case when no sentence options provided
+      opts[:sentence_options] = {}                                        # or it's just a single object
       objs.unshift(options)
     else
       opts[:sentence_options] = options
@@ -85,7 +89,6 @@ class AnnLat
           objects << object[:object]
           tags << get_type(object[:object])
           option_arr << object[:options]
-
         else
           objects << object
           tags << get_type(object)
@@ -110,6 +113,22 @@ class AnnLat
   end
 
   alias_method :addHint, :add_hint
+
+  def add_subconcept(question=nil, concept)
+    subconcept_question = question || concept.show_question.not_hints
+    subconcept_question.add_sentence_options({subconcept_question: true, id: subconcept_question.object_id})
+    subconcept_how = concept.show_how
+    subconcept_how.add_sentence_options({subconcept_how: true,
+                                              class: "subconcept hidden #{subconcept_question.object_id}"})
+    sum! subconcept_question
+    sum! subconcept_how
+  end
+
+  def add_sentence_options(hash)
+    @options.map! {|option_hash| {sentence_options: option_hash[:sentence_options].merge(hash),
+                                  option_array: option_hash[:option_array]} }
+    self
+  end
 
   def filter_by_option
     raise 'No block given' unless block_given?
@@ -136,19 +155,19 @@ class AnnLat
     filter_by_option{|option| not option[:multiple]}
   end
 
-  def my_json
+  def to_json
     obs, tags =[], []
     @objects.each_with_index do |array, external_index|
       arr, tags_arr =[], []
       array.each_with_index do |object, index|
         tag = @tags[external_index][index]
-        arr << object.my_json
+        arr << object.to_s
         tags_arr << tag
       end
       obs << arr unless arr == []
       tags << tags_arr unless arr == []
     end
-    {objects: obs, tags: tags, options: @options}
+    { objects: obs, tags: tags, options: @options}.to_json
   end
 
   ##
@@ -180,7 +199,7 @@ class AnnLat
   end
 
   ##
-  # This method it used for back-compatibility it will be removed once all concept at
+  # This method it used for back-compatibility it will be removed once all concepts at
   # the working platform would be updated to use new API
   def update
     return self if @options.empty?
