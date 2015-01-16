@@ -161,8 +161,17 @@ class AnnLat
       arr, tags_arr =[], []
       array.each_with_index do |object, index|
         tag = @tags[external_index][index]
-        arr << object.to_s
-        tags_arr << tag
+        case tag
+        when 'String', 'Image'
+          arr << object
+          tags_arr << tag
+        when 'Latex'
+          arr << ' \(' + object.latex + '\) '
+          tags_arr << :String
+        else
+          arr << object.to_s
+          tags_arr << tag
+        end
       end
       obs << arr unless arr == []
       tags << tags_arr unless arr == []
