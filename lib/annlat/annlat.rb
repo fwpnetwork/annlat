@@ -181,7 +181,7 @@ class AnnLat
           when 'String', 'Image'
             obj
           when 'Latex'
-            ' \(' + obj + '\) '
+            ' \(' + obj.latex + '\) '
           else
             obj.to_s
         end
