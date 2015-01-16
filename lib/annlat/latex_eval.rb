@@ -942,7 +942,7 @@ module LatexPlots
     min_y = 0
     max_y = occ.values.max
     plot = [(min_x..max_x).to_a]
-    plot[0][0] = "\\hline" + plot[0][0].to_string
+    plot[0][0] = "\\hline" + plot[0][0].to_s
     while items.size > 0
       row = []
       (min_x..max_x).to_a.each do |x|
