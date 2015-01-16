@@ -1150,7 +1150,11 @@ module LatexPlots
   end
 
   def title=(t)
-    @title = t.to_string
+    if t.respond_to?(:to_string)
+      @title = t.to_string
+    else
+      @title = t.to_s
+    end
   end
 
   def latex(h_lines = :all, v_lines = :all)
