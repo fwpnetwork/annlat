@@ -453,7 +453,7 @@ class Frac < Latex
     r(@numer.eval.to_f / @denom.eval.to_f)
   end
 
-  def to_s
+  def to_string
     "#{@numer}/#{@denom}"
   end
 end
@@ -472,7 +472,7 @@ class Text < Latex
     @atoms.collect{|a| a.latex}.join '\ '
   end
 
-  def to_s
+  def to_string
     @atoms.collect{|a| a.latex}.join ' '
   end
 
@@ -942,7 +942,7 @@ module LatexPlots
     min_y = 0
     max_y = occ.values.max
     plot = [(min_x..max_x).to_a]
-    plot[0][0] = "\\hline" + plot[0][0].to_s
+    plot[0][0] = "\\hline" + plot[0][0].to_string
     while items.size > 0
       row = []
       (min_x..max_x).to_a.each do |x|
@@ -1150,7 +1150,7 @@ module LatexPlots
   end
 
   def title=(t)
-    @title = t
+    @title = t.to_string
   end
 
   def latex(h_lines = :all, v_lines = :all)
