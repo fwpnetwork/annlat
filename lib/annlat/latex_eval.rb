@@ -1082,7 +1082,7 @@ module LatexPlots
         plot.y2range "[#{min_x}:#{max_x}]"
         plot.y2tics "center rotate by 90"
         plot.unset "ytics"
-        plot.y2label "#{@title}\" font \",25"
+        plot.y2label "#{@title}\" font \",35"
 
         x = []
         y = []
