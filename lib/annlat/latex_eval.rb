@@ -992,14 +992,14 @@ module LatexPlots
     png = Gnuplot.open do |gp|
       Gnuplot::Plot.new(gp) do |plot|
 
-        plot.terminal "png"
+        plot.terminal "pngcairo"
         plot.output filename
 
         plot.style  "data histograms"
         plot.style "histogram gap 1"
         plot.yrange "[#{min_y}:#{max_y}]"
-        plot.xlabel "#{@title}\" font \",20"
-        plot.xtics "center nomirror out"
+        plot.xlabel "#{@title}\" font \",15"
+        plot.xtics "center nomirror out font \",15\""
         plot.ytics "1"
 
         x = []
@@ -1080,9 +1080,9 @@ module LatexPlots
         plot.grid "y2tics lc rgb \"#888888\" lw 1 lt 0"
         plot.yrange "[#{min_x}:#{max_x}]"
         plot.y2range "[#{min_x}:#{max_x}]"
-        plot.y2tics "center rotate by 90 font \",20\""
+        plot.y2tics "center rotate by 90 font \",15\""
         plot.unset "ytics"
-        plot.y2label "#{@title}\" font \",20"
+        plot.y2label "#{@title}\" font \",15"
 
         x = []
         y = []
@@ -1120,14 +1120,14 @@ module LatexPlots
 
       Gnuplot::Plot.new(gp) do |plot|
 
-        plot.terminal "png"
+        plot.terminal "pngcairo"
         plot.output filename
 
         plot.style  "data lines"
         plot.xrange "[#{mu - 2*sigma - 1}:#{mu + 2*sigma + 1}]"
         plot.yrange "[0:1.1*(normal(#{mu}, #{mu}, #{sigma}) - normal(#{mu - 2*sigma}, #{mu}, #{sigma}))]"
-        plot.xlabel "#{@title}\" font \",20"
-        plot.xtics "1"
+        plot.xlabel "#{@title}\" font \",15"
+        plot.xtics "1 font \",15\""
         plot.unset "ytics"
 
         plot.data << Gnuplot::DataSet.new("normal(x, #{mu}, #{sigma}) - normal(#{mu - 2*sigma}, #{mu}, #{sigma})") do |ds|
