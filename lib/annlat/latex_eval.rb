@@ -322,6 +322,17 @@ class Underline < Latex
   end
 end
 
+class LongDivision < Latex
+  def initialize(n, d)
+    @n = n
+    @d = d
+  end
+
+  def latex
+    "#{@d} \\enclose{longdiv}{#{#n}}\\kern-.2ex"
+  end
+end
+
 class Latex
   def %(other)
     Term.new(self, other)
