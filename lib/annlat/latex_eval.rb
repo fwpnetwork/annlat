@@ -1080,9 +1080,9 @@ module LatexPlots
         plot.grid "y2tics lc rgb \"#888888\" lw 1 lt 0"
         plot.yrange "[#{min_x}:#{max_x}]"
         plot.y2range "[#{min_x}:#{max_x}]"
-        plot.y2tics "center rotate by 90"
+        plot.y2tics "center rotate by 90 font \",20\""
         plot.unset "ytics"
-        plot.y2label "#{@title}\" font \",35"
+        plot.y2label "#{@title}\" font \",20"
 
         x = []
         y = []
