@@ -1157,6 +1157,10 @@ module LatexPlots
     end
   end
 
+  def align=(a)
+    @align = a
+  end
+
   def latex(h_lines = :all, v_lines = :all)
     @plot_type ||= :array
     @row_spacing ||= []
@@ -1171,9 +1175,11 @@ module LatexPlots
       v_lines = @v_lines if @v_lines
       str = "\\begin{array}{"
       str += "|" if [:all, :outside].include?(v_lines)
+      align = @align
+      align ||= "c"
       index = 0
       @rows[0].size.times do
-        str += "c"
+        str += @align
         unless index == @rows[0].size - 1
           str += "|" if [:all, :inside].include?(v_lines)
         end
