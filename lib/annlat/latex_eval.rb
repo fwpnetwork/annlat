@@ -1179,7 +1179,7 @@ module LatexPlots
       align ||= "c"
       index = 0
       @rows[0].size.times do
-        str += @align
+        str += align
         unless index == @rows[0].size - 1
           str += "|" if [:all, :inside].include?(v_lines)
         end
