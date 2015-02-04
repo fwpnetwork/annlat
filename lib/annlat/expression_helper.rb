@@ -25,7 +25,9 @@ require "annlat/latex_eval"
 #   (:c1.l*:x1.l + :c2.l*:x1.l).is((:c1.l+:c2.l)*:x1.l)
 # where c1, and c2 are random coefficients and x1 is a random letter from a list of
 # variables.  All forms are aggregated into an class variable array called @forms.  The
-# forms should be ordered by difficulty, so @forms[0] is the easiest and the last form is
+# forms should be ordered by difficulty, so
+#   @forms[0]
+# is the easiest and the last form is
 # the most difficult.
 #
 # In addition to filling in @forms, you must specify an array of ranges for the generate method
@@ -74,6 +76,7 @@ require "annlat/latex_eval"
 #   C_Concept.new(0, {:c1 => 3, :c2 => 5, :x1 => 'x'})
 # would give us the expression
 #   3*x+5*x=(3+5)*x
+# This is particularly helpful when using subconcepts within show_how methods.
 #
 # If you have mutiple choice questions, set the right hand side to the number of the correct answer
 # and add your options to the @answers array:
@@ -90,8 +93,8 @@ require "annlat/latex_eval"
 #     l.add({:multiple => true}, o)
 #   end
 #
-# When implementing solve, validate, showQuestion, showHow, and showAnswer, you can use the #expression method
-# get the correct form with the selected values substituted in.
+# When implementing solve, validate, show_question, show_how, and show_answer, you can use
+# the #expression method to get the correct form with the selected values substituted in.
 #   def solve
 #     # if your right hand side contains variables
 #     expression.rhs.simplfy_full!
@@ -129,7 +132,7 @@ require "annlat/latex_eval"
 #   end
 #
 # For the final concept, the generate method can be deleted if there are no subconcepts.
-# If there are subconcepts, the difficulty factor can be used to override alter the variable ranges
+# If there are subconcepts, the difficulty factor can be used to alter the variable ranges
 #   def generate(opts)
 #     if opts["C_SubConcept"] > 0.5
 #       # double ranges
