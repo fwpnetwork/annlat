@@ -329,7 +329,7 @@ class LongDivision < Latex
   end
 
   def latex
-    "#{@d} \\enclose{longdiv}{#{@n}}\\kern-.2ex"
+    "#{@d} \\enclose{longdiv}{#{@n}}"
   end
 end
 
