@@ -388,7 +388,7 @@ class Latex
   end
 
   private
-  def r(answer, places = 2)
+  def r(answer, places = 4)
     if answer == answer.to_i
       answer.to_i 
     else
