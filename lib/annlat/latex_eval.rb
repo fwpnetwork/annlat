@@ -1072,7 +1072,7 @@ module LatexPlots
     Gnuplot.open do |gp|
       Gnuplot::Plot.new(gp) do |plot|
 
-        plot.terminal "png"
+        plot.terminal "pngcairo"
         plot.output filename
 
         plot.style  "data boxplot"
