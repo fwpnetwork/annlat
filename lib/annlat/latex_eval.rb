@@ -492,6 +492,21 @@ class Frac < Latex
   def to_string
     "#{@numer}/#{@denom}"
   end
+
+  def reduce
+    begin
+      d = gcd(@numer.eval, @denom.eval)
+      @numer /= d
+      @denom /= d
+    rescue
+      "Error, can not reduce unless integers"
+    end
+  end
+
+  def gcd(a, b)
+    return a if b == 0
+    gcd(b, a % b)
+  end
 end
 
 class Text < Latex
