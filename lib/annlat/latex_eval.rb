@@ -333,9 +333,24 @@ class LongDivision < Latex
   end
 end
 
+class LatexDiv < Latex
+  def initialize(first, second)
+    @first = first
+    @second = second
+  end
+
+  def latex
+    "#{@first}\\div#{@second}"
+  end
+end
+
 class Latex
   def %(other)
     Term.new(self, other)
+  end
+
+  def div(other)
+    LatexDiv.new(self, other)
   end
 
   def <(other)
