@@ -254,7 +254,7 @@ module ExpressionHelper
         @form_index = rand(@forms.size)
       else
         @form_index = 0
-        @form_index += 1 while (@form_index+1)/@forms.size <= diff and @form_index+1 < @forms.size
+        @form_index += 1 while (@form_index+1)/@forms.size < diff
       end
     end
 
