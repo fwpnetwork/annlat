@@ -498,6 +498,7 @@ class Frac < Latex
       n = @numer.eval
       d = @denom.eval
       div = gcd(@numer.eval, @denom.eval)
+      return Atom.new(n/div) if d/div == 1
       @numer = Atom.new(n/div)
       @denom = Atom.new(d/div)
     rescue
