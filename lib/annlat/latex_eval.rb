@@ -342,6 +342,16 @@ class LatexDiv < Latex
   def latex
     "#{@first}\\div#{@second}"
   end
+  
+  def walk!
+    @first = @first.walk! do |n|
+      yield n
+    end
+    @second = @second.walk! do |n|
+      yield n
+    end
+    self
+  end
 end
 
 class Latex
