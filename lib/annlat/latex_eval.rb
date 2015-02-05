@@ -495,12 +495,15 @@ class Frac < Latex
 
   def reduce
     begin
-      d = gcd(@numer.eval, @denom.eval)
-      @numer /= d
-      @denom /= d
+      n = @numer.eval
+      d = @denom.eval
+      div = gcd(@numer.eval, @denom.eval)
+      @numer = Atom.new(n/div)
+      @denom = Atom.new(d/div)
     rescue
       "Error, can not reduce unless integers"
     end
+    self
   end
 
   def gcd(a, b)
