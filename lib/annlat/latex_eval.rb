@@ -509,8 +509,8 @@ class Frac < Latex
 
   def simplify_nd
     begin
-      @numer = @numer.eval
-      @denom = @denom.eval
+      @numer = Atom.new(@numer.eval)
+      @denom = Atom.new(@denom.eval)
     rescue
       "Error, can not reduce unless integers"
     end
