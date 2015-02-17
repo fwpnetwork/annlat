@@ -175,7 +175,8 @@ module ExpressionHelper
       end
       @ranges = new_ranges
 
-      unselected = @ranges
+      # duplicate ranges so we don't modify it directly
+      unselected = @ranges.dup
       # first, select parameters with uniqueness requirements
       if @uniques
         @uniques.each do |u|
