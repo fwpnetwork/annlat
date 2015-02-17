@@ -504,7 +504,7 @@ class Frac < Latex
     begin
       n = @numer.eval
       d = @denom.eval
-      div = gcd(@numer.eval, @denom.eval)
+      div = gcd(n, d)
       return Atom.new(n/div) if d/div == 1
       @numer = Atom.new(n/div)
       @denom = Atom.new(d/div)
@@ -524,7 +524,7 @@ class Frac < Latex
     self
   end
 
-  def gcd(a, b)
+  def gcd(a = @numer.eval, b = @denom.eval)
     return a if b == 0
     gcd(b, a % b)
   end
