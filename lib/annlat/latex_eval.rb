@@ -507,6 +507,16 @@ class Frac < Latex
     self
   end
 
+  def simplify_nd
+    begin
+      @numer = @numer.eval
+      @denom = @denom.eval
+    rescue
+      "Error, can not reduce unless integers"
+    end
+    self
+  end
+
   def gcd(a, b)
     return a if b == 0
     gcd(b, a % b)
