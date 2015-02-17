@@ -354,6 +354,13 @@ class LatexDiv < Latex
   end
 end
 
+# same as LatexDiv except for latex conversion
+class LatexYields < LatexDiv
+  def latex
+    "#{@first}\\to#{@second}"
+  end
+end
+
 class Latex
   def %(other)
     Term.new(self, other)
