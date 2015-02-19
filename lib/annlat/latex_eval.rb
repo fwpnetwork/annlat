@@ -1250,6 +1250,7 @@ module LatexPlots
   def latex(h_lines = :all, v_lines = :all)
     @plot_type ||= :array
     @row_spacing ||= []
+    @row_lines ||= []
     if @plot_type != :array
       if [:cont_plot, :bar_chart, :box_plot].include? @plot_type
         self.send((@plot_type.to_s + "_latex").to_sym).latex
