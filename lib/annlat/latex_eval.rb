@@ -361,6 +361,16 @@ class LatexYields < LatexDiv
   end
 end
 
+class LatexCancel < Latex
+  def initialize(inner)
+    @inner = inner
+  end
+
+  def latex
+    "\\cancel{#{@inner}}"
+  end
+end
+
 class Latex
   def %(other)
     Term.new(self, other)
