@@ -1231,6 +1231,10 @@ module LatexPlots
     @row_spacing = spacing
   end
 
+  def row_lines=(lines)
+    @row_lines = lines
+  end
+
   def title=(t)
     if t.respond_to?(:to_string)
       @title = t.to_string
@@ -1278,7 +1282,7 @@ module LatexPlots
         r += "[#{@row_spacing[index]}]" if @row_spacing[index]
         r += "\n"
         unless index == @rows.size - 1
-          r += "\\hline " if [:all, :inside].include?(h_lines)
+          r += "\\hline " if [:all, :inside].include?(h_lines) or @row_lines[index]
         end
         index += 1
         r
