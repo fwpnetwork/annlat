@@ -161,6 +161,10 @@ class AnnLat
     filter_by_option{|option| not option[:multiple]}
   end
 
+  def not_multiple_or_input
+    filter_by_option{|option| not (option[:multiple] or option[:input])}
+  end
+
   def input
     filter_by_option{|option| option[:input]}
   end
