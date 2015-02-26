@@ -33,7 +33,7 @@ class Concept
 
   def addImage(img)
     @images=[] if @images.nil?
-    raise "You tried to add not an image" if img.class!=Image
+    raise "You tried to add not an image" unless  img.class < Image
     @images << img
   end
 
