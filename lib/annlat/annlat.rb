@@ -9,6 +9,8 @@ def get_type(thing)
     :Latex
   elsif thing.class.ancestors.include? AnnLat
     :AnnLat
+  elsif thing.class.ancestors.include? Plot
+    :Plot
   else
     thing.class.to_s.to_sym
   end
@@ -124,6 +126,10 @@ class AnnLat
     sum! subconcept_how
   end
 
+  def add_input(input)
+    self.add({:input => true}, input)
+  end
+
   def add_sentence_options(hash)
     @options.map! {|option_hash| {sentence_options: option_hash[:sentence_options].merge(hash),
                                   option_array: option_hash[:option_array]} }
@@ -153,6 +159,10 @@ class AnnLat
 
   def not_multiple
     filter_by_option{|option| not option[:multiple]}
+  end
+
+  def input
+    filter_by_option{|option| option[:input]}
   end
 
   def to_json

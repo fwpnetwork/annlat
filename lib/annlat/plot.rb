@@ -2,7 +2,9 @@ require 'gnuplot'
 require 'annlat/image'
 
 class Plot < Image
-
+  def parameters
+    @parameters
+  end
 end
 
 class NumberLine < Plot
