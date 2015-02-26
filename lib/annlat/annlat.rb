@@ -9,8 +9,8 @@ def get_type(thing)
     :Latex
   elsif thing.class.ancestors.include? AnnLat
     :AnnLat
-  elsif thing.class.ancestors.include? Plot
-    :Plot
+  elsif thing.class.ancestors.include? Image
+    :Image
   else
     thing.class.to_s.to_sym
   end
