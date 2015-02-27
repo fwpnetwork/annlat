@@ -127,7 +127,7 @@ class AnnLat
   end
 
   def add_input(input)
-    self.add({:input => true}, input)
+    self.add({:input => true, :parameters = input.parameters}, input)
   end
 
   def add_sentence_options(hash)
