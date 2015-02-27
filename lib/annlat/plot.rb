@@ -105,22 +105,7 @@ class CoordinatePlane < Plot
       y << p[1]
     end
 
-    Gnuplot.open do |gp|
-      Gnuplot::Plot.new(gp) do |plot|
-        plot.terminal "pngcairo size 640,640"
-        plot.output @parameters[:fn]
-        plot.key "off"
-        plot.xrange "[#{@parameters[:xlow]}:#{@parameters[:xhigh]}]"
-        plot.yrange "[#{@parameters[:ylow]}:#{@parameters[:yhigh]}]"
-        plot.xtics @parameters[:xtics]
-        plot.ytics @parameters[:ytics]
-        plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
-          ds.with = "points pt 7"
-          ds.notitle
-        end
-      end
-    end
-    self
+    plot_generic(x, y, "points pt 7")
   end
 
   # lines is an array of end point lists
@@ -141,9 +126,13 @@ class CoordinatePlane < Plot
       y << nil
     end
 
+    plot_generic(x, y, "lines")
+  end
+
+  def plot_generic(x, y, with)
     Gnuplot.open do |gp|
       Gnuplot::Plot.new(gp) do |plot|
-        plot.terminal "pngcairo size 640,640"
+        plot.terminal "pngcairo size 460,460"
         plot.output @parameters[:fn]
         plot.key "off"
         plot.xrange "[#{@parameters[:xlow]}:#{@parameters[:xhigh]}]"
@@ -151,7 +140,7 @@ class CoordinatePlane < Plot
         plot.xtics @parameters[:xtics]
         plot.ytics @parameters[:ytics]
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
-          ds.with = "lines"
+          ds.with = with
           ds.notitle
         end
       end
