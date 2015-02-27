@@ -8,7 +8,6 @@ class Plot < Image
 
   def self.parse_answer(answer)
     coords = answer.split(';')
-    return false if coords.empty?
     coords.map do |c|
       # strip ()
       c = c[1..-2]
