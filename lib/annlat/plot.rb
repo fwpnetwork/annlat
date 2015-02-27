@@ -5,6 +5,16 @@ class Plot < Image
   def parameters
     @parameters
   end
+
+  def self.parse_answer(answer)
+    coords = answer.split(';')
+    coords.map do |c|
+      # strip ()
+      c = c[1..-2]
+      # split up coords, convert to integer
+      c.split(',').map {|x| x.to_i}
+    end
+  end
 end
 
 class NumberLine < Plot
@@ -24,7 +34,7 @@ class NumberLine < Plot
   def plot(points = [])
     Gnuplot.open do |gp|
       Gnuplot::Plot.new(gp) do |plot|
-        plot.terminal "pngcairo size 640,640"
+        plot.terminal "pngcairo size 460,460"
         plot.output @parameters[:fn]
         plot.key "off"
         x = []
@@ -58,9 +68,9 @@ class NumberLine < Plot
       end
     end
     if @parameters[:horizontal]
-      `convert #{@parameters[:fn]} -crop 640x100+0+540 +repage #{@parameters[:fn]}`
+      `convert #{@parameters[:fn]} -crop 460x100+0+360 +repage #{@parameters[:fn]}`
     else
-      `convert #{@parameters[:fn]} -crop 100x640+0+0 +repage #{@parameters[:fn]}`
+      `convert #{@parameters[:fn]} -crop 100x460+0+0 +repage #{@parameters[:fn]}`
     end
     self
   end
