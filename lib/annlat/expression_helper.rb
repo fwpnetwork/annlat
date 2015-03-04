@@ -309,6 +309,10 @@ module ExpressionHelper
     @@fish ||= ["salmon", "blue gill", "trout", "bass", "swordfish"]
   end
 
+  def names
+    @@names ||= ["Sam", "Betty", "George", "Edward", "Ralph", "Vanessa", "Lydia", "Sally"]
+  end
+
   # round
   def r(answer, places = 2)
     if answer == answer.to_i
