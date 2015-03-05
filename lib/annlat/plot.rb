@@ -137,8 +137,8 @@ class CoordinatePlane < Plot
         plot.key "off"
         plot.xrange "[#{@parameters[:xlow]}:#{@parameters[:xhigh]}]"
         plot.yrange "[#{@parameters[:ylow]}:#{@parameters[:yhigh]}]"
-        plot.xtics @parameters[:xtics]
-        plot.ytics @parameters[:ytics]
+        plot.xtics "#{parameters[:xtics]} lt 0 lc rgb '#bbbbbb'"
+        plot.ytics "#{@parameters[:ytics]} lt 0 lc rgb '#bbbbbb'"
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
           ds.with = with
           ds.notitle
