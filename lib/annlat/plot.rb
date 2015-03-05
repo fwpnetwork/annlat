@@ -17,7 +17,7 @@ class Plot < Image
   end
 
   def color
-    case @color
+    case @parameters[:color]
     when nil, :red
       "#FF1700"
     when :blue
@@ -32,16 +32,20 @@ class Plot < Image
       "#6732FD"
     when :pink
       "#FF98FC"
-    when :light_blue
+    when :lightblue
       "#66CBFF"
     when :grey
       "#BBBBBB"
     end
   end
 
+  def colorname
+    @parameters[:color] || :red
+  end
+
   def color=(c)
-    raise "Invalid Color" unless [:red, :blue, :green, :yellow, :orange, :purple, :pink, :light_blue, :grey].include?(c)
-    @color = c
+    raise "Invalid Color" unless [:red, :blue, :green, :yellow, :orange, :purple, :pink, :lightblue, :grey].include?(c)
+    @parameters[:color] = c
   end
 end
 
