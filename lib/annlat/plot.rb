@@ -15,6 +15,34 @@ class Plot < Image
       c.split(',').map {|x| x.to_i}
     end
   end
+
+  def color
+    case @color
+    when nil, :red
+      "#FF1700"
+    when :blue
+      "#3499FC"
+    when :green
+      "#00CB00"
+    when :yellow
+      "#FFCA00"
+    when :orange
+      "#FF6600"
+    when :purple
+      "#6732FD"
+    when :pink
+      "#FF98FC"
+    when :light_blue
+      "#66CBFF"
+    when :grey
+      "#BBBBBB"
+    end
+  end
+
+  def color=(c)
+    raise "Invalid Color" unless [:red, :blue, :green, :yellow, :orange, :purple, :pink, :light_blue, :grey].include?(c)
+    @color = c
+  end
 end
 
 class NumberLine < Plot
@@ -62,7 +90,7 @@ class NumberLine < Plot
           end
         end
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
-          ds.with = "points pt 7"
+          ds.with = "points pt 7 lc rgb '#{color}'"
           ds.notitle
         end
       end
@@ -137,10 +165,12 @@ class CoordinatePlane < Plot
         plot.key "off"
         plot.xrange "[#{@parameters[:xlow]}:#{@parameters[:xhigh]}]"
         plot.yrange "[#{@parameters[:ylow]}:#{@parameters[:yhigh]}]"
-        plot.xtics "#{parameters[:xtics]} lt 0 lc rgb '#bbbbbb'"
-        plot.ytics "#{@parameters[:ytics]} lt 0 lc rgb '#bbbbbb'"
+        plot.xtics parameters[:xtics]
+        plot.ytics @parameters[:ytics]
+        plot.grid "xtics lt 0 lc rgb '#bbbbbb'"
+        plot.grid "ytics lt 0 lc rgb '#bbbbbb'"
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
-          ds.with = with
+          ds.with = "#{with} lc rgb '#{color}'"
           ds.notitle
         end
       end
