@@ -58,6 +58,10 @@ class NumberLine < Plot
     super(@parameters[:fn], {dynamic: true})
   end
 
+  def range=(r)
+    @parameters[:range] = r ? true : false
+  end
+
   # points is an array of values to plot on the number line
   def plot(points = [])
     Gnuplot.open do |gp|
