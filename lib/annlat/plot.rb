@@ -39,10 +39,6 @@ class Plot < Image
     end
   end
 
-  def colorname
-    @parameters[:color] || :red
-  end
-
   def color=(c)
     raise "Invalid Color" unless [:red, :blue, :green, :yellow, :orange, :purple, :pink, :lightblue, :grey].include?(c)
     @parameters[:color] = c
