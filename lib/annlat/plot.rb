@@ -167,10 +167,13 @@ class CoordinatePlane < Plot
         plot.terminal "pngcairo size 460,460"
         plot.output @parameters[:fn]
         plot.key "off"
+        plot.xzeroaxis
+        plot.yzeroaxis
         plot.xrange "[#{@parameters[:xlow]}:#{@parameters[:xhigh]}]"
         plot.yrange "[#{@parameters[:ylow]}:#{@parameters[:yhigh]}]"
-        plot.xtics parameters[:xtics]
-        plot.ytics @parameters[:ytics]
+        plot.xtics "axis #{parameters[:xtics]}"
+        plot.ytics "axis #{@parameters[:ytics]}"
+        plot.border 0
         plot.grid "xtics lt 0 lc rgb '#bbbbbb'"
         plot.grid "ytics lt 0 lc rgb '#bbbbbb'"
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
