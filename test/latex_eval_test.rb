@@ -30,6 +30,23 @@ class TestLatexEval < MiniTest::Unit::TestCase
     parse_unparse('\frac{2}{3\cdot\left(x+\frac{y}{5}\right)}')
   end
 
+  def test_parse_string_with_spaces
+    assert_equal "This is a test of a string".l.latex,
+    parse_unparse('This\ is\ a\ test\ of\ a\ string')
+
+    assert_equal "This is a test of a string with ".l.glue(1.l / 4.l).latex,
+    parse_unparse('This\ is\ a\ test\ of\ a\ string\ with\ \frac{1}{4}')
+
+    assert_equal "This is a test of a string with ".l.glue(1.l / 4.l).glue('in the middle'.l).latex,
+    parse_unparse('This\ is\ a\ test\ of\ a\ string\ with\ \frac{1}{4}\ in\ the\ middle')
+
+    assert_equal "This is a test of a string with ".l.glue(1.l / 4.l).glue('in the middle and with extraneous spaces'.l).latex,
+    parse_unparse(' This\ is\ a\ test\ of\ a\ st r ing\ with\ \frac{1} {4} \ in\ the\ middle\ and\ with \  extraneous\ spaces ')
+
+    assert_equal "This is a test of a string with a multiplication problem".l.glue(3.l*4.2.l).glue('and extra spaces'.l).latex,
+    parse_unparse('This\ is\ a\ test\ of\ a\ string\ with\ a\ multiplication\ problem\ 3  \c  do t 4.2     \ and\ extra\ spaces')
+  end
+
   def test_parse_eval
     assert_equal 5, "3+\\frac{4}{2}".parse_latex.eval
     assert_equal -1, "3+\\frac{4}{2}-6".parse_latex.eval

@@ -101,8 +101,13 @@ class String
                               '>', '\leq',
                               '\geq']
 
-    # strip whitespace
-    clean = self.gsub(/ /, '')
+    # strip whitespace unless preceeded by \
+    clean = self.gsub(/^ /, '')
+    old_clean = nil
+    while clean != old_clean
+      old_clean = clean
+      clean = clean.gsub(/([^\\]) /, '\1')
+    end
 
     tokens = []
     i = 0
@@ -244,7 +249,8 @@ class String
              '^',
              '\cdot',
              '+',
-             '-'
+             '-',
+             '\ '
             ]
   end
 
@@ -253,7 +259,8 @@ class String
         '^' => :**,
         '\cdot' => :*,
         '+' => :+,
-        '-' => :-
+        '-' => :-,
+        '\ ' => :space
       }
   end
 
@@ -402,6 +409,10 @@ class Latex
 
   def underline
     Underline.new(self)
+  end
+
+  def space(other)
+    self.glue('\ '.l).glue(other)
   end
 
   def method_missing(name, *args, &block)
