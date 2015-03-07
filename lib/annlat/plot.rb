@@ -16,6 +16,10 @@ class Plot < Image
     end
   end
 
+  def self.parse_ranges(answer)
+    answer.split(';')
+  end
+
   def color
     case @parameters[:color]
     when nil, :red
