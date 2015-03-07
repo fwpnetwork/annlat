@@ -556,11 +556,6 @@ class Text < Latex
     @atoms = [atom]
   end
 
-  def glue(atom)
-    @atoms << atom
-    self
-  end
-
   def latex
     @atoms.collect{|a| a.latex}.join '\ '
   end
