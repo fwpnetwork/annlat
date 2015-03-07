@@ -34,16 +34,16 @@ class TestLatexEval < MiniTest::Unit::TestCase
     assert_equal "This is a test of a string".l.latex,
     parse_unparse('This\ is\ a\ test\ of\ a\ string')
 
-    assert_equal "This is a test of a string with ".l.glue(1.l / 4.l).latex,
+    assert_equal "This is a test of a string with ".l.space(1.l / 4.l).latex,
     parse_unparse('This\ is\ a\ test\ of\ a\ string\ with\ \frac{1}{4}')
 
-    assert_equal "This is a test of a string with ".l.glue(1.l / 4.l).glue('in the middle'.l).latex,
+    assert_equal "This is a test of a string with ".l.space(1.l / 4.l).space('in the middle'.l).latex,
     parse_unparse('This\ is\ a\ test\ of\ a\ string\ with\ \frac{1}{4}\ in\ the\ middle')
 
-    assert_equal "This is a test of a string with ".l.glue(1.l / 4.l).glue('in the middle and with extraneous spaces'.l).latex,
+    assert_equal "This is a test of a string with ".l.space(1.l / 4.l).space('in the middle and with extraneous spaces'.l).latex,
     parse_unparse(' This\ is\ a\ test\ of\ a\ st r ing\ with\ \frac{1} {4} \ in\ the\ middle\ and\ with \  extraneous\ spaces ')
 
-    assert_equal "This is a test of a string with a multiplication problem".l.glue(3.l*4.2.l).glue('and extra spaces'.l).latex,
+    assert_equal "This is a test of a string with a multiplication problem".l.space(3.l*4.2.l).space('and extra spaces'.l).latex,
     parse_unparse('This\ is\ a\ test\ of\ a\ string\ with\ a\ multiplication\ problem\ 3  \c  do t 4.2     \ and\ extra\ spaces')
   end
 

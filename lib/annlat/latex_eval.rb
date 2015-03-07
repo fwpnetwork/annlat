@@ -23,7 +23,7 @@ class String
       if tokens.size > 1
         tokens.inject do |total, token|
           total = Text.new(total.l) unless total.class <= Latex
-          total = total.glue(token.l)
+          total = total.append(token.l)
           total
         end
       else
@@ -562,6 +562,11 @@ class Text < Latex
 
   def to_string
     @atoms.collect{|a| a.latex}.join ' '
+  end
+
+  def append(other)
+    @atoms << other
+    self
   end
 
   def walk!
