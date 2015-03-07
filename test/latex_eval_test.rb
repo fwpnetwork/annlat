@@ -45,6 +45,9 @@ class TestLatexEval < MiniTest::Unit::TestCase
 
     assert_equal "This is a test of a string with a multiplication problem".l.space(3.l*4.2.l).space('and extra spaces'.l).latex,
     parse_unparse('This\ is\ a\ test\ of\ a\ string\ with\ a\ multiplication\ problem\ 3  \c  do t 4.2     \ and\ extra\ spaces')
+
+    assert_equal "This string doesn't have a space before the multiplication (".l.glue(3.l*4.l).glue(") or after".l).latex,
+    parse_unparse('This\ string\ doesn\'t\ have\ a\ space\ before\ the\ multiplication\ (3\cdot 4)\ or\ after')
   end
 
   def test_parse_eval
