@@ -16,6 +16,13 @@ class Plot < Image
     end
   end
 
+  def self.parse_numbers(answer)
+    coords = self.parse_answer(answer)
+    coords.map do |c|
+      c[0] == 0 ? c[1] : c[0]
+    end
+  end
+
   def self.parse_ranges(answer)
     answer.split(';')
   end
@@ -43,8 +50,13 @@ class Plot < Image
     end
   end
 
+  def self.available_colors
+    [:red, :blue, :green, :yellow, :orange,
+     :purple, :pink, :lightblue, :grey]
+  end
+
   def color=(c)
-    raise "Invalid Color" unless [:red, :blue, :green, :yellow, :orange, :purple, :pink, :lightblue, :grey].include?(c)
+    raise "Invalid Color" unless self.class.include?(c)
     @parameters[:color] = c
   end
 end
