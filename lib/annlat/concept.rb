@@ -28,6 +28,7 @@ class Concept
       Dir.mkdir("public/images/#{self.class}/static")
     rescue Errno::EEXIST
     end
+    @subconcepts.each{|sc| sc.move_images} if @subconcepts
     @images.map {|x| move_image(x)}
   end
 
@@ -38,6 +39,11 @@ class Concept
   end
 
   alias_method :add_image, :addImage
+
+  def add_subconcept(subconcept)
+    @subconcepts ||= []
+    @subconcepts << subconcept
+  end
 
 end
 
