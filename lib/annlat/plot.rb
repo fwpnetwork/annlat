@@ -1,4 +1,6 @@
 require 'gnuplot'
+require 'securerandom'
+
 require 'annlat/image'
 
 class Plot < Image
@@ -68,7 +70,7 @@ class NumberLine < Plot
       high: high,
       tics: tics,
       horizontal: horizontal,
-      fn: "number_line_#{id}.png"
+      fn: "#{SecureRandom.uuid}.png"
     }
 
     super(@parameters[:fn], {dynamic: true})
@@ -133,7 +135,7 @@ class CoordinatePlane < Plot
       yhigh: yhigh,
       xtics: xtics,
       ytics: ytics,
-      fn: "coordinate_plane_#{id}.png"
+      fn: "#{SecureRandom.uuid}.png"
     }
 
     super(@parameters[:fn], {dynamic: true})
