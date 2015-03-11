@@ -56,7 +56,7 @@ class Plot < Image
   end
 
   def color=(c)
-    raise "Invalid Color" unless self.class.include?(c)
+    raise "Invalid Color" unless self.class.available_colors.include?(c)
     @parameters[:color] = c
   end
 end
