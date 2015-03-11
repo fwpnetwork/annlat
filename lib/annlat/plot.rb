@@ -89,7 +89,7 @@ class NumberLine < Plot
         plot.key "off"
         x = []
         y = []
-        points << (@parameters[:high]-@parameters[:low])*2 if points.empty?
+        points << (@parameters[:high]-@parameters[:low])*2+@parameters[:high] if points.empty?
         if @parameters[:horizontal]
           plot.xrange "[#{@parameters[:low]}:#{@parameters[:high]}]"
           plot.yrange "[0:1]"
@@ -149,8 +149,8 @@ class CoordinatePlane < Plot
   def plot_points(points = [])
     x = []
     y = []
-    points << [(@parameters[:xhigh]-@parameters[:xlow])*2,
-               (@parameters[:yhigh]-@parameters[:xlow])*2] if points.empty?
+    points << [(@parameters[:xhigh]-@parameters[:xlow])*2 + @parameters[:xhigh],
+               (@parameters[:yhigh]-@parameters[:xlow])*2 + @parameters[:xhigh]] if points.empty?
     points.each do |p|
       x << p[0]
       y << p[1]
