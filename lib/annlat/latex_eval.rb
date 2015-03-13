@@ -415,6 +415,10 @@ class Latex
     self.glue('\ '.l).glue(other)
   end
 
+  def to_string
+    self.latex.gsub(/\\ /, ' ')
+  end
+
   def method_missing(name, *args, &block)
     @@walk_bases ||= {}
     @@walk_bases[Atom] ||= true
