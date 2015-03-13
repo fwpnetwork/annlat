@@ -257,7 +257,7 @@ module ExpressionHelper
         @form_index = 0
         @form_index += 1 while (@form_index+1)/@forms.size.to_f < diff + 0.2
       end
-      @form_index = Math.min(@form_index, @forms.size - 1)
+      @form_index = [@form_index, @forms.size - 1].min
     end
 
     @form = @forms[@form_index]
