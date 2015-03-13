@@ -255,7 +255,7 @@ module ExpressionHelper
         @form_index = rand(@forms.size)
       else
         @form_index = 0
-        @form_index += 1 while (@form_index+1)/@forms.size.to_f < diff
+        @form_index += 1 while @form_index/@forms.size.to_f < diff
       end
     end
 
@@ -311,6 +311,10 @@ module ExpressionHelper
 
   def names
     @@names ||= ["Sam", "Betty", "George", "Edward", "Ralph", "Vanessa", "Lydia", "Sally"]
+  end
+
+  def fruit
+    @@fruit ||= ["apples", "bananas", "strawberries", "grapes", "oranges", "peaches"]
   end
 
   # round
