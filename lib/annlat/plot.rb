@@ -101,10 +101,11 @@ class NumberLine < Plot
             y << 0
           end
         else
-          plot.xrange "[0:1]"
+          plot.yzeroaxis "lt -1"
+          plot.xrange "[-1:1]"
           plot.yrange "[#{@parameters[:low]}:#{@parameters[:high]}]"
-          plot.border 2
-          plot.ytics @parameters[:tics]
+          plot.border 0
+          plot.ytics "axis #{@parameters[:tics]}"
           plot.unset "xtics"
           points.each do |p|
             x << 0
@@ -120,7 +121,7 @@ class NumberLine < Plot
     if @parameters[:horizontal]
       `convert #{@parameters[:fn]} -crop 460x100+0+360 +repage #{@parameters[:fn]}`
     else
-      `convert #{@parameters[:fn]} -crop 100x460+0+0 +repage #{@parameters[:fn]}`
+      `convert #{@parameters[:fn]} -crop 100x460+180+0 +repage #{@parameters[:fn]}`
     end
     self
   end
