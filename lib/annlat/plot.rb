@@ -80,6 +80,11 @@ class NumberLine < Plot
     @parameters[:range] = r ? true : false
   end
 
+  def add_arrow(start, finish, color = nil)
+    @arrows ||= []
+    @arrows << [start, finish, self.color(color)]
+  end
+
   # points is an array of values to plot on the number line
   def plot(points = [])
     Gnuplot.open do |gp|
@@ -90,6 +95,7 @@ class NumberLine < Plot
         x = []
         y = []
         points << (@parameters[:high]-@parameters[:low])*2+@parameters[:high] if points.empty?
+        @arrows ||= []
         if @parameters[:horizontal]
           plot.xrange "[#{@parameters[:low]}:#{@parameters[:high]}]"
           plot.yrange "[0:1]"
@@ -99,6 +105,9 @@ class NumberLine < Plot
           points.each do |p|
             x << p
             y << 0
+          end
+          @arrows.each do |a|
+            plot.arrow "from #{a[0]}, 0.05 to #{a[1]}, 0.05 heads filled lc rgb '#{a[2]}'"
           end
         else
           plot.yzeroaxis "lt -1"
@@ -110,6 +119,9 @@ class NumberLine < Plot
           points.each do |p|
             x << 0
             y << p
+          end
+          @arrows.each do |a|
+            plot.arrow "from 0.1, #{a[0]} to 0.1, #{a[1]} heads filled lc rgb '#{a[2]}'"
           end
         end
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
