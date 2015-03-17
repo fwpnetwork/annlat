@@ -29,8 +29,8 @@ class Plot < Image
     answer.split(';')
   end
 
-  def color
-    case @parameters[:color]
+  def color(c=@parameters[:color])
+    case c
     when nil, :red
       "#FF1700"
     when :blue
@@ -142,6 +142,11 @@ class CoordinatePlane < Plot
     super(@parameters[:fn], {dynamic: true})
   end
 
+  def add_label(text, x, y, size, color=nil)
+    @labels ||= []
+    @labels << [text, x, y, size, self.color(color)]
+  end
+
   def plot
     self.plot_points
   end
@@ -196,6 +201,12 @@ class CoordinatePlane < Plot
         plot.border 0
         plot.grid "xtics lt 0 lc rgb '#bbbbbb'"
         plot.grid "ytics lt 0 lc rgb '#bbbbbb'"
+        label_index = 1
+        @labels ||= []
+        @labels.each do |l|
+          plot.label "#{label_index} '#{l[0]}' at #{l[1]}, #{l[2]} font 'Latin-Modern,#{l[3]}' tc rgb '#{l[4]}'"
+          label_index += 1
+        end
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
           ds.with = "#{with} lc rgb '#{color}'"
           ds.notitle
