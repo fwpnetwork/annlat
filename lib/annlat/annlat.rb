@@ -130,6 +130,12 @@ class AnnLat
     self.add({input: true, parameters: input.parameters}, input)
   end
 
+  def add_step(*objs)
+    @step_number ||= 0
+    @step_number += 1
+    self.add({tag: 'h4'}, "Step #{@step_number}: ", objs)
+  end
+
   def add_sentence_options(hash)
     @options.map! {|option_hash| {sentence_options: option_hash[:sentence_options].merge(hash),
                                   option_array: option_hash[:option_array]} }
