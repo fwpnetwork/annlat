@@ -230,7 +230,7 @@ class CoordinatePlane < Plot
         end
         @points ||= []
         @points.each do |x, y, c|
-          plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
+          plot.data << Gnuplot::DataSet.new([[x], [y]]) do |ds|
             ds.with = "points pt 7 lc rgb '#{c}'"
             ds.notitle
           end
