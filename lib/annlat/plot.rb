@@ -159,6 +159,11 @@ class CoordinatePlane < Plot
     @labels << [text, x, y, size, self.color(color)]
   end
 
+  def add_point(x, y, color=nil)
+    @points ||= []
+    @points << [x, y, self.color(color)]
+  end
+
   def plot
     self.plot_points
   end
@@ -222,6 +227,13 @@ class CoordinatePlane < Plot
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
           ds.with = "#{with} lc rgb '#{color}'"
           ds.notitle
+        end
+        @points ||= []
+        @points.each do |x, y, c|
+          plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
+            ds.with = "points pt 7 lc rgb '#{c}'"
+            ds.notitle
+          end
         end
       end
     end
