@@ -13,5 +13,4 @@ class TestAnnLat < MiniTest::Unit::TestCase
     assert_equal({tag: 'h4'}, l.options[1][:sentence_options])
     assert_equal({tag: 'h4'}, l.options[2][:sentence_options])
   end
-
 end
