@@ -258,6 +258,8 @@ class Plot3D < Plot
       zmax: zmax,
       fn: "#{SecureRandom.uuid}.png"
     }
+
+    super(@parameters[:fn], {dynamic: true})
   end
 
   def add_label(text, x, y, z, size, color=nil)
