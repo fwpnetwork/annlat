@@ -45,5 +45,13 @@ class Concept
     @subconcepts << subconcept
   end
 
+  def mastery=(m)
+    @mastery = m
+  end
+
+  def mastery
+    @mastery.nil? ? 0 : @mastery
+  end
+
 end
 
