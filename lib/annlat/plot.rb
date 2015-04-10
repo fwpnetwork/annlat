@@ -154,6 +154,10 @@ class CoordinatePlane < Plot
     super(@parameters[:fn], {dynamic: true})
   end
 
+  def lines=(l)
+    @parameters[:lines] = l ? true : false
+  end
+
   def add_label(text, x, y, size, color=nil)
     @labels ||= []
     @labels << [text, x, y, size, self.color(color)]
