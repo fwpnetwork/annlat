@@ -140,6 +140,83 @@ class NumberLine < Plot
   end
 end
 
+class BoxPlot < Plot
+  def initialize(low, high, tics = 1, horizontal = true, id = 0)
+    @parameters = {
+      low: low,
+      high: high,
+      tics: tics,
+      horizontal: horizontal,
+      fn: "#{SecureRandom.uuid}.png"
+    }
+
+    super(@parameters[:fn], {dynamic: true})
+  end
+
+  def range=(r)
+    @parameters[:range] = r ? true : false
+  end
+
+  def add_label(text, x, y, size, color=nil)
+    @labels ||= []
+    @labels << [text, x, y, size, self.color(color)]
+  end
+
+  # points is an array of values to plot on the number line
+  def plot(points = [])
+    Gnuplot.open do |gp|
+      Gnuplot::Plot.new(gp) do |plot|
+        plot.terminal "pngcairo size 460,460"
+        plot.output @parameters[:fn]
+        plot.key "off"
+        x = []
+        y = []
+        points << (@parameters[:high]-@parameters[:low])*2+@parameters[:high] if points.empty?
+        @arrows ||= []
+        if @parameters[:horizontal]
+          plot.xrange "[#{@parameters[:low]}:#{@parameters[:high]}]"
+          plot.yrange "[0:1]"
+          plot.border 1
+          plot.xtics @parameters[:tics]
+          plot.unset "ytics"
+          plot.style "boxplot"
+          points.each do |p|
+            x << p
+            y << 0
+          end
+          label_index = 1
+          @labels ||= []
+          @labels.each do |l|
+            plot.label "#{label_index} '#{l[0]}' at #{l[1]}, #{l[2]} font 'Latin-Modern,#{l[3]}' tc rgb '#{l[4]}'"
+            label_index += 1
+          end
+        else
+          plot.yzeroaxis "lt -1"
+          plot.xrange "[-1:1]"
+          plot.yrange "[#{@parameters[:low]}:#{@parameters[:high]}]"
+          plot.border 0
+          plot.ytics "axis #{@parameters[:tics]}"
+          plot.unset "xtics"
+          points.each do |p|
+            x << 0
+            y << p
+          end
+        end
+        plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
+          ds.with = "points pt 7 lc rgb '#{color}'"
+          ds.notitle
+        end
+      end
+    end
+    if @parameters[:horizontal]
+      `convert #{@parameters[:fn]} -crop 460x100+0+360 +repage #{@parameters[:fn]}`
+    else
+      `convert #{@parameters[:fn]} -crop 100x460+180+0 +repage #{@parameters[:fn]}`
+    end
+    self
+  end
+end
+
 class CoordinatePlane < Plot
   def initialize(xlow, xhigh, ylow, yhigh, xtics=1, ytics=1, id=0)
     @parameters = {
