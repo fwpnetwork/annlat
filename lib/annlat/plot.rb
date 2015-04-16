@@ -86,6 +86,11 @@ class NumberLine < Plot
     @arrows << [start, finish, self.color(color)]
   end
 
+  def add_label(text, x, y, size, color=nil)
+    @labels ||= []
+    @labels << [text, x, y, size, self.color(color)]
+  end
+
   # points is an array of values to plot on the number line
   def plot(points = [])
     Gnuplot.open do |gp|
@@ -124,6 +129,12 @@ class NumberLine < Plot
           @arrows.each do |a|
             plot.arrow "from 0.1, #{a[0]} to 0.1, #{a[1]} heads filled lc rgb '#{a[2]}'"
           end
+        end
+        label_index = 1
+        @labels ||= []
+        @labels.each do |l|
+          plot.label "#{label_index} '#{l[0]}' at #{l[1]}, #{l[2]} font 'Latin-Modern,#{l[3]}' tc rgb '#{l[4]}'"
+          label_index += 1
         end
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
           ds.with = "points pt 7 lc rgb '#{color}'"
