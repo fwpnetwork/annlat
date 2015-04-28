@@ -553,3 +553,67 @@ class Plot3D < Plot
     Math.acos(dot)
   end
 end
+
+class BoxPlot < Plot
+  def initialize(labels = [])
+    @parameters = {
+      fn: "#{SecureRandom.uuid}.png"
+    }
+
+    @labels ||= []
+    labels.each do |x|
+      @labels << [x[0], x[1], x[2], x[3], self.color(x[4])]
+    end
+
+    super(@parameters[:fn], {dynamic: true})
+  end
+
+  def add_label(text, x, y, size, color=nil)
+    @labels ||= []
+    @labels << [text, x, y, size, self.color(color)]
+  end
+
+  # points is an array of values to plot on the number line
+  def plot(points = [])
+    Gnuplot.open do |gp|
+      Gnuplot::Plot.new(gp) do |plot|
+    
+        min_x = points.min - 1
+        max_x = points.max + 1
+
+        plot.terminal "pngcairo"
+        plot.output @parameters[:fn]
+
+        plot.style  "data boxplot"
+        plot.unset "xtics"
+        plot.grid "y2tics lc rgb \"#888888\" lw 1 lt 0"
+        plot.yrange "[#{min_x}:#{max_x}]"
+        plot.y2range "[#{min_x}:#{max_x}]"
+        plot.y2tics "center rotate by 90 font \",15\""
+        plot.unset "ytics"
+
+        x = []
+        y = []
+        (min_x..max_x).to_a.each do |current_x|
+            points.grep(current_x).size.times do
+            x << 1
+            y << current_x
+          end if points.grep(current_x).size
+        end
+        plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
+          ds.title = ''
+        end
+
+        label_index = 1
+        @labels ||= []
+        @labels.each do |l|
+          plot.label "#{label_index} '#{l[0]}' at #{l[1]}, #{l[2]} font 'Latin-Modern,#{l[3]}' tc rgb '#{l[4]}' rotate by 90 center"
+          label_index += 1
+        end
+
+      end
+    end
+    `convert -rotate 90 #{@parameters[:fn]} #{@parameters[:fn]}`
+    @parameters[:fn]
+  end
+end
