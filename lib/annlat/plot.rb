@@ -280,7 +280,7 @@ class Plot3D < Plot
     @labels << [text, x, y, z, size, self.color(color)]
   end
 
-  def add_ploygon(vertices)
+  def add_polygon(vertices)
     @lines ||= []
     # add outline
     x = []
