@@ -280,7 +280,7 @@ class Plot3D < Plot
     @labels << [text, x, y, z, size, self.color(color)]
   end
 
-  def add_gridded_polygon(vertices)
+  def add_ploygon(vertices)
     @lines ||= []
     # add outline
     x = []
@@ -295,6 +295,10 @@ class Plot3D < Plot
     y << vertices[0][1]
     z << vertices[0][2]
     @lines << [x, y, z]
+  end
+
+  def add_gridded_polygon(vertices)
+    add_polygon(vertices)
     # extract first vector
     a = [vertices[0][0] - vertices[1][0],
          vertices[0][1] - vertices[1][1],
