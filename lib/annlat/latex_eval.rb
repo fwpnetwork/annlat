@@ -85,9 +85,7 @@ class String
 
     # combine atoms
     if latex_tokens.size > 1
-      # combine as terms
-      latex_tokens.inject(:%)
-      #raise SyntaxError, "tokens did not create a single Latex object"
+      raise SyntaxError, "tokens did not create a single Latex object"
     else
       latex_tokens[0]
     end

@@ -65,11 +65,6 @@ class TestLatexEval < Minitest::Test
     assert_equal "3+4^{\\frac{4}{2}}-6", parse_unparse("3+4^\\frac{4}{2}-6")
   end
 
-  def test_parse_term
-    assert_equal "3(3a+5)", parse_unparse("3\\left(3a+5\\right)")
-    assert_equal "3(3a+5)", parse_unparse("3(3a+5)")
-  end
-
   def test_eval
     assert_equal 5, (3.l + 4.l / 2.l).eval
     assert_equal -1, (3.l + 4.l / 2.l - 6.l).eval
