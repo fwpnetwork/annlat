@@ -8,6 +8,8 @@
 # Author:: Larry Reaves
 # License:: MIT
 
+require 'securerandom'
+
 class Symbol
   def l
     self.to_s.l
@@ -1066,7 +1068,7 @@ module LatexPlots
   def bar_chart(id=0)
     require 'gnuplot'
 
-    filename = "bar_chart_#{id}.png"
+    filename = "#{SecureRandom.uuid}.png"
 
     occ = self.occurrences_numerical
     items = occ.keys
@@ -1153,7 +1155,7 @@ module LatexPlots
     min_x = items.min - 1
     max_x = items.max + 1
 
-    filename = "box_plot_#{id}.png"
+    filename = "#{SecureRandom.uuid}.png"
 
     Gnuplot.open do |gp|
       Gnuplot::Plot.new(gp) do |plot|
@@ -1197,7 +1199,7 @@ module LatexPlots
   def cont_plot(id=0)
     require 'gnuplot'
 
-    filename = "cont_plot_#{id}.png"
+    filename = "#{SecureRandom.uuid}.png"
     mu, sigma = @rows[0].collect {|x| x.eval}
 
     Gnuplot.open do |gp|
