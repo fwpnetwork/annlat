@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TestPlot < MiniTest::Unit::TestCase
+class TestPlot < Minitest::Test
   def test_check_interior
     polygon = [[0,0,0],[0,0,5],[5,0,10],[5,0,0]]
     p = Plot3D.new(0, 1, 0, 1, 0, 1)

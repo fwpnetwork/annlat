@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TestAnnLat < MiniTest::Unit::TestCase
+class TestAnnLat < Minitest::Test
   def test_add_step
     l = AnnLat.new
     l.add_step "First do this"

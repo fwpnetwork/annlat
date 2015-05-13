@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TestLatexEval < MiniTest::Unit::TestCase
+class TestLatexEval < Minitest::Test
   def test_parse_nesting
     assert_equal (:x.l + (:y.l + (:z.l - 3.l))).latex,
     parse_unparse('x+\left(y+\left(z-3\right)\right)')
@@ -66,8 +66,8 @@ class TestLatexEval < MiniTest::Unit::TestCase
   end
 
   def test_parse_term
-    assert_equal "9(4a+5b+10)", parse_unparse("9(4a+5b+10)")
-    assert_equal "9(4a+5(b+a)+10)", parse_unparse("9(4a+5(b+a)+10)")
+    assert_equal "3(3a+5)", parse_unparse("3\\left(3a+5\\right)")
+    assert_equal "3(3a+5)", parse_unparse("3(3a+5)")
   end
 
   def test_eval
