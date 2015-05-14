@@ -62,6 +62,10 @@ class Plot < Image
     @parameters[:color] = c
     @parameters[:rgb] = color(c)
   end
+
+  def maximum_points=(p)
+    @parameters[:maximum_points] = p
+  end
 end
 
 class NumberLine < Plot
@@ -157,10 +161,6 @@ class CoordinatePlane < Plot
 
   def lines=(l)
     @parameters[:lines] = l ? true : false
-  end
-
-  def maximum_points=(p)
-    @parameters[:maximum_points] = p
   end
 
   def extend_lines=(tf)

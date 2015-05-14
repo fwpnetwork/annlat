@@ -50,6 +50,10 @@ class TestLatexEval < Minitest::Test
     parse_unparse('This\ string\ doesn\'t\ have\ a\ space\ before\ the\ multiplication\ (3\cdot 4)\ or\ after')
   end
 
+  def test_factored
+    assert_equal (4.l*(-3.l*:a.l+9.l*:b.l+7)).latex, parse_unparse("4\\cdot\\left(-3\\cdot a+9\\cdot b+7\\right)")
+  end
+
   def test_parse_eval
     assert_equal 5, "3+\\frac{4}{2}".parse_latex.eval
     assert_equal -1, "3+\\frac{4}{2}-6".parse_latex.eval
