@@ -707,3 +707,61 @@ class DoubleBoxPlot < Plot
     @parameters[:fn]
   end
 end
+
+class HighChart < Image
+  # params is a hash
+  # * type: specifies chart type
+  #   valid types are:
+  #   * piechart
+  # * title: specifies chart title
+  def initialize(params = {})
+    @params = params
+  end
+
+  def chart_id
+    @chart_id ||= SecureRandom.uuid
+  end
+
+  def chart_js
+    case @params[:type]
+    when :piechart
+      pie_series = @data.pairs
+      "{
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '#{@params[:title] || ''}'
+        },
+        tooltip: {
+            pointFormat: '<b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '',
+            data: #{pie_series.to_json}
+        }]
+    }"
+    end
+  end
+
+  # data as a hash (key-value pairs)
+  def data=(hash)
+    @data = hash
+  end
+end

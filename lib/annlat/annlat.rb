@@ -9,6 +9,8 @@ def get_type(thing)
     :Latex
   elsif thing.class.ancestors.include? AnnLat
     :AnnLat
+  elsif this.class.ancestors.include? HighChart
+    :HighChart
   elsif thing.class.ancestors.include? Image
     :Image
   else
