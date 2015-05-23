@@ -722,6 +722,24 @@ class HighChart < Image
     @chart_id ||= SecureRandom.uuid
   end
 
+  def to_s
+    "HighChart: params = #{@params.inspect}"
+  end
+
+  def to_json(*a)
+    {
+      'json_class' => self.class.name,
+      'params' => @params,
+      'data' => @data
+    }.to_json(*a)
+  end
+
+  def self.json_create(o)
+    obj = self.new(*o['params'])
+    obj.data = *o['data']
+    obj
+  end
+
   def chart_js
     case @params[:type]
     when :piechart
