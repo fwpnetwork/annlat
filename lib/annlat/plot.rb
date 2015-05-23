@@ -714,7 +714,7 @@ class HighChart < Image
   #   valid types are:
   #   * piechart
   # * title: specifies chart title
-  def initialize(params = {})
+  def initialize(params)
     @params = params
   end
 
@@ -725,7 +725,7 @@ class HighChart < Image
   def chart_js
     case @params[:type]
     when :piechart
-      pie_series = @data.pairs
+      pie_series = @data.to_a
       "{
         chart: {
             plotBackgroundColor: null,
