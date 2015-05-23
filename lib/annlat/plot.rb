@@ -716,12 +716,15 @@ class HighChart < Image
   # * title: specifies chart title
   def initialize(params)
     @params = params
-    # symbolize keys
+    # symbolize keys and type params
     @params.keys.each do |k|
       s = k.to_sym
       if s != k
         @params[s] = @params[k]
         @params.delete(k)
+      end
+      if @params[s] == :type
+        @params[s] = @params[s].to_sym
       end
     end
   end
