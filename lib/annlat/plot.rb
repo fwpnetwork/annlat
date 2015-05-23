@@ -716,6 +716,14 @@ class HighChart < Image
   # * title: specifies chart title
   def initialize(params)
     @params = params
+    # symbolize keys
+    @params.keys.each do |k|
+      s = k.to_sym
+      if s != k
+        @params[s] = @params[k]
+        @params.delete(k)
+      end
+    end
   end
 
   def chart_id
