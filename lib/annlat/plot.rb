@@ -751,46 +751,23 @@ class HighChart < Image
     obj
   end
 
-  def chart_js
+  def chart_template
     case @params[:type]
     when :piechart
-      pie_series = @data.to_a
-      "{
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false
-        },
-        title: {
-            text: '#{@params[:title] || ''}'
-        },
-        tooltip: {
-            pointFormat: '<b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: '',
-            data: #{pie_series.to_json}
-        }]
-    }"
+      'highchart_piechart'
     end
+  end
+
+  def data
+    @data.to_a.to_json
   end
 
   # data as a hash (key-value pairs)
   def data=(hash)
     @data = hash
+  end
+
+  def title
+    @params[:title]
   end
 end
