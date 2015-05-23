@@ -718,7 +718,7 @@ class DoubleBoxPlot < Plot
   end
 end
 
-class HighChart < Image
+class HighChart < Plot
   # params is a hash
   # * type: specifies chart type
   #   valid types are:
