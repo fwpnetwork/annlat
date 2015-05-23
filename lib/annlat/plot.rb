@@ -723,7 +723,7 @@ class HighChart < Image
         @params[s] = @params[k]
         @params.delete(k)
       end
-      if @params[s] == :type
+      if s == :type
         @params[s] = @params[s].to_sym
       end
     end
