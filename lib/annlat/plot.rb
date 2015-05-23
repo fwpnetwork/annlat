@@ -30,6 +30,10 @@ class Plot < Image
   end
 
   def color(c=@parameters[:color])
+    self.class.color(c)
+  end
+
+  def self.color(c)
     case c
     when nil, :red
       "#FF1700"
@@ -55,6 +59,12 @@ class Plot < Image
   def self.available_colors
     [:red, :blue, :green, :yellow, :orange,
      :purple, :pink, :lightblue, :grey]
+  end
+
+  def self.hex_colors
+    self.available_colors.map do |c|
+      self.color(c)
+    end
   end
 
   def color=(c)
