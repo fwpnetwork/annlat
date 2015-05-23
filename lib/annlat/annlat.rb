@@ -183,7 +183,11 @@ class AnnLat
       arr, tags_arr =[], []
       array.each_with_index do |object, index|
         tag = @tags[external_index][index]
-        arr << object.to_s
+        if tag == :HighChart
+          arr << object.to_json
+        else
+          arr << object.to_s
+        end
         tags_arr << tag
       end
       obs << arr unless arr == []

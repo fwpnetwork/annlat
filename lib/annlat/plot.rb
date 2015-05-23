@@ -728,15 +728,15 @@ class HighChart < Image
 
   def to_json(*a)
     {
-      'json_class' => self.class.name,
       'params' => @params,
       'data' => @data
     }.to_json(*a)
   end
 
-  def self.json_create(o)
-    obj = self.new(*o['params'])
-    obj.data = *o['data']
+  def self.from_json(string)
+    hash = JSON.parse(string)
+    obj = self.new(hash['params'])
+    obj.data = hash['data']
     obj
   end
 
