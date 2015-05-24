@@ -770,7 +770,7 @@ class HighChart < Plot
   end
 
   def tooltip_enabled
-    @params[:tooltip_enabled].nil ? true : @params[:tooltip_enabled]
+    @params[:tooltip_enabled].nil? ? true : @params[:tooltip_enabled]
   end
 
   def to_s
