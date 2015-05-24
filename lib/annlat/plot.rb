@@ -744,7 +744,7 @@ class HighChart < Plot
   end
 
   def colors=(colors)
-    @colors = colors.map do |c|
+    @params[:colors] = colors.map do |c|
       if c.class == Symbol
         Plot.color(c)
       else
@@ -754,7 +754,23 @@ class HighChart < Plot
   end
 
   def colors
-    @colors || Plot.hex_colors
+    @params[:colors] || Plot.hex_colors
+  end
+
+  def labels_enabled=(le)
+    @params[:labels_enabled] = le
+  end
+
+  def labels_enabled
+    @params[:labels_enabled] || true
+  end
+
+  def tooltip_enabled=(te)
+    @params[:tooltip_enabled] = te
+  end
+
+  def tooltip_enabled
+    @params[:tooltip_enabled] || true
   end
 
   def to_s
@@ -762,19 +778,12 @@ class HighChart < Plot
   end
 
   def to_json(*a)
-    {
-      params: @params,
-      data: @data,
-      colors: @colors
-    }.to_json(*a)
+    @params.to_json(*a)
   end
 
   def self.from_json(string)
-    hash = JSON.parse(string)
-    obj = self.new(hash['params'])
-    obj.data = hash['data']
-    obj.colors = hash['colors']
-    obj
+    params = JSON.parse(string)
+    self.new(params)
   end
 
   def chart_template
@@ -785,12 +794,12 @@ class HighChart < Plot
   end
 
   def data
-    @data.to_a.to_json
+    @params[:data].to_a.to_json
   end
 
   # data as a hash (key-value pairs)
   def data=(hash)
-    @data = hash
+    @params[:data] = hash
   end
 
   def title
