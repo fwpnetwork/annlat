@@ -743,8 +743,14 @@ class HighChart < Plot
     @chart_id ||= SecureRandom.uuid
   end
 
-  def colors=(c)
-    @colors = c
+  def colors=(colors)
+    @colors = colors.map do |c|
+      if c.class == Symbol
+        Plot.color(c)
+      else
+        c
+      end
+    end
   end
 
   def colors
@@ -757,8 +763,9 @@ class HighChart < Plot
 
   def to_json(*a)
     {
-      'params' => @params,
-      'data' => @data
+      params: @params,
+      data: @data,
+      colors: @colors
     }.to_json(*a)
   end
 
@@ -766,6 +773,7 @@ class HighChart < Plot
     hash = JSON.parse(string)
     obj = self.new(hash['params'])
     obj.data = hash['data']
+    obj.colors = hash['colors']
     obj
   end
 
