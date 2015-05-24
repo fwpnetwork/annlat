@@ -743,6 +743,14 @@ class HighChart < Plot
     @chart_id ||= SecureRandom.uuid
   end
 
+  def colors=(c)
+    @colors = c
+  end
+
+  def colors
+    @colors || Plot.hex_colors
+  end
+
   def to_s
     "HighChart: params = #{@params.inspect}"
   end
