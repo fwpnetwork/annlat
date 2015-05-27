@@ -737,6 +737,11 @@ class HighChart < Plot
         @params[s] = @params[s].to_sym
       end
     end
+
+    # pass colors through symbol => hex conversion
+    if @params[:colors]
+      self.colors = @params[:colors]
+    end
   end
 
   def chart_id
@@ -804,5 +809,9 @@ class HighChart < Plot
 
   def title
     @params[:title]
+  end
+
+  def parameters
+    @params
   end
 end
