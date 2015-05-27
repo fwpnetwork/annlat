@@ -831,6 +831,10 @@ class HighChart < Plot
     @params[:data] = hash
   end
 
+  def raw_data
+    @params[:data]
+  end
+
   def title
     @params[:title]
   end
