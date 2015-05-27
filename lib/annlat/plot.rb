@@ -775,7 +775,7 @@ class HighChart < Plot
   end
 
   def shade_on_click_enabled
-    @params[:shade_on_click_enabled].nil? ? true : @params[:shade_on_click_enabled]
+    @params[:shade_on_click_enabled].nil? ? false : @params[:shade_on_click_enabled]
   end
 
   def labels_enabled=(le)
