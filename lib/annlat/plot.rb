@@ -770,6 +770,14 @@ class HighChart < Plot
     @params[:select_enabled].nil? ? true : @params[:select_enabled]
   end
 
+  def shade_on_click_enabled=(soc)
+    @params[:shade_on_click_enabled] = soc
+  end
+
+  def shade_on_click_enabled
+    @params[:shade_on_click_enabled].nil? ? true : @params[:shade_on_click_enabled]
+  end
+
   def labels_enabled=(le)
     @params[:labels_enabled] = le
   end
