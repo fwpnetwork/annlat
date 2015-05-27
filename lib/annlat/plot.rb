@@ -762,6 +762,14 @@ class HighChart < Plot
     @params[:colors] || Plot.hex_colors
   end
 
+  def select_enabled=(se)
+    @params[:select_enabled] = se
+  end
+
+  def select_enabled
+    @params[:select_enabled].nil? ? true : @params[:select_enabled]
+  end
+
   def labels_enabled=(le)
     @params[:labels_enabled] = le
   end
