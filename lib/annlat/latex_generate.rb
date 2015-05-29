@@ -9,7 +9,7 @@ class LatexGenerate < Image
 
   def ensure_header
     unless File.exist?('header.fmt')
-      FileUtils.cp(File.dirname(__FILE__) + , '/header.fmt')
+      FileUtils.cp(File.dirname(__FILE__) +  '/header.fmt', 'header.fmt')
     end
   end
 
