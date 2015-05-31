@@ -22,6 +22,9 @@ class LatexGenerate < Image
   def generate_tex_file
     File.open("#{@uuid}.tex", "w") do |f|
       f.write '%&header
+\newcommand\enclose[2]{%
+\smash{\raise.58ex\hbox{\big)}}\mkern-5mu
+\overline{\enspace\strut#2}}
 \usepackage{unicode-math}
 \setmathfont{lmsans17-regular.otf}
 \begin{document}
@@ -36,7 +39,7 @@ $
   end
 
   def generate_pdf_from_tex
-    `xelatex -shell-escape #{@uuid}.tex`
+    `xelatex #{@uuid}.tex`
   end
 
   def generate_png_from_pdf
