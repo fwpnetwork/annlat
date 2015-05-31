@@ -7,16 +7,23 @@ class LatexGenerate < Image
     super("#{@uuid}.png", {dynamic: true})
   end
 
-  def ensure_header
-    unless File.exist?('header.fmt')
-      FileUtils.cp(File.dirname(__FILE__) +  '/header.fmt', 'header.fmt')
+  def ensure_files
+    ['header.fmt', 'lmsans17-regular.otf'].each do |f|
+      ensure_file f
+    end
+  end
+
+  def ensure_file(f)
+    unless File.exist?(f)
+      FileUtils.cp(File.dirname(__FILE__) +  "/#{f}", f)
     end
   end
 
   def generate_tex_file
     File.open("#{@uuid}.tex", "w") do |f|
       f.write '%&header
-\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmathfont{lmsans17-regular.otf}
 \begin{document}
 $
 '
@@ -41,7 +48,7 @@ $
   end
 
   def generate_png
-    ensure_header
+    ensure_files
     generate_tex_file
     generate_pdf_from_tex
     generate_png_from_pdf
