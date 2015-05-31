@@ -1294,9 +1294,9 @@ module LatexPlots
       str += "\\hline " if [:all, :outside].include?(h_lines)
       index = 0
       str += @rows.collect do |row|
-        r = row.collect do |item|
+        r = '\sf{' + row.collect do |item|
           item.latex
-        end.join('&') + "\\\\"
+        end.join('&') + "}\\\\"
         r += "[#{@row_spacing[index]}]" if @row_spacing[index]
         r += "\n"
         unless index == @rows.size - 1
