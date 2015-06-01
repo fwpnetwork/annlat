@@ -1295,7 +1295,12 @@ module LatexPlots
       index = 0
       str += @rows.collect do |row|
         r = row.collect do |item|
-          "\\sf{#{item.latex}}"
+          l = item.latex
+          if l.match(/\\hline/)
+            l
+          else
+            "\\sf{#{l}}"
+          end
         end.join('&') + "\\\\"
         r += "[#{@row_spacing[index]}]" if @row_spacing[index]
         r += "\n"
