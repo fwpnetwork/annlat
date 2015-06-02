@@ -321,6 +321,13 @@ class Term < Product
   end
 end
 
+class Productx < Product
+  # override cdot
+  def latex
+    @args.map{|l| l.latex}.join('\times')
+  end
+end
+
 class Underline < Latex
   def initialize(b)
     @base = b
@@ -383,6 +390,10 @@ end
 class Latex
   def %(other)
     Term.new(self, other)
+  end
+
+  def x(other)
+    Productx.new(self, other)
   end
 
   def div(other)
