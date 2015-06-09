@@ -758,6 +758,22 @@ class HighChart < Plot
     end
   end
 
+  def width=(w)
+    @params[:width] = w
+  end
+
+  def width
+    @params[:width]
+  end
+
+  def height=(h)
+    @params[:height] = h
+  end
+
+  def height
+    @params[:height]
+  end
+
   def colors
     @params[:colors] || Plot.hex_colors
   end
