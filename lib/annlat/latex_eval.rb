@@ -479,6 +479,14 @@ class Latex
 end
 
 class Frac < Latex
+  def numerator
+    @numer
+  end
+
+  def denominator
+    @denom
+  end
+
   def walk!
     @numer = @numer.walk! do |n|
       yield n
