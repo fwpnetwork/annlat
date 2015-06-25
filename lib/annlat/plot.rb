@@ -187,6 +187,14 @@ class CoordinatePlane < Plot
     @points << [x, y, self.color(color)]
   end
 
+  def xlabel(lab)
+    @parameters[:xlabel] = lab
+  end
+
+  def ylabel(lab)
+    @parameters[:ylabel] = lab
+  end
+
   def plot
     self.plot_points
   end
@@ -236,6 +244,8 @@ class CoordinatePlane < Plot
         plot.yzeroaxis
         plot.xrange "[#{@parameters[:xlow]}:#{@parameters[:xhigh]}]"
         plot.yrange "[#{@parameters[:ylow]}:#{@parameters[:yhigh]}]"
+        plot.xlabel "#{@parameters[:xlabel]} font 'Latin-Modern,20'" if @parameters[:xlabel]
+        plot.ylabel "#{@parameters[:ylabel]} font 'Latin-Modern,20'" if @parameters[:ylabel]
         plot.xtics "axis #{parameters[:xtics]}"
         plot.ytics "axis #{@parameters[:ytics]}"
         plot.border 0
