@@ -244,8 +244,8 @@ class CoordinatePlane < Plot
         plot.yzeroaxis
         plot.xrange "[#{@parameters[:xlow]}:#{@parameters[:xhigh]}]"
         plot.yrange "[#{@parameters[:ylow]}:#{@parameters[:yhigh]}]"
-        plot.xlabel "'#{@parameters[:xlabel]}' font 'Latin-Modern,20'" if @parameters[:xlabel]
-        plot.ylabel "'#{@parameters[:ylabel]}' font 'Latin-Modern,20'" if @parameters[:ylabel]
+        plot.xlabel "'#{@parameters[:xlabel]}' font 'Latin-Modern'" if @parameters[:xlabel]
+        plot.ylabel "'#{@parameters[:ylabel]}' font 'Latin-Modern'" if @parameters[:ylabel]
         plot.xtics "axis #{parameters[:xtics]}"
         plot.ytics "axis #{@parameters[:ytics]}"
         plot.border 0
