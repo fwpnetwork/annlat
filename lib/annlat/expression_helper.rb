@@ -154,7 +154,7 @@ require "annlat/latex_eval"
 # License:: MIT
 
 module ExpressionHelper
-  def generate(opts)
+  def generate(opts, retain_ranges = false)
     diff = opts[self.class.to_s]
 
     @parameters ||= {}
@@ -258,6 +258,10 @@ module ExpressionHelper
         @form_index += 1 while (@form_index+1)/@forms.size.to_f < diff + 0.2
       end
       @form_index = [@form_index, @forms.size - 1].min
+    end
+
+    unless retain_ranges
+      @ranges = nil
     end
 
     @form = @forms[@form_index]
