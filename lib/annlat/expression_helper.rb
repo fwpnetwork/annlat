@@ -331,6 +331,11 @@ module ExpressionHelper
     end
   end
 
+  # round as string
+  def r_s(answer, places = 2)
+    sprintf("%.#{places}f", r(answer, places))
+  end
+
   # parameters
   def p
     @parameters
