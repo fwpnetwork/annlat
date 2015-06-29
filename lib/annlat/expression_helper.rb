@@ -327,7 +327,8 @@ module ExpressionHelper
     if answer == answer.to_i
       answer.to_i
     else
-      answer.round(places)
+      rounded = answer.round(places)
+      sprintf("%.#{places}f", rounded)
     end
   end
 
