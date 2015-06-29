@@ -538,6 +538,11 @@ class Frac < Latex
     end
   end
 
+  def simplify_parts
+    @numer = @numer.simplify!
+    @denom = @denom.simplify!
+  end
+
   def eval
     r(@numer.eval.to_f / @denom.eval.to_f)
   end
