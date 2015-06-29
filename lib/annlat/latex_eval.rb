@@ -541,6 +541,7 @@ class Frac < Latex
   def simplify_parts
     @numer = @numer.simplify!
     @denom = @denom.simplify!
+    self
   end
 
   def eval
