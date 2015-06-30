@@ -373,7 +373,7 @@ end
 # same as LatexDiv except for latex conversion
 class LatexYields < LatexDiv
   def latex
-    "#{@first}\\to#{@second}"
+    "#{@first} \\to #{@second}"
   end
 end
 
