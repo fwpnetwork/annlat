@@ -91,13 +91,17 @@ class NumberLine < Plot
     super(@parameters[:fn], {dynamic: true})
   end
 
+  def denominator=(d)
+    @parameters[:denominator] = d
+  end
+
   def range=(r)
     @parameters[:range] = r ? true : false
   end
 
-  def add_arrow(start, finish, color = nil)
+  def add_arrow(start, finish, color = nil, one_head = false)
     @arrows ||= []
-    @arrows << [start, finish, self.color(color)]
+    @arrows << [start, finish, self.color(color), one_head]
   end
 
   # points is an array of values to plot on the number line
@@ -115,28 +119,36 @@ class NumberLine < Plot
           plot.xrange "[#{@parameters[:low]}:#{@parameters[:high]}]"
           plot.yrange "[0:1]"
           plot.border 1
-          plot.xtics @parameters[:tics]
+          plot.xtics generate_tics
           plot.unset "ytics"
           points.each do |p|
             x << p
             y << 0
           end
           @arrows.each do |a|
-            plot.arrow "from #{a[0]}, 0.05 to #{a[1]}, 0.05 heads filled lc rgb '#{a[2]}'"
+            if a[3]
+              plot.arrow "from #{a[0]}, 0.05 to #{a[1]}, 0.05 filled lc rgb '#{a[2]}'"
+            else
+              plot.arrow "from #{a[0]}, 0.05 to #{a[1]}, 0.05 heads filled lc rgb '#{a[2]}'"
+            end
           end
         else
           plot.yzeroaxis "lt -1"
           plot.xrange "[-1:1]"
           plot.yrange "[#{@parameters[:low]}:#{@parameters[:high]}]"
           plot.border 0
-          plot.ytics "axis #{@parameters[:tics]}"
+          plot.ytics "axis #{generate_tics}"
           plot.unset "xtics"
           points.each do |p|
             x << 0
             y << p
           end
           @arrows.each do |a|
-            plot.arrow "from 0.1, #{a[0]} to 0.1, #{a[1]} heads filled lc rgb '#{a[2]}'"
+            if a[3]
+              plot.arrow "from 0.1, #{a[0]} to 0.1, #{a[1]} filled lc rgb '#{a[2]}'"
+            else
+              plot.arrow "from 0.1, #{a[0]} to 0.1, #{a[1]} heads filled lc rgb '#{a[2]}'"
+            end
           end
         end
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
@@ -151,6 +163,30 @@ class NumberLine < Plot
       `convert #{@parameters[:fn]} -crop 100x460+180+0 +repage #{@parameters[:fn]}`
     end
     self
+  end
+
+  private
+  def generate_tics
+    if @parameters[:denominator]
+      tics = []
+      d = @parameters[:denominator]
+      (@parameters[:low]..@parameters[:high]).each do |i|
+        last = i == @parameters[:high] ? 0 : d - 1
+        (0..last).each do |j|
+          numer = i*d+j
+          frac = Frac.new(numer.l, d.l)
+          f = frac.reduce
+          if f.class == Frac
+            tics << "\"#{f.numerator}/#{f.denominator}\" #{f.eval}"
+          else
+            tics << "\"#{f}\" #{f}"
+          end
+        end
+      end
+      "(#{tics.join(',')})"
+    else
+      @parameters[:tics]
+    end
   end
 end
 
