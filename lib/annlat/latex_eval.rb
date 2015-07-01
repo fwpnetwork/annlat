@@ -1488,6 +1488,10 @@ class LatexTable < Latex
   def flat
     @rows.flatten
   end
+
+  def rows
+    @rows
+  end
 end
 
 class Array
