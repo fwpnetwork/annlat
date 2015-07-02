@@ -904,7 +904,7 @@ class HighChart < Plot
     @params
   end
 
-  def method_missing?(name, *other)
+  def method_missing(name)
     @params[:name]
   end
 end
