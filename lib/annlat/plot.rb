@@ -817,16 +817,8 @@ class HighChart < Plot
     @params[:width] = w
   end
 
-  def width
-    @params[:width]
-  end
-
   def height=(h)
     @params[:height] = h
-  end
-
-  def height
-    @params[:height]
   end
 
   def colors
@@ -908,11 +900,11 @@ class HighChart < Plot
     @params[:data]
   end
 
-  def title
-    @params[:title]
-  end
-
   def parameters
     @params
+  end
+
+  def method_missing?(name, *other)
+    @params[:name]
   end
 end
