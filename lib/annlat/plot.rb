@@ -769,6 +769,7 @@ class HighChart < Plot
   # * type: specifies chart type
   #   valid types are:
   #   * piechart
+  #   * numberline
   # * title: specifies chart title
   def initialize(params)
     @params = params
@@ -802,6 +803,14 @@ class HighChart < Plot
         c
       end
     end
+  end
+
+  def xmin=(m)
+    @params[:xmin] = m
+  end
+
+  def xmax=(m)
+    @params[:xmax] = m
   end
 
   def width=(w)
@@ -881,6 +890,8 @@ class HighChart < Plot
     case @params[:type]
     when :piechart
       'highchart_piechart'
+    when :numberline
+      'highchart_numberline'
     end
   end
 
@@ -888,7 +899,7 @@ class HighChart < Plot
     @params[:data].to_a.to_json
   end
 
-  # data as a hash (key-value pairs)
+  # data as a hash (key-value pairs) or array
   def data=(hash)
     @params[:data] = hash
   end
