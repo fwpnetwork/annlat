@@ -120,10 +120,11 @@ class AnnLat
 
   def add_subconcept(question=nil, concept)
     subconcept_question = question || concept.show_question.not_hints
-    subconcept_question.add_sentence_options({subconcept_question: true, id: subconcept_question.object_id})
+    sub_id = subconcept_question.object_id
+    subconcept_question.add_sentence_options({subconcept_question: true, id: sub_id})
     subconcept_how = concept.show_how
-    subconcept_how.add_sentence_options({subconcept_how: true,
-                                              class: "subconcept hidden #{subconcept_question.object_id}"})
+    subconcept_how.add_sentence_options_unless_subconcept_how({subconcept_how: true,
+                                                               class: "subconcept hidden #{sub_id}"})
     sum! subconcept_question
     sum! subconcept_how
   end
@@ -141,6 +142,18 @@ class AnnLat
   def add_sentence_options(hash)
     @options.map! {|option_hash| {sentence_options: option_hash[:sentence_options].merge(hash),
                                   option_array: option_hash[:option_array]} }
+    self
+  end
+
+  def add_sentence_options_unless_subconcept_how(hash)
+    @options.map! do |option_hash|
+      if option_hash[:sentence_options][:subconcept_how]
+        option_hash
+      else
+        {sentence_options: option_hash[:sentence_options].merge(hash),
+         option_array: option_hash[:option_array]}
+      end
+    end
     self
   end
 
