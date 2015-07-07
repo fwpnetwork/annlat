@@ -101,7 +101,8 @@ class String
                               '<=', '>=',
                               '=', '<',
                               '>', '\leq',
-                              '\geq']
+                              '\geq',
+                              '^']
 
     # strip whitespace unless preceeded by \
     clean = self.gsub(/^ /, '')
@@ -145,6 +146,11 @@ class String
     extract_generic(tokens, left, right)
   end
 
+  def extract_bracket(tokens)
+    left = '{'
+    right = '}'
+    extract_generic(tokens, left, right)
+  end
 
   def extract_frac(tokens)
     left = '\frac{'
@@ -213,22 +219,59 @@ class String
       end
     end
 
-    if tokens.include?('\left(') or tokens.include?('\frac{')
-      mode = :parens
-      # if we have both, find the first
-      if tokens.include?('\left(') and tokens.include?('\frac{')
-        paren_i = tokens.index('\left(')
-        frac_i = tokens.index('\frac{')
+    if tokens.include?('\left(') or tokens.include?('\frac{') or tokens.include?('{')
+      mode = nil
+      paren_i = tokens.index('\left(')
+      frac_i = tokens.index('\frac{')
+      bracket_i = tokens.index('{')
+      enclose_count = 0
+
+      if paren_i.nil?
+        paren_i = tokens.size
+      else
+        enclose_count += 1
+      end
+
+      if frac_i.nil?
+        frac_i = tokens.size
+      else
+        enclose_count += 1
+      end
+
+      if bracket_i.nil?
+        bracket_i = tokens.size
+      else
+        enclose_count += 1
+      end
+
+      # if we have more than one, find the first
+      if enclose_count > 1
         if frac_i < paren_i
-          mode = :frac
+          if bracket_i < frac_i
+            mode = :bracket
+          else
+            mode = :frac
+          end
+        elsif bracket_i < paren_i
+          mode = :bracket
+        else
+          mode = :parens
         end
-      elsif tokens.include?('\frac{')
+      elsif paren_i < tokens.size
+        mode = :parens
+      elsif frac_i < tokens.size
         mode = :frac
+      elsif bracket_i < tokens.size
+        mode = :bracket
       end
 
       if mode == :parens
         # handle parens
         before, during, after = extract_paren(tokens)
+        tokens = classify_tokens(before) + [parse_latex(during)] + classify_tokens(after)
+      elsif mode == :bracket
+        # handle brackets
+        before, during, after = extract_bracket(tokens)
         tokens = classify_tokens(before) + [parse_latex(during)] + classify_tokens(after)
       else
         # handle fractions

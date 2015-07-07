@@ -210,6 +210,13 @@ class TestLatexEval < Minitest::Test
     [[1,2,3,4,5,6,7,8,9]].l.highlight_middle.latex
   end
 
+  def test_parse_exponent
+    assert_equal "1^{2+3}", (1.l**(2.l+3.l)).latex
+    assert_equal (1.l**2.l).latex, parse_unparse("1^2")
+    assert_equal (1.l**(2.l+3.l)).latex, parse_unparse("1^{2+3}")
+    assert_equal 3**(4.2*5), "3^{\\left(4+0.2\\right)\\cdot5}".parse_latex.eval
+  end
+
   private
   def parse_unparse(str)
     begin
