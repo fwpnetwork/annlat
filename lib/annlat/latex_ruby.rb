@@ -270,10 +270,15 @@ end
 
 class Rational
   def l
-    self.to_f.l
+    self.to_s.l
   end
 end
 
+class Bignum
+  def l
+    self.to_s.l
+  end
+end
 
 Plus = Atom.new('+')
 Times = Atom.new('\cdot ')
