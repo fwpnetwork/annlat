@@ -270,7 +270,7 @@ end
 
 class Rational
   def l
-    self.to_s.l
+    self.to_f.l
   end
 end
 
