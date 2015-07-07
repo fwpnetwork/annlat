@@ -108,28 +108,28 @@ class TestLatexEval < Minitest::Test
 
   def test_array_conversion
     assert_equal "\\begin{array}{|c|c|c|}
-\\hline 1&2&3\\\\
-\\hline 4&5&6\\\\
-\\hline 7&8&9\\\\
+\\hline \\sf{1}&\\sf{2}&\\sf{3}\\\\
+\\hline \\sf{4}&\\sf{5}&\\sf{6}\\\\
+\\hline \\sf{7}&\\sf{8}&\\sf{9}\\\\
 \\hline 
 \\end{array}",
     [[1,2,3],[4,5,6],[7,8,9]].l.latex
     assert_equal "\\begin{array}{|c|c|c|}
-\\hline 1&2&3\\\\
-\\hline 4&5&6\\\\
-\\hline 7&8&9\\\\
+\\hline \\sf{1}&\\sf{2}&\\sf{3}\\\\
+\\hline \\sf{4}&\\sf{5}&\\sf{6}\\\\
+\\hline \\sf{7}&\\sf{8}&\\sf{9}\\\\
 \\hline 
 \\end{array}",
     [[1,2,3],[4.l,5.l,6.l],[7,8,9]].l.latex
     assert_equal "\\begin{array}{|c|c|c|}
-\\hline 1&2&3\\\\
+\\hline \\sf{1}&\\sf{2}&\\sf{3}\\\\
 \\hline 
 \\end{array}", [[1,2,3]].l.latex
   end
 
   def test_table_simplification
     assert_equal '\begin{array}{|c|c|c|}
-\\hline 1&2&3\\\\
+\\hline \\sf{1}&\\sf{2}&\\sf{3}\\\\
 \\hline 
 \end{array}', [[1,2,1.l + 2.l]].l.simplify!.latex
   end
@@ -174,29 +174,29 @@ class TestLatexEval < Minitest::Test
 \\hline 
 \\end{array}", [[]].l.latex
     assert_equal "\\begin{array}{|c|}
-\\hline \\ \\\\
+\\hline \\sf{\\ }\\\\
 \\hline 
 \\end{array}", [["\\ "]].l.latex
   end
 
   def test_dot_plot
     assert_equal "\\begin{array}{|cccc|}
-\\hline \\ &\\ &\\bigcirc&\\ \\\\
-\\bigcirc&\\ &\\bigcirc&\\ \\\\
-\\bigcirc&\\bigcirc&\\bigcirc&\\ \\\\
-\\bigcirc&\\bigcirc&\\bigcirc&\\bigcirc\\\\
-\\hline1&2&3&4\\\\
+\\hline \\sf{\\ }&\\sf{\\ }&\\sf{\\bigcirc}&\\sf{\\ }\\\\
+\\sf{\\bigcirc}&\\sf{\\ }&\\sf{\\bigcirc}&\\sf{\\ }\\\\
+\\sf{\\bigcirc}&\\sf{\\bigcirc}&\\sf{\\bigcirc}&\\sf{\\ }\\\\
+\\sf{\\bigcirc}&\\sf{\\bigcirc}&\\sf{\\bigcirc}&\\sf{\\bigcirc}\\\\
+\\hline1&\\sf{2}&\\sf{3}&\\sf{4}\\\\
 \\hline 
 \\end{array}", [[3,1,3,1,3],[1,2,3,4,2]].l.dot_plot.latex
   end
 
   def test_bar_chart_latex
     assert_equal "\\begin{array}{|ccccc|}
-\\hline ^{4-}&\\ &\\ &\\lceil\\rceil&\\ \\\\[-5pt]
-^{3-}&\\lceil\\rceil&\\ &|\\ |&\\ \\\\[-5pt]
-^{2-}&|\\ |&\\lceil\\rceil&|\\ |&\\ \\\\[-5pt]
-^{1-}&|\\ |&|\\ |&|\\ |&\\lceil\\rceil\\\\
-\\hline \\ &1&2&3&4\\\\
+\\hline \\sf{^{4-}}&\\sf{\\ }&\\sf{\\ }&\\sf{\\lceil\\rceil}&\\sf{\\ }\\\\[-5pt]
+\\sf{^{3-}}&\\sf{\\lceil\\rceil}&\\sf{\\ }&\\sf{|\\ |}&\\sf{\\ }\\\\[-5pt]
+\\sf{^{2-}}&\\sf{|\\ |}&\\sf{\\lceil\\rceil}&\\sf{|\\ |}&\\sf{\\ }\\\\[-5pt]
+\\sf{^{1-}}&\\sf{|\\ |}&\\sf{|\\ |}&\\sf{|\\ |}&\\sf{\\lceil\\rceil}\\\\
+\\hline \\ &\\sf{1}&\\sf{2}&\\sf{3}&\\sf{4}\\\\
 \\hline 
 \\end{array}", [[3,1,3,1,3],[1,2,3,4,2]].l.bar_chart_latex.latex
   end
@@ -204,7 +204,7 @@ class TestLatexEval < Minitest::Test
   def test_higlight_middle
     assert_equal "\\underline{7}", 7.l.underline.latex
     assert_equal "\\begin{array}{|c|c|c|c|c|c|c|c|c|}
-\\hline 1&2&\\underline{3}&\\underline{4}&\\underline{5}&\\underline{6}&7&8&9\\\\
+\\hline \\sf{1}&\\sf{2}&\\sf{\\underline{3}}&\\sf{\\underline{4}}&\\sf{\\underline{5}}&\\sf{\\underline{6}}&\\sf{7}&\\sf{8}&\\sf{9}\\\\
 \\hline 
 \\end{array}",
     [[1,2,3,4,5,6,7,8,9]].l.highlight_middle.latex

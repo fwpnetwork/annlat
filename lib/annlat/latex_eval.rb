@@ -338,27 +338,48 @@ class Underline < Latex
   end
 end
 
-class LongDivision < Latex
+class LongDivision < Frac
   def initialize(n, d)
-    @n = n
-    @d = d
+    @numer = n
+    @denom = d
   end
 
   def latex
-    "#{@d} \\enclose{longdiv}{#{@n}}"
+    "#{@denom} \\enclose{longdiv}{#{@numer}}"
   end
 end
 
-class LatexDiv < Latex
+class LatexDiv < Frac
+  def initialize(first, second)
+    @numer = first
+    @denom = second
+  end
+
+  def latex
+    "#{@numer} \\div #{@denom}"
+  end
+  
+  def walk!
+    @numer = @numer.walk! do |n|
+      yield n
+    end
+    @denom = @denom.walk! do |n|
+      yield n
+    end
+    self
+  end
+end
+
+class LatexYields < Latex
   def initialize(first, second)
     @first = first
     @second = second
   end
 
   def latex
-    "#{@first}\\div#{@second}"
+    "#{@first} \\to #{@second}"
   end
-  
+
   def walk!
     @first = @first.walk! do |n|
       yield n
@@ -367,13 +388,6 @@ class LatexDiv < Latex
       yield n
     end
     self
-  end
-end
-
-# same as LatexDiv except for latex conversion
-class LatexYields < LatexDiv
-  def latex
-    "#{@first} \\to #{@second}"
   end
 end
 
