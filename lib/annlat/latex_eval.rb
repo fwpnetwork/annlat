@@ -1012,6 +1012,14 @@ class Expon < Latex
       end
     end
   end
+
+  def base
+    @base
+  end
+
+  def exponent
+    @exp
+  end
 end
 
 class BinOpe < Latex
