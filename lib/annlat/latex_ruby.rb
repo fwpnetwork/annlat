@@ -268,6 +268,12 @@ class Set
 
 end
 
+class Rational
+  def l
+    (self/1.0).l
+  end
+end
+
 
 Plus = Atom.new('+')
 Times = Atom.new('\cdot ')
