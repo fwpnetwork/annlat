@@ -215,6 +215,11 @@ class TestLatexEval < Minitest::Test
     assert_equal (1.l**2.l).latex, parse_unparse("1^2")
     assert_equal (1.l**(2.l+3.l)).latex, parse_unparse("1^{2+3}")
     assert_equal 3**(4.2*5), "3^{\\left(4+0.2\\right)\\cdot5}".parse_latex.eval
+    assert_equal 8**(-27), "\\left(8^{-9}\\right)^{3}".parse_latex.eval
+  end
+
+  def test_eval_exponent
+    assert_equal 8**(-9), (8.l**(-9.l)).eval
   end
 
   private

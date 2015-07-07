@@ -101,8 +101,7 @@ class String
                               '<=', '>=',
                               '=', '<',
                               '>', '\leq',
-                              '\geq',
-                              '^']
+                              '\geq']
 
     # strip whitespace unless preceeded by \
     clean = self.gsub(/^ /, '')
@@ -290,23 +289,23 @@ class String
   end
 
   def ops
-    @@ops ||=[
-             '^',
-             '\cdot',
-             '+',
-             '-',
-             '\ '
-            ]
+    @@ops ||= [
+      '^',
+      '\cdot',
+      '+',
+      '-',
+      '\ '
+    ]
   end
 
   def op_syms
     @@op_syms ||= {
-        '^' => :**,
-        '\cdot' => :*,
-        '+' => :+,
-        '-' => :-,
-        '\ ' => :space
-      }
+      '^' => :**,
+      '\cdot' => :*,
+      '+' => :+,
+      '-' => :-,
+      '\ ' => :space
+    }
   end
 
   def parse_atoms(tokens)
@@ -995,7 +994,7 @@ class Expon < Latex
   end
 
   def eval
-    r(@base.eval ** @exp.eval)
+    @base.eval ** @exp.eval
   end
 
   def simplify!(trivial = false)
