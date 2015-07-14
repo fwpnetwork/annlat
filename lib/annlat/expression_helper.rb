@@ -313,8 +313,16 @@ module ExpressionHelper
     @@fish ||= ["salmon", "blue gill", "trout", "bass", "swordfish"]
   end
 
+  def girl_names
+    @@girl_names ||= ['Emma', 'Ava', 'Isabelle', 'Madison', 'Ashley', 'Chloe', 'Olivia', 'Emily', 'Sophia', 'Addison', 'Abigail', 'Samantha', 'Katherine', 'Mia', 'Natalie', 'Anna', 'Elizabeth', 'Ella', 'Grace', 'Alyssa', 'Alexis', 'Brooklyn', 'Julia', 'Lily', 'Hailey', 'Lillian', 'Kayla', 'Taylor', 'Sarah', 'Paola', 'Zoe', 'Alondra', 'Nicole', 'Avery', 'Brianna', 'Ava', 'Eva', 'Lupine', 'Amelia', 'Charlotte', 'Lila,Morgan', 'Jane', 'Maria', 'Denisse', 'Valentina', 'Domenica', 'Alma', 'Yoshimi', 'Blanca']
+  end
+
+  def boy_names
+    @@boy_names ||= ['William', 'James', 'Anthony', 'Jacob', 'Daniel', 'Alexander', 'Michael', 'Jayden', 'Ethan', 'Ryan', 'Isaiah', 'John', 'Joshua', 'Christopher', 'Noah', 'Aiden', 'Benjamin', 'Owen', 'Matthew', 'Angel', 'Carter', 'Logan', 'Elijah', 'Landon', 'Jason', 'Wyatt', 'Tyler', 'David', 'Caleb', 'Gabriel', 'Samuel', 'Andrew', 'Jose', 'Mason', 'Gavin', 'Brody', 'Kevin', 'Nicholas', 'Brayden', 'Luis', 'Jack', 'Carlos', 'Diego', 'Sebastian', 'Isaac', 'Juan', 'Adrian', 'Evan', 'Chase', 'River']
+  end
+
   def names
-    @@names ||= ["Sam", "Betty", "George", "Edward", "Ralph", "Vanessa", "Lydia", "Sally"]
+    @@names ||= boy_names + girl_names
   end
 
   def fruit
