@@ -201,10 +201,12 @@ class AnnLatDivision
           end
         else
           if digit_s.size > 1
-            answer_digits += digit_s.split('').map do |digit|
+            new_digits = digit_s.split('').map do |digit|
               digit == '0' ?
                 '' : digit
             end
+            new_digits[-1] = '0' if new_digits[-1] == ''
+            answer_digits += new_digits
           else
             answer_digits << digit_s
           end
@@ -238,6 +240,9 @@ class AnnLatDivision
               digit
             end
           end
+          unless nonzero_found
+            subtraction[-1] = '0'
+          end
           raw_table << subtraction
           remainder_digits = steps[j][3].to_s.split('')
           if carry or j < i
@@ -262,6 +267,9 @@ class AnnLatDivision
               digit
             end
           end
+          unless nonzero_found
+            remainder_digits[-1] = '0'
+          end
           remainder_digits[0] = "\\hline #{remainder_digits[0]}"
           remainder_table = [remainder_digits].l
           remainder_table.align = "r"
@@ -273,6 +281,9 @@ class AnnLatDivision
         table.set_lines :none
         tables << table
       end
+    end
+    while ['0', ''].include? answer_digits[0]
+      answer_digits.shift
     end
     @answer = answer_digits.join
     tables
