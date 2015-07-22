@@ -59,7 +59,7 @@ class AnnLatDivision
       else
         l.add_step "Add a 0"
         new_n = "#{@n_i}."
-        new_n += "0"*(dot_found ? i-1 : i)
+        new_n += "0"*(dot_found ? i - dot_index + 1 : 1)
         l.add "Remember that #{@n_i} can be written #{new_n} and bring down the 0."
         remainder_i *= 10
       end
