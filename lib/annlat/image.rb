@@ -14,6 +14,50 @@ class Image
   alias_method :to_s, :path
 
 end
+# Currently, nothing is rotated so convention is as RMagick expects: origin is top-left, +X is right, +Y is down
+# Params:
+# r => circle radius
+# x_orig => x origin for circle
+# y_orig => y origin for circle
+# opts => style options for figures
+# dashed_lines => list of dashed lines to be displayed; each line should be [x1-coord, y1-coord, x2-coord, y2-coord]
+# text => list of text to be displayed; each text should be [x-coord, y-coord, text]
+def drawCircle(r, x_orig, y_orig, opts, text = [], dashed_lines = [])
+  text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "black", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
+
+  rvg = RVG.new(opts[:width], opts[:height]).viewbox(0,0,opts[:xcoord],opts[:ycoord]) do |canvas|
+    canvas.background_fill = 'white'
+    canvas.g.translate(0, 0) do |draw|
+      draw.styles({:fill_opacity => 0.8, :fill => opts[:color], :stroke_width => opts[:stroke_width], :stroke => "black"})
+      di=opts[:di]
+      draw.circle(r, x_orig, y_orig).styles(:fill=>opts[:color], :stroke=>opts[:stroke_color], :stroke_width=>opts[:stroke_width])
+
+      # addl_coords.each do |x|
+      #   draw.polygon(x[0], x[1]).styles(:fill=>"transparent", :stroke=>opts[:stroke_color], :stroke_width=>0.5*opts[:stroke_width])
+      # end
+
+      dashed_draw = Magick::RVG::Group.new.styles({:stroke=>'black', :fill=>'none', :stroke_width => 0.5*opts[:stroke_width],  :stroke_dasharray =>opts[:dasharray]}) do |fig|
+        dashed_lines.each do |x|
+          fig.line(x[0], x[1], x[2], x[3])
+        end
+      end
+      draw.use(dashed_draw)
+    end
+
+    # new_opts = text_opts.dup
+    # how_text.each do |x|
+    #   new_opts[:fill] = x[3]
+    #   canvas.text(x[0], x[1], x[2]).styles(new_opts)
+    # end
+
+    text.each do |x|
+      canvas.text(x[0], x[1], x[2]).styles(text_opts)
+    end
+
+  end
+
+  rvg.draw.write(opts[:name])
+end
 
 # Currently, nothing is rotated so convention is as RMagick expects: origin is top-left, +X is right, +Y is down
 # Params:
@@ -25,39 +69,39 @@ end
 # addl_coords => list of x/y coordinates; each list should be [list-of-x-coods, list-of-y-coords]; the idea being use this for right-angle overlays, etc. Will display with transparent fill and 0.8x stroke width
 # how_text => just like text but requires a 4th option for fill color
 def createPolygon(x_coords,y_coords, opts,dashed_lines = [], text = [], addl_coords = [], how_text = [])
-text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "black", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
-rvg = RVG.new(opts[:width], opts[:height]).viewbox(0,0,opts[:xcoord],opts[:ycoord]) do |canvas|
-  canvas.background_fill = 'white'
-  canvas.g.translate(0, 0) do |draw|
-    draw.styles({:fill_opacity => 0.8, :fill => opts[:color], :stroke_width => opts[:stroke_width], :stroke => "black"})
-    di=opts[:di]
-    draw.polygon(x_coords, y_coords).styles(:fill=>opts[:color], :stroke=>opts[:stroke_color], :stroke_width=>opts[:stroke_width])
+  text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "black", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
+  rvg = RVG.new(opts[:width], opts[:height]).viewbox(0,0,opts[:xcoord],opts[:ycoord]) do |canvas|
+    canvas.background_fill = 'white'
+    canvas.g.translate(0, 0) do |draw|
+      draw.styles({:fill_opacity => 0.8, :fill => opts[:color], :stroke_width => opts[:stroke_width], :stroke => "black"})
+      di=opts[:di]
+      draw.polygon(x_coords, y_coords).styles(:fill=>opts[:color], :stroke=>opts[:stroke_color], :stroke_width=>opts[:stroke_width])
 
-    addl_coords.each do |x|
-      draw.polygon(x[0], x[1]).styles(:fill=>"transparent", :stroke=>opts[:stroke_color], :stroke_width=>0.5*opts[:stroke_width])
-    end
-
-    dashed_draw = Magick::RVG::Group.new.styles({:stroke=>'black', :fill=>'none', :stroke_width => 0.5*opts[:stroke_width],  :stroke_dasharray =>opts[:dasharray]}) do |fig|
-      dashed_lines.each do |x|
-        fig.line(x[0], x[1], x[2], x[3])
+      addl_coords.each do |x|
+        draw.polygon(x[0], x[1]).styles(:fill=>"transparent", :stroke=>opts[:stroke_color], :stroke_width=>0.5*opts[:stroke_width])
       end
+
+      dashed_draw = Magick::RVG::Group.new.styles({:stroke=>'black', :fill=>'none', :stroke_width => 0.5*opts[:stroke_width],  :stroke_dasharray =>opts[:dasharray]}) do |fig|
+        dashed_lines.each do |x|
+          fig.line(x[0], x[1], x[2], x[3])
+        end
+      end
+      draw.use(dashed_draw)
     end
-    draw.use(dashed_draw)
+
+    new_opts = text_opts.dup
+    how_text.each do |x|
+      new_opts[:fill] = x[3]
+      canvas.text(x[0], x[1], x[2]).styles(new_opts)
+    end
+
+    text.each do |x|
+      canvas.text(x[0], x[1], x[2]).styles(text_opts)
+    end
+
   end
 
-  new_opts = text_opts.dup
-  how_text.each do |x|
-    new_opts[:fill] = x[3]
-    canvas.text(x[0], x[1], x[2]).styles(new_opts)
-  end
-
-  text.each do |x|
-    canvas.text(x[0], x[1], x[2]).styles(text_opts)
-  end
-
-end
-
-rvg.draw.write(opts[:name])
+  rvg.draw.write(opts[:name])
 end
 
 class Polygon
