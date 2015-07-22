@@ -147,7 +147,7 @@ class AnnLatDivision
         n_s = "#{remainder}#{remaining_digits.shift}"
       end
       n = n_s.to_i
-    end until remainder == 0
+    end while not(remaining_digits.empty?) or remainder == 0
     digit, start, subtract, remainder = raw_steps[0]
     starting_digit_count = [start.size,
                             subtract.size, remainder.size].max
