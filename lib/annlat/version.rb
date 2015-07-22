@@ -1,3 +1,3 @@
 module Annlat
-  VERSION = "0.1.73"
+  VERSION = "0.1.74"
 end

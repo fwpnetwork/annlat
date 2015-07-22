@@ -162,7 +162,15 @@ class Product < AssocBinOpe
   def initialize(*some_factors)
     super(Times, *some_factors)
     @args.map!{|a| (a.kind_of?(Negative) or a.kind_of?(Sum))? a.wrap : a}
-  end  
+  end
+
+  def first
+    @args[0]
+  end
+
+  def second
+    @args[1]
+  end
 end
 
 class Sum < Latex

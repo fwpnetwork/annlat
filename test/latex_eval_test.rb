@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class TestLatexEval < Minitest::Test
+  def test_simplify_terms
+    l = ((-2.l)%(-9.l)%'c'.l).simplify_full!
+    assert_equal '18c', l.latex
+  end
+
   def test_parse_nesting
     assert_equal (:x.l + (:y.l + (:z.l - 3.l))).latex,
     parse_unparse('x+\left(y+\left(z-3\right)\right)')
