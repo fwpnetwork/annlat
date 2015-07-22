@@ -50,7 +50,7 @@ class AnnLatDivision
       if not(dot_found) and steps[i+1] and steps[i+1] != :dot
         l.add_step "Bring down the next digit and continue"
       elsif use_remainder
-        l.add "The remainder is #{remainder_i}"
+        l.add "The result is #{@answer} remainder #{remainder_i}"
         break
       elsif remainder.to_i == 0
         l.add "Since the remainder is 0, we end the division."
