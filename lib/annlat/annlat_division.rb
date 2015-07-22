@@ -128,12 +128,14 @@ class AnnLatDivision
         end
       end
       raw_steps << [digit_s, start, subtract.to_s, remainder.to_s]
-      key = raw_steps[-1].join(',')
-      unless seen[key].nil?
-        raw_steps << [:repeat, seen[key]]
-        break
+      if dot_added
+        key = raw_steps[-1].join(',')
+        unless seen[key].nil?
+          raw_steps << [:repeat, seen[key]]
+          break
+        end
+        seen[key] = raw_steps.size - 1
       end
-      seen[key] = raw_steps.size - 1
       if remaining_digits.empty?
         n_s = "#{remainder}0"
         unless dot_added
@@ -246,6 +248,9 @@ class AnnLatDivision
           raw_table << subtraction
           remainder_digits = steps[j][3].to_s.split('')
           if carry or j < i
+            puts j
+            puts carry_start
+            puts digits.inspect
             if digits[j+carry_start].latex == '.'
               remainder_digits += [digits[j+carry_start+1]]
             else

@@ -14,7 +14,8 @@ class TestAnnLatDivision < Minitest::Test
     l = AnnLat.new
     d = AnnLatDivision.new(200, 12)
     assert_equal [["01", "20", "12", "08"], ["6", "080", "072", "008"], :dot,
-                  ["6", "0080", "0072", "0008"], [:repeat, 1]],
+                  ["6", "0080", "0072", "0008"], ["6", "00080", "00072", "00008"],
+                  [:repeat, 3]],
                  d.steps
   end
 end
