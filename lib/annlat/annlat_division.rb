@@ -5,6 +5,7 @@ class AnnLatDivision
   end
 
   def add_to_annlat(l, use_remainder = false)
+    @use_remainder = use_remainder
     l.add_step "Begin the division algorithm"
     convert_to_integer
     digit_count = @n_i.to_s.split('').size
@@ -186,6 +187,9 @@ class AnnLatDivision
     answer_digits = []
     decimal_index = nil
     steps.each_with_index do |step, i|
+      if step == :dot and @use_remainder
+        break
+      end
       next if step == :dot or step[0] == :repeat
       digit_s, start_s, subtraction_s, remainder_s = step
       digit, start, subtraction, remainder = step.map do |part|
