@@ -18,4 +18,11 @@ class TestAnnLatDivision < Minitest::Test
                   [:repeat, 3]],
                  d.steps
   end
+
+  def test_one_eleven
+    l = AnnLat.new
+    d = AnnLatDivision.new(555, 5)
+    assert_equal [["1", "5", "5", "0"], ["1", "05", "05", "00"],
+                  ["1", "005", "005", "000"], :dot], d.steps
+  end
 end

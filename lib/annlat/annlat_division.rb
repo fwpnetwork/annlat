@@ -115,6 +115,7 @@ class AnnLatDivision
       remaining_digits = []
     end
     dot_added = false
+    all_digits_parsed = false
     seen = {}
     begin
       digit = (n/d).to_i
@@ -138,6 +139,7 @@ class AnnLatDivision
         seen[key] = raw_steps.size - 1
       end
       if remaining_digits.empty?
+        all_digits_parsed = true
         n_s = "#{remainder}0"
         unless dot_added
           dot_added = true
@@ -147,7 +149,7 @@ class AnnLatDivision
         n_s = "#{remainder}#{remaining_digits.shift}"
       end
       n = n_s.to_i
-    end until remaining_digits.empty? and remainder == 0
+    end until all_digits_parsed and remainder == 0
     digit, start, subtract, remainder = raw_steps[0]
     starting_digit_count = [start.size,
                             subtract.size, remainder.size].max
