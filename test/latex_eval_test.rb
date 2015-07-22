@@ -4,6 +4,9 @@ class TestLatexEval < Minitest::Test
   def test_simplify_terms
     l = ((-2.l)%(-9.l)%'c'.l).simplify_full!
     assert_equal '18c', l.latex
+
+    l = ((-2.l)*(-9.l)%'c'.l).simplify_full!
+    assert_equal '18c', l.latex
   end
 
   def test_parse_nesting
