@@ -248,9 +248,6 @@ class AnnLatDivision
           raw_table << subtraction
           remainder_digits = steps[j][3].to_s.split('')
           if carry or j < i
-            puts j
-            puts carry_start
-            puts digits.inspect
             if digits[j+carry_start].latex == '.'
               remainder_digits += [digits[j+carry_start+1]]
             else
