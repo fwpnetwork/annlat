@@ -448,11 +448,20 @@ class LatexCancel < Latex
     end
     self
   end
+
+  def simplify!(trivial = false)
+    @inner = @inner.simplify!
+    self
+  end
 end
 
 class LatexSqrt < LatexCancel
   def latex
     "\\sqrt{#{@inner}}"
+  end
+
+  def eval
+    r(Math.sqrt(@inner.eval))
   end
 end
 
