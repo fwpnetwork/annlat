@@ -198,7 +198,9 @@ module ExpressionHelper
 
       # select remaining parameters
       unselected.each_pair do |var, range|
-        @parameters[var] = Atom.new(range.sample)
+        sample = range.sample
+        sample = Atom.new(sample) unless sample <= Latex
+        @parameters[var] = sample
       end
     elsif @parameters.empty?
       # old-style fixed ranges for compatibility
