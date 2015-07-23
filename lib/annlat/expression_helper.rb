@@ -199,7 +199,7 @@ module ExpressionHelper
       # select remaining parameters
       unselected.each_pair do |var, range|
         sample = range.sample
-        sample = Atom.new(sample) unless sample <= Latex
+        sample = Atom.new(sample) unless sample.class <= Latex
         @parameters[var] = sample
       end
     elsif @parameters.empty?
