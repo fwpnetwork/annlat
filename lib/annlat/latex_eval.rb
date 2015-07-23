@@ -435,11 +435,18 @@ end
 
 class LatexCancel < Latex
   def initialize(inner)
-    @inner = inner
+    @inner = inner.l
   end
 
   def latex
     "\\cancel{#{@inner}}"
+  end
+
+  def walk!
+    @inner = @inner.walk! do |n|
+      yield n
+    end
+    self
   end
 end
 
