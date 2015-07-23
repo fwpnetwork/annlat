@@ -449,7 +449,7 @@ class LatexCancel < Latex
     self
   end
 
-  def simplify!(trivial = false)
+  def simplify!
     @inner = @inner.simplify!
     self
   end
@@ -462,6 +462,24 @@ class LatexSqrt < LatexCancel
 
   def eval
     r(Math.sqrt(@inner.eval))
+  end
+end
+
+class LatexPi < Latex
+  def latex
+    "\\pi"
+  end
+
+  def eval
+    r(Math::PI)
+  end
+
+  def simplify!
+    self
+  end
+
+  def walk!
+    self
   end
 end
 
