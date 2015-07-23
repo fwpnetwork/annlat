@@ -443,6 +443,12 @@ class LatexCancel < Latex
   end
 end
 
+class LatexSqrt < LatexCancel
+  def latex
+    "\\sqrt{#{@inner}}"
+  end
+end
+
 class Latex
   def %(other)
     Term.new(self, other)
