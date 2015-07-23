@@ -453,6 +453,10 @@ class LatexCancel < Latex
     @inner = @inner.simplify!
     self
   end
+
+  def inner
+    @inner
+  end
 end
 
 class LatexSqrt < LatexCancel
