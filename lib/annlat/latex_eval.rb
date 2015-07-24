@@ -449,8 +449,8 @@ class LatexCancel < Latex
     self
   end
 
-  def simplify!
-    @inner = @inner.simplify!
+  def simplify!(trivial=false)
+    @inner = @inner.simplify!(trivial)
     self
   end
 
@@ -478,7 +478,7 @@ class LatexPi < Latex
     r(Math::PI)
   end
 
-  def simplify!
+  def simplify!(trivial=false)
     self
   end
 
