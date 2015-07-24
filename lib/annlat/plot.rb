@@ -869,6 +869,10 @@ class HighChart < Plot
     @params[:tooltip_enabled].nil? ? true : @params[:tooltip_enabled]
   end
 
+  def decimals=(d)
+    @params[:decimals] = d
+  end
+
   def to_s
     "HighChart: params = #{@params.inspect}"
   end
