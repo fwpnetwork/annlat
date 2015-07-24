@@ -13,8 +13,8 @@ class Plot < Image
     coords.map do |c|
       # strip ()
       c = c[1..-2]
-      # split up coords, convert to integer
-      c.split(',').map {|x| x.to_i}
+      # split up coords, convert to float
+      c.split(',').map {|x| x.to_f}
     end
   end
 
