@@ -104,6 +104,10 @@ class NumberLine < Plot
     @arrows << [start, finish, self.color(color), one_head]
   end
 
+  def decimals=(d)
+    @parameters[:decimals] = d
+  end
+
   # points is an array of values to plot on the number line
   def plot(points = [])
     Gnuplot.open do |gp|
