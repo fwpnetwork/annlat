@@ -654,12 +654,22 @@ class Frac < Latex
 
   def reduce
     begin
-      n = @numer.eval
-      d = @denom.eval
-      div = gcd(n, d)
-      return Atom.new(n/div) if d/div == 1
-      @numer = Atom.new(n/div)
-      @denom = Atom.new(d/div)
+      if @denom.class <= Frac
+        n1, d1 = @denom.numerator, @denom.denominator
+        if @numer.class <= Frac
+          n2, d2 = @numer.numerator, @numer.denominator
+          return ((d1*n2)/(d2*n1)).reduce
+        else
+          return ((@numer*d1)/n1).reduce
+        end
+      else
+        n = @numer.eval
+        d = @denom.eval
+        div = gcd(n, d)
+        return Atom.new(n/div) if d/div == 1
+        @numer = Atom.new(n/div)
+        @denom = Atom.new(d/div)
+      end
     rescue
       "Error, can not reduce unless integers"
     end
