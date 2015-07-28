@@ -627,7 +627,7 @@ class Frac < Latex
       self
     else
       begin
-        self.eval.l
+        self.reduce
       rescue ArgumentError
         return @numer.simplify! if d_l == "1"
         return Negative.negate(@numer.simplify!) if d_l == "-1"
