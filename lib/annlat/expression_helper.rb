@@ -349,4 +349,8 @@ module ExpressionHelper
   def p
     @parameters
   end
+
+  def plural(n)
+    n > 1 ? "s" : ""
+  end
 end
