@@ -247,12 +247,12 @@ class Polygon
 
     @x_coords << x
     @y_coords << y
+    @x_coords << x
+    @y_coords << y-h
     @x_coords << x+w
-    @y_coords << y+h
-    @x_coords << x+w
-    @y_coords << y
-    r_x = x
-    r_y = y+h
+    @y_coords << y-h
+    r_x = x+w
+    r_y = y
     @x_coords << r_x
     @y_coords << r_y
 
