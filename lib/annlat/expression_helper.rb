@@ -316,7 +316,7 @@ module ExpressionHelper
   end
 
   def girl_names
-    @@girl_names ||= ['Emma', 'Ava', 'Isabelle', 'Madison', 'Ashley', 'Chloe', 'Olivia', 'Emily', 'Sophia', 'Addison', 'Abigail', 'Samantha', 'Katherine', 'Mia', 'Natalie', 'Anna', 'Elizabeth', 'Ella', 'Grace', 'Alyssa', 'Alexis', 'Brooklyn', 'Julia', 'Lily', 'Hailey', 'Lillian', 'Kayla', 'Taylor', 'Sarah', 'Paola', 'Zoe', 'Alondra', 'Nicole', 'Avery', 'Brianna', 'Ava', 'Eva', 'Lupine', 'Amelia', 'Charlotte', 'Lila,Morgan', 'Jane', 'Maria', 'Denisse', 'Valentina', 'Domenica', 'Alma', 'Yoshimi', 'Blanca']
+    @@girl_names ||= ['Emma', 'Ava', 'Isabelle', 'Madison', 'Ashley', 'Chloe', 'Olivia', 'Emily', 'Sophia', 'Addison', 'Abigail', 'Samantha', 'Katherine', 'Mia', 'Natalie', 'Anna', 'Elizabeth', 'Ella', 'Grace', 'Alyssa', 'Alexis', 'Brooklyn', 'Julia', 'Lily', 'Hailey', 'Lillian', 'Kayla', 'Taylor', 'Sarah', 'Paola', 'Zoe', 'Alondra', 'Nicole', 'Avery', 'Brianna', 'Ava', 'Eva', 'Lupine', 'Amelia', 'Charlotte', 'Lila', 'Morgan', 'Jane', 'Maria', 'Denisse', 'Valentina', 'Domenica', 'Alma', 'Yoshimi', 'Blanca']
   end
 
   def boy_names
