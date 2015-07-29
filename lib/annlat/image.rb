@@ -248,9 +248,9 @@ class Polygon
     @x_coords << x
     @y_coords << y
     @x_coords << x+w
-    @y_coords << y
-    @x_coords << x+w
     @y_coords << y+h
+    @x_coords << x+w
+    @y_coords << y
     r_x = x
     r_y = y+h
     @x_coords << r_x
