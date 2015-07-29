@@ -241,6 +241,29 @@ class Polygon
 
   end
 
+  def add_rect(x, y, w, h, theta=0)
+    x+=@x_off
+    y+=@y_off
+
+    c = Math.cos(theta)
+    s = Math.sin(theta)
+    r = Math.sqrt(w**2 + h**2)
+
+    @x_coords << x
+    @y_coords << y
+    @x_coords << x+(w * s)
+    @y_coords << y-(h * c)
+    @x_coords << x+(r * Math.sin(theta + Math::PI/4))
+    @y_coords << y-(r * Math.cos(theta + Math::PI/4))
+    r_x = x+(w * c)
+    r_y = y+(h * s)   
+    @x_coords << r_x
+    @y_coords << r_y
+
+    return [r_x-@x_off, r_y-@y_off]
+
+  end
+
   def add_right_angle(x, y, theta = 0)
     x+=@x_off
     y+=@y_off
