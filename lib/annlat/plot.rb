@@ -335,6 +335,10 @@ class Plot3D < Plot
     super(@parameters[:fn], {dynamic: true})
   end
 
+  def set_view(view)
+    @parameters[:view] = view
+  end
+
   def add_label(text, x, y, z, size, color=nil)
     @labels ||= []
     @labels << [text, x, y, z, size, self.color(color)]
@@ -404,6 +408,9 @@ class Plot3D < Plot
         plot.unset 'xtics'
         plot.unset 'ytics'
         plot.unset 'ztics'
+        if @parameters[:view]
+          plot.view @parameters[:view]
+        end
         plot.border 0
         label_index = 1
         @labels ||= []
