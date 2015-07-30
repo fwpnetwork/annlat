@@ -366,7 +366,7 @@ module ExpressionHelper
 
   def prepare_names(*names)
     names.each do |name|
-      boy = boy_names.include?(p[name])
+      boy = boy_names.include?(p[name].latex)
       @parameters["capital_pronoun_#{name}"] = boy ? "He".l : "She".l
       @parameters["pronoun_#{name}"] = boy ? "he".l : "she".l
       @parameters["capital_pronoun_contraction_#{name}"] = boy ? "He's".l : "She's".l
