@@ -369,6 +369,8 @@ module ExpressionHelper
       boy = boy_names.include?(p[name]) ? "He" : "She"
       @parameters["capital_pronoun_#{name}"] = boy ? "He" : "She"
       @parameters["pronoun_#{name}"] = boy ? "he" : "she"
+      @parameters["capital_pronoun_contraction_#{name}"] = boy ? "He's" : "She's"
+      @parameters["pronoun_contraction_#{name}"] = boy ? "he's" : "she's"
       @parameters["capital_possessive_pronoun_#{name}"] = boy ? "His" : "Her"
       @parameters["possessive_pronoun_#{name}"] = boy ? "his" : "her"
       @parameters["possessive_#{name}"] = "#{p[name]}'s"
