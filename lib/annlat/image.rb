@@ -241,6 +241,25 @@ class Polygon
 
   end
 
+  def add_rect(x, y, w, h)
+    x+=@x_off
+    y+=@y_off
+
+    @x_coords << x
+    @y_coords << y
+    @x_coords << x
+    @y_coords << y-h
+    @x_coords << x+w
+    @y_coords << y-h
+    r_x = x+w
+    r_y = y
+    @x_coords << r_x
+    @y_coords << r_y
+
+    return [r_x-@x_off, r_y-@y_off]
+
+  end
+
   def add_right_angle(x, y, theta = 0)
     x+=@x_off
     y+=@y_off
