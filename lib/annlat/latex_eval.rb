@@ -655,13 +655,16 @@ class Frac < Latex
   def reduce
     begin
       if @denom.class <= Frac
-        n1, d1 = @denom.numerator, @denom.denominator
+        dn, dd = @denom.numerator, @denom.denominator
         if @numer.class <= Frac
-          n2, d2 = @numer.numerator, @numer.denominator
-          return ((d1*n2)/(d2*n1)).reduce
+          nn, nd = @numer.numerator, @numer.denominator
+          return ((dd*nn)/(nd*dn)).reduce
         else
-          return ((@numer*d1)/n1).reduce
+          return ((@numer*dd)/dn).reduce
         end
+      elsif @numer.class <= Frac
+        nn, nd = @numer.numerator, @numer.denominator
+        return (nn/(nd*@denom)).reduce
       else
         n = @numer.eval
         d = @denom.eval
