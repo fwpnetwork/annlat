@@ -204,10 +204,10 @@ class Expon < Latex
   end
 
   def latex
-    if @base.kind_of?(Expon) or @base.kind_of?(Negative) or @base.kind_of?(BinOpe)
-      the_base = @base.wrap
-    else
+    if @base.class <= Atom
       the_base = @base
+    else
+      the_base = @base.wrap
     end
     the_base.latex + '^{' + @exp.latex +  '}'
   end
