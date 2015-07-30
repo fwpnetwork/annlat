@@ -248,6 +248,8 @@ module ExpressionHelper
       end
     end
 
+    prepare_parameters
+
     if @delayed_forms
       eval @delayed_forms
     end
@@ -356,5 +358,9 @@ module ExpressionHelper
 
   def number_words
     @@number_words ||= ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+  end
+
+  def prepare_parameters
+    nil
   end
 end
