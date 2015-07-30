@@ -363,4 +363,14 @@ module ExpressionHelper
   def prepare_parameters
     nil
   end
+
+  def prepare_names(*names)
+    names.each do |name|
+      boy = boy_names.include?(p[name]) ? "He" : "She"
+      @parameters["capital_pronoun_#{name}"] = boy ? "He" : "She"
+      @parameters["pronoun_#{name}"] = boy ? "he" : "she"
+      @parameters["capital_possessive_pronoun_#{name}"] = boy ? "His" : "Her"
+      @parameters["possessive_pronoun_#{name}"] = boy ? "his" : "her"
+    end
+  end
 end
