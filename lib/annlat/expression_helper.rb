@@ -371,6 +371,7 @@ module ExpressionHelper
       @parameters["pronoun_#{name}"] = boy ? "he" : "she"
       @parameters["capital_possessive_pronoun_#{name}"] = boy ? "His" : "Her"
       @parameters["possessive_pronoun_#{name}"] = boy ? "his" : "her"
+      @parameters["possessive_#{name}"] = "#{p[name]}'s"
     end
   end
 end
