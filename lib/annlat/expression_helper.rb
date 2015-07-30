@@ -248,6 +248,7 @@ module ExpressionHelper
       end
     end
 
+    @parameters.extend(HashMethodKeys)
     prepare_parameters
 
     if @delayed_forms
@@ -375,5 +376,11 @@ module ExpressionHelper
       @parameters["possessive_pronoun_#{name}"] = boy ? "his".l : "her".l
       @parameters["possessive_#{name}"] = "#{p[name]}'s".l
     end
+  end
+end
+
+module HashMethodKeys
+  def method_missing(name)
+    self[name.to_s]
   end
 end
