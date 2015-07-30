@@ -366,14 +366,14 @@ module ExpressionHelper
 
   def prepare_names(*names)
     names.each do |name|
-      boy = boy_names.include?(p[name]) ? "He" : "She"
-      @parameters["capital_pronoun_#{name}"] = boy ? "He" : "She"
-      @parameters["pronoun_#{name}"] = boy ? "he" : "she"
-      @parameters["capital_pronoun_contraction_#{name}"] = boy ? "He's" : "She's"
-      @parameters["pronoun_contraction_#{name}"] = boy ? "he's" : "she's"
-      @parameters["capital_possessive_pronoun_#{name}"] = boy ? "His" : "Her"
-      @parameters["possessive_pronoun_#{name}"] = boy ? "his" : "her"
-      @parameters["possessive_#{name}"] = "#{p[name]}'s"
+      boy = boy_names.include?(p[name])
+      @parameters["capital_pronoun_#{name}"] = boy ? "He".l : "She".l
+      @parameters["pronoun_#{name}"] = boy ? "he".l : "she".l
+      @parameters["capital_pronoun_contraction_#{name}"] = boy ? "He's".l : "She's".l
+      @parameters["pronoun_contraction_#{name}"] = boy ? "he's".l : "she's".l
+      @parameters["capital_possessive_pronoun_#{name}"] = boy ? "His".l : "Her".l
+      @parameters["possessive_pronoun_#{name}"] = boy ? "his".l : "her".l
+      @parameters["possessive_#{name}"] = "#{p[name]}'s".l
     end
   end
 end
