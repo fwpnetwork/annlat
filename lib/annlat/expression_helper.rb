@@ -353,4 +353,8 @@ module ExpressionHelper
   def plural(n)
     n > 1 ? "s" : ""
   end
+
+  def number_words
+    @@number_words ||= ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+  end
 end
