@@ -1481,8 +1481,8 @@ class LatexTable < Latex
         this_x.delete_at(i)
         this_y = y.dup
         this_y.delete_at(i)
-        sub_table = self.new(this_x.zip(this_y))
-        sub_table.correlation
+        this_table.instance_eval {@rows = this_x.zip(this_y)}
+        this_table.correlation
       end
       distances = rs.map do |this_r|
         (c - this_r).abs
@@ -1490,20 +1490,29 @@ class LatexTable < Latex
       min_distance = distances.min
       replace_index = distances.index(min_distance)
       y[replace_index] = options.sample/10.0
-      this_table = self.new(x.zip(y))
+      this_table.instance_eval {@rows = x.zip(y)}
       r = this_table.correlation
     end while (r - c).abs > 0.01
-    this_table
+    this_table.instance_eval {@rows = x.zip(y)}
+    this_table = self.new(x.zip(y))
   end
 
   def correlation
     # assumes rows = [[x1,y1], [x2,y2]...
     x, y = @rows.transpose
     x.map! do |xi|
-      xi.eval.to_f
+      if xi.class <= Latex
+        xi.eval.to_f
+      else
+        xi.to_f
+      end
     end
     y.map! do |yi|
-      yi.eval.to_f
+      if yi.class <= Latex
+        yi.eval.to_f
+      else
+        yi.to_f
+      end
     end
     x_mean = x.inject(:+)/x.size
     y_mean = y.inject(:+)/y.size
