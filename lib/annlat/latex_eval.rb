@@ -501,11 +501,11 @@ class Latex
   end
 
   def <(other)
-    LatexConsec.new(self, '<', other)
+    LatexConsec.new(self, '\lt', other)
   end
 
   def >(other)
-    LatexConsec.new(self, '>', other)
+    LatexConsec.new(self, '\gt', other)
   end
 
   def <=(other)
