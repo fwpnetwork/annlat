@@ -501,19 +501,19 @@ class Latex
   end
 
   def <(other)
-    LatexConsec.new(self, '\lt', other)
+    LatexConsec.new(self, '\lt ', other)
   end
 
   def >(other)
-    LatexConsec.new(self, '\gt', other)
+    LatexConsec.new(self, '\gt ', other)
   end
 
   def <=(other)
-    LatexConsec.new(self, '\leq', other)
+    LatexConsec.new(self, '\leq ', other)
   end
 
   def >=(other)
-    LatexConsec.new(self, '\geq', other)
+    LatexConsec.new(self, '\geq ', other)
   end
 
   def dup
