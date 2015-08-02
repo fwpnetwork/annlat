@@ -248,13 +248,6 @@ module ExpressionHelper
       end
     end
 
-    @parameters.extend(HashMethodKeys)
-    prepare_parameters
-
-    if @delayed_forms
-      eval @delayed_forms
-    end
-
     unless @form_index
       if @testing
         @form_index = rand(@forms.size)
@@ -262,6 +255,13 @@ module ExpressionHelper
         @form_index = (diff*(@forms.size.to_f - 0.01)).to_i
       end
       @form_index = [@form_index, @forms.size - 1].min
+    end
+
+    @parameters.extend(HashMethodKeys)
+    prepare_parameters
+
+    if @delayed_forms
+      eval @delayed_forms
     end
 
     unless retain_ranges
