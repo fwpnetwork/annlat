@@ -1465,6 +1465,61 @@ end
 class LatexTable < Latex
   include LatexPlots
 
+  def self.generate_with_correlation(c, count = 30)
+    options = (-10*count..10*count).to_a
+    x = (1..count).map do
+      options.sample/10.0
+    end
+    y = (1..count).map do
+      options.sample/10.0
+    end
+    this_table = self.new(x.zip(y))
+    r = this_table.correlation
+    begin
+      rs = x.each_index.map do |i|
+        this_x = x.dup
+        this_x.delete_at(i)
+        this_y = y.dup
+        this_y.delete_at(i)
+        sub_table = self.new(this_x.zip(this_y))
+        sub_table.correlation
+      end
+      distances = rs.map do |this_r|
+        (c - this_r).abs
+      end
+      min_distance = distances.min
+      replace_index = distances.index(min_distance)
+      y[replace_index] = options.sample/10.0
+      this_table = self.new(x.zip(y))
+      r = this_table.correlation
+    end while (r - c).abs > 0.01
+    this_table
+  end
+
+  def correlation
+    # assumes rows = [[x1,y1], [x2,y2]...
+    x, y = @rows.transpose
+    x.map! do |xi|
+      xi.eval.to_f
+    end
+    y.map! do |yi|
+      yi.eval.to_f
+    end
+    x_mean = x.inject(:+)/x.size
+    y_mean = y.inject(:+)/y.size
+    numerator = x.each_index.map do |i|
+      (x[i] - x_mean)*(y[i] - y_mean)
+    end.inject(:+)
+    xs = x.map do |xi|
+      (xi - x_mean)**2
+    end.inject(:+)
+    ys = y.map do |yi|
+      (yi - y_mean)**2
+    end.inject(:+)
+    denominator = Math.sqrt(xs*ys)
+    numerator/denominator
+  end
+
   def initialize(rows)
     @rows = rows
     @rows.collect! do |row|
