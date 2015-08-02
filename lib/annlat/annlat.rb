@@ -139,6 +139,16 @@ class AnnLat
     self.add({tag: 'h4'}, "Step #{@step_number}: ", objs)
   end
 
+  def add_hotkey(key)
+    valid_keys = [:lparen, :rparen, :exponent, :multiply,
+                  :divide, :add, :subtract, :pi, :sqrt]
+    unless valid_keys.include?(key)
+      warn "#{key} is not a valid hotkey. Valid keys are: #{valid_keys.join(', ')}"
+      raise ArgumentError
+    end
+    self.add({hotkey: true, key: key}, nil)
+  end
+
   def add_sentence_options(hash)
     @options.map! {|option_hash| {sentence_options: option_hash[:sentence_options].merge(hash),
                                   option_array: option_hash[:option_array]} }
