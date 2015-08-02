@@ -1465,7 +1465,7 @@ end
 class LatexTable < Latex
   include LatexPlots
 
-  def self.generate_with_correlation(c, count = 30)
+  def self.generate_with_correlation(c, range=(-100..100), count = 30)
     options = (-10*count..10*count).to_a
     x = (1..count).map do
       options.sample/10.0
@@ -1492,7 +1492,7 @@ class LatexTable < Latex
       y[replace_index] = options.sample/10.0
       this_table.instance_eval {@rows = x.zip(y)}
       r = this_table.correlation
-    end while (r - c).abs > 0.01
+    end while (r - c).abs > 0.01 or not(range.include? 100*r)
     this_table.instance_eval {@rows = x.zip(y)}
     this_table = self.new(x.zip(y))
   end
