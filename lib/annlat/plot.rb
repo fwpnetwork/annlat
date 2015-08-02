@@ -256,7 +256,7 @@ class CoordinatePlane < Plot
   # lines is an array of end point lists
   # ex: lines = [[[1,2],[1,3]], [[3,2],[4,1]]] would plot two lines,
   # one from (1,2) to (1,3) and one from (3,2) to (4,1)
-  # lines = [[[1,2],[3,4],[3,2]]] woudl plot a single line consisting of two segments
+  # lines = [[[1,2],[3,4],[3,2]]] would plot a single line consisting of two segments
   # one from (1,2) to (3,4) and one from (3,4) to (3,2)
   def plot_lines(lines = [])
     x = []
