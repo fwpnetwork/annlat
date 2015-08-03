@@ -1529,6 +1529,37 @@ class LatexTable < Latex
     numerator/denominator
   end
 
+  def least_squares
+    # calculates least squares fit, returns [m, b] from y = mx + b
+    # assumes_rows = [[x1,y1], [x2,y2]...
+        x, y = @rows.transpose
+    x.map! do |xi|
+      if xi.class <= Latex
+        xi.eval.to_f
+      else
+        xi.to_f
+      end
+    end
+    y.map! do |yi|
+      if yi.class <= Latex
+        yi.eval.to_f
+      else
+        yi.to_f
+      end
+    end
+    x_mean = x.inject(:+)/x.size
+    y_mean = y.inject(:+)/y.size
+    m_numerator = x.each_index.map do |i|
+      (x[i] - x_mean)*(y[i] - y_mean)
+    end.inject(:+)
+    m_denominator = x.map do |xi|
+      (xi - x_mean)**2
+    end.inject(:+)
+    m = m_numerator/m_denominator
+    b = y_mean - m*x_mean
+    [m, b]
+  end
+
   def initialize(rows)
     @rows = rows
     @rows.collect! do |row|
