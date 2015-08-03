@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'json'
 
 public
@@ -140,9 +141,7 @@ class AnnLat
   end
 
   def add_hotkey(key)
-    valid_keys = [:lparen, :rparen, :exponent, :multiply,
-                  :divide, :add, :subtract, :pi, :sqrt]
-    unless valid_keys.include?(key)
+    unless AnnLatHotkey.available_keys.include?(key)
       warn "#{key} is not a valid hotkey. Valid keys are: #{valid_keys.join(', ')}"
       raise ArgumentError
     end
@@ -188,12 +187,16 @@ class AnnLat
     filter_by_option{|option| option[:multiple]}
   end
 
-  def not_multiple
-    filter_by_option{|option| not option[:multiple]}
-  end
-
   def not_multiple_or_input
     filter_by_option{|option| not (option[:multiple] or option[:input])}
+  end
+
+  def normal_question
+    filter_by_option{|option| not (option[:multiple] or option[:input] or option[:hotkey])}
+  end
+
+  def hotkeys
+    filter_by_option{|option| option[:hotkey]}
   end
 
   def input
