@@ -7,7 +7,7 @@ module AnnLatHotkey
 
   def self.annlat_to_latex_and_input(al)
     al.options.map do |h|
-      key = h[:sentence_options][:key]
+      key = h[:sentence_options][:key].to_sym
       [:lparen, :rparen, :exponent, :multiply,
        :divide, :add, :subtract, :pi, :sqrt]
       case key
