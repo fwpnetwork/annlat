@@ -145,7 +145,7 @@ class AnnLat
       warn "#{key} is not a valid hotkey. Valid keys are: #{valid_keys.join(', ')}"
       raise ArgumentError
     end
-    self.add({hotkey: true, key: key}, nil)
+    self.add({hotkey: true, key: key}, '')
   end
 
   def add_sentence_options(hash)
@@ -243,8 +243,8 @@ class AnnLat
   end
 
   def self.wrap(hash)
-      hash[:objects] ? new(hash[:objects], hash[:tags], hash[:options]) : empty
-    end
+    hash[:objects] ? new(hash[:objects], hash[:tags], hash[:options]) : empty
+  end
 
   def to_hash
     {objects: @objects, tags: @tags, options: @options}
