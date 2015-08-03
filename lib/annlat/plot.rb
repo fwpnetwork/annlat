@@ -213,6 +213,10 @@ class CoordinatePlane < Plot
     @parameters[:lines] = l ? true : false
   end
 
+  def points=(p)
+    @parameters[:points] = p
+  end
+
   def extend_lines=(tf)
     @parameters[:extend] = tf ? true : false
   end
