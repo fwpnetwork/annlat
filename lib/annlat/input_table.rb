@@ -17,6 +17,7 @@ class InputTable
         @params.delete(k)
       end
     end
+    @params[:type] = :table
   end
 
   def to_html
