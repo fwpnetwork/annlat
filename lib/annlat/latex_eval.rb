@@ -1466,8 +1466,8 @@ class LatexTable < Latex
   include LatexPlots
 
   def self.generate_with_correlation(c, r_range=(-100..100), x_range=(-30..30), y_range=(-30..30), count = 30)
-    x_options = (-10*x_range.min..10*x_range.max).to_a
-    y_options = (-10*y_range.min..10*y_range.max).to_a
+    x_options = (10*x_range.min..10*x_range.max).to_a
+    y_options = (10*y_range.min..10*y_range.max).to_a
     x = (1..count).map do
       x_options.sample/10.0
     end
