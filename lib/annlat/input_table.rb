@@ -56,6 +56,10 @@ class InputTable
     @params[name]
   end
 
+  def parameters
+    @params
+  end
+
   private
   def add_row(html, row)
     "#{html}<tr>#{row}</tr>"
