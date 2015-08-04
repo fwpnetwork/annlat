@@ -92,20 +92,20 @@ class TestLatexEval < Minitest::Test
   end
 
   def test_comparisons
-    assert_equal "x<n", (:x.l < :n.l).latex
-    assert_equal "x>n", (:x.l > :n.l).latex
-    assert_equal "x\\leqn", (:x.l <= :n.l).latex
-    assert_equal "x\\geqn", (:x.l >= :n.l).latex
+    assert_equal "x\\lt n", (:x.l < :n.l).latex
+    assert_equal "x\\gt n", (:x.l > :n.l).latex
+    assert_equal "x\\leq n", (:x.l <= :n.l).latex
+    assert_equal "x\\geq n", (:x.l >= :n.l).latex
   end
 
   def test_parse_comparison
-    assert_equal "x<n", parse_unparse("x<n")
-    assert_equal "x>n", parse_unparse("x>n")
-    assert_equal "x\\leqn", parse_unparse("x\\leqn")
-    assert_equal "x\\geqn", parse_unparse("x\\geqn")
+    assert_equal "x\\lt n", parse_unparse("x<n")
+    assert_equal "x\\gt n", parse_unparse("x>n")
+    assert_equal "x\\leq n", parse_unparse("x\\leqn")
+    assert_equal "x\\geq n", parse_unparse("x\\geqn")
     # platform uses <= and >=, so ensure we parse that the same
-    assert_equal "x\\leqn", parse_unparse("x<=n")
-    assert_equal "x\\geqn", parse_unparse("x>=n")
+    assert_equal "x\\leq n", parse_unparse("x<=n")
+    assert_equal "x\\geq n", parse_unparse("x>=n")
   end
 
   def test_string_conversion
