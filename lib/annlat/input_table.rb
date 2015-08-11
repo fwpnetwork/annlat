@@ -68,11 +68,17 @@ class InputTable
 
   def array_to_td(array, td="td")
     html = "<#{td}>"
+    label = row_labels.nil? ? false : true
     html += array.map do |a|
       if td == "td" and a.nil?
         @answer_number += 1
         "<input type=\"text\" name=\"answers[#{@answer_number}]\" />"
+      elsif td == "td" and !label
+        # do not wrap labels in span
+        "<span>#{a}</span>"
       else
+        # after the first label, wrap in span
+        label = false
         a
       end
     end.join("</#{td}><#{td}>")
