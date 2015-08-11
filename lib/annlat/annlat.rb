@@ -211,6 +211,8 @@ class AnnLat
         tag = @tags[external_index][index]
         if tag == :HighChart
           arr << object.to_json
+        elsif tag == :InputTable
+          arr << object.to_html
         else
           arr << object.to_s
         end
