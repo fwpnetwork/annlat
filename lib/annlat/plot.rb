@@ -927,3 +927,58 @@ class HighChart < Plot
     @params[name]
   end
 end
+
+class PlotRelation < Plot
+  # relation is array of x,y pairs
+  # ex: relation = [[1,2],[2,3],[6,2]]
+  def initialize(relation)
+    @parameters = {
+      r: relation,
+      fn: "#{SecureRandom.uuid}.png"
+    }
+    super(@parameters[:fn], {dynamic: true})
+  end
+
+  def plot
+    xs, ys = r.transpose
+    uniq_xs = xs.uniq
+    uniq_ys = ys.uniq
+    x_spacing = 1.0 / (uniq_xs.size - 1)
+    y_spacing = 1.0 / (uniq_ys.size - 1)
+    Gnuplot.open do |gp|
+      Gnuplot::Plot.new(gp) do |plot|
+        plot.terminal "pngcairo size 460,460"
+        plot.output @parameters[:fn]
+        plot.key "off"
+        plot.xrange "[-1:1]"
+        plot.yrange "[-1:1]"
+        plot.unset "xtics"
+        plot.unset "ytics"
+        plot.border 0
+        plot.object "1 ellipse center -0.5,0 size 0.75,1.75 front fs empty bo 3 fc rgb '#{Plot.color(:blue)}'"
+        plot.object "2 ellipse center 0.5,0 size 0.75,1.75 front fs empty bo 3 fc rgb '#{Plot.color(:blue)}'"
+        label_index = 1
+        uniq_xs.each_with_index do |x, i|
+          plot.label "#{label_index} '#{x}' at -0.55,#{0.5 - x_spacing*i} font 'Latin-Modern,20' tc rgb '#{Plot.color(:green)}'"
+          label_index += 1
+        end
+        uniq_ys.each_with_index do |y, i|
+          plot.label "#{label_index} '#{y}' at 0.5,#{0.5 - y_spacing*i} font 'Latin-Modern,20' tc rgb '#{Plot.color(:green)}'"
+          label_index += 1
+        end
+        xs.each_with_index do |x, i|
+          y = ys[i]
+          plot.arrow "from -0.45,#{0.5 - x_spacing*uniq_xs.index(x)} to 0.5,#{0.5 - y_spacing*uniq_ys.index(y)} filled lc rgb '#{Plot.color(:red)}'"
+        end
+        plot.label "#{label_index} 'Domain' at -0.75,-1 font 'Latin-Modern,20' tc rgb '#{Plot.color(:green)}'"
+        plot.label "#{label_index + 1} 'Range' at 0.3,-1 font 'Latin-Modern,20' tc rgb '#{Plot.color(:green)}'"
+        plot.data << Gnuplot::DataSet.new([[10],[10]])
+      end
+    end
+    self
+  end
+
+  def method_missing(n)
+    @parameters[n]
+  end
+end
