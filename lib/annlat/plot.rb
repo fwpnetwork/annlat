@@ -1094,6 +1094,10 @@ class PlotTriangle < CoordinatePlane
     @parameters[:label_angles?] = true
   end
 
+  def angle_labels=(labels)
+    @parameters[:alabels] = labels
+  end
+
   def edge_labels(short, medium, long)
     # calculate midpoint of each edge
     l = [(vertices[0][0] + vertices[1][0])/2.0, (vertices[0][1] + vertices[1][1])/2.0]
@@ -1133,10 +1137,15 @@ class PlotTriangle < CoordinatePlane
         add_label("(#{x_r}, #{y_r})", x - 0.1*uv[0]*x_range, y - 0.1*uv[1]*y_range, 12)
       end
     end
-    if label_angles?
-      vertices.each_with_index do |v, i|
+    angle_labels
+    if label_angles? or alabels
+      labels = nil
+      if alabels
+        # display submitted angles
+        labels = alabels
+      else
         # round displayed angles
-        calculated_angles.map! do |a|
+        labels = calculated_angles.map do |a|
           a = (a*10).round/10.0
           if a == a.to_i
             a.to_i
@@ -1144,9 +1153,11 @@ class PlotTriangle < CoordinatePlane
             a
           end
         end
+      end
+      vertices.each_with_index do |v, i|
         uv = vectors[i]
         # move in direction of angle midpoint vector
-        add_label(calculated_angles[i], v[0] + 0.1*uv[0]*x_range, v[1] + 0.1*uv[1]*y_range, 12)
+        add_label(labels[i], v[0] + 0.1*uv[0]*x_range, v[1] + 0.1*uv[1]*y_range, 12)
       end
     end
     plot_polygon(vertices)
