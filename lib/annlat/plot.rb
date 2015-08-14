@@ -226,6 +226,10 @@ class CoordinatePlane < Plot
     @labels << [text, x, y, size, self.color(color)]
   end
 
+  def label_align=(la)
+    @parameters[:label_align] = la
+  end
+
   def add_point(x, y, color=nil)
     @points ||= []
     @points << [x, y, self.color(color)]
@@ -237,6 +241,10 @@ class CoordinatePlane < Plot
 
   def ylabel(lab)
     @parameters[:ylabel] = lab
+  end
+
+  def no_axes
+    @parameters[:no_axes] = true
   end
 
   def plot
@@ -284,21 +292,31 @@ class CoordinatePlane < Plot
         plot.terminal "pngcairo size 460,460"
         plot.output @parameters[:fn]
         plot.key "off"
-        plot.xzeroaxis
-        plot.yzeroaxis
+        if @parameters[:no_axes].nil?
+          plot.xzeroaxis
+          plot.yzeroaxis
+          plot.xtics "axis #{parameters[:xtics]}"
+          plot.ytics "axis #{@parameters[:ytics]}"
+          plot.grid "xtics lt 0 lc rgb '#bbbbbb'"
+          plot.grid "ytics lt 0 lc rgb '#bbbbbb'"
+        else
+          plot.unset "xtics"
+          plot.unset "ytics"
+        end
         plot.xrange "[#{@parameters[:xlow]}:#{@parameters[:xhigh]}]"
         plot.yrange "[#{@parameters[:ylow]}:#{@parameters[:yhigh]}]"
         plot.xlabel "'#{@parameters[:xlabel]}' font 'Latin-Modern'" if @parameters[:xlabel]
         plot.ylabel "'#{@parameters[:ylabel]}' font 'Latin-Modern'" if @parameters[:ylabel]
-        plot.xtics "axis #{parameters[:xtics]}"
-        plot.ytics "axis #{@parameters[:ytics]}"
         plot.border 0
-        plot.grid "xtics lt 0 lc rgb '#bbbbbb'"
-        plot.grid "ytics lt 0 lc rgb '#bbbbbb'"
         label_index = 1
         @labels ||= []
+        la = @parameters[:label_align]
         @labels.each do |l|
-          plot.label "#{label_index} '#{l[0]}' at #{l[1]}, #{l[2]} font 'Latin-Modern,#{l[3]}' tc rgb '#{l[4]}'"
+          if la
+            plot.label "#{label_index} '#{l[0]}' at #{l[1]},#{l[2]} #{la} font 'Latin-Modern,#{l[3]}' tc rgb '#{l[4]}'"
+          else
+            plot.label "#{label_index} '#{l[0]}' at #{l[1]},#{l[2]} font 'Latin-Modern,#{l[3]}' tc rgb '#{l[4]}'"
+          end
           label_index += 1
         end
         plot.data << Gnuplot::DataSet.new([x, y]) do |ds|
@@ -980,5 +998,193 @@ class PlotRelation < Plot
 
   def method_missing(n)
     @parameters[n]
+  end
+end
+
+class PlotTriangle < CoordinatePlane
+  # triangle can be specified as:
+  # angles: angles in degrees that sum to 180 [a1, a2, a3]
+  # vertices: points on the coordinate plane [[x1, y1], [x2, y2], [x3, y3]]
+  #   vertices should be specified counter-clockwise
+  #
+  # when specified by angles, no coordinate plane is displayed
+  def initialize(params)
+    if params[:angles]
+      # angles
+      super(0, 1, 0, 1)
+      no_axes
+      @parameters.merge!(params)
+      # sort angles
+      sorted = angles.sort
+      # convert to radians
+      sorted_radians = sorted.map do |a|
+        a*Math::PI/180
+      end
+      # calculate last point
+      right = Math::PI/2
+      s1 = Math.sin(right - sorted_radians[0])
+      c1 = Math.cos(right - sorted_radians[0])
+      s2 = Math.sin(right - sorted_radians[1])
+      c2 = Math.cos(right - sorted_radians[1])
+      x = 3*c2/(4*s2*(c1/s1 + c2/s2))
+      y = x*c1/s1
+      # adjust for first point
+      x += 0.125
+      y += 0.125
+      final_point = [x, y]
+      @parameters[:vertices] = [[0.125, 0.125],
+                                [0.875, 0.125],
+                                final_point]
+      @parameters[:calculated_angles] = sorted
+      @parameters[:x_range] = 1
+      @parameters[:y_range] = 1
+    else
+      # vertices
+      xs, ys = params[:vertices].transpose
+      # determine bounds
+      x_min = (xs.min - 1).floor
+      x_max = (xs.max + 1).ceil
+      y_min = (ys.min - 1).floor
+      y_max = (ys.max + 1).ceil
+      x_tics = [1, (x_max - x_min)/10].max
+      y_tics = [1, (y_max - y_min)/10].max
+      super(x_min, x_max, y_min, y_max, x_tics, y_tics)
+      @parameters.merge!(params)
+      # calculate angles
+      side1 = Math.sqrt((vertices[0][0] - vertices[1][0])**2 +
+                        (vertices[0][1] - vertices[1][1])**2)
+      side2 = Math.sqrt((vertices[2][0] - vertices[1][0])**2 +
+                        (vertices[2][1] - vertices[1][1])**2)
+      side3 = Math.sqrt((vertices[0][0] - vertices[2][0])**2 +
+                        (vertices[0][1] - vertices[2][1])**2)
+      angles = []
+      # Law of Cosines
+      angles[0] = Math.acos((side3**2 + side1**2 - side2**2)/(2*side1*side3))
+      # Law of Sines
+      angles[1] = Math.asin((side3*Math.sin(angles[0]))/side2)
+      angles[2] = Math::PI - (angles[0] + angles[1])
+      angles.map! do |a|
+        a*180/Math::PI
+      end
+      # sort angles and vertices based on angle
+      angle_vertices = angles.each_with_index.map do |a, i|
+        [a, vertices[i]]
+      end.sort do |a, b|
+        a[0] <=> b[0]
+      end
+      # extract angles
+      @parameters[:calculated_angles] = angle_vertices.map do |a, v|
+        a
+      end
+      # extract vertices
+      @parameters[:vertices] = angle_vertices.map do |a, v|
+        v
+      end
+      @parameters[:x_range] = x_max - x_min
+      @parameters[:y_range] = y_max - y_min
+    end
+    self.label_align = 'center'
+  end
+
+  def label_vertices
+    @parameters[:label_vertices?] = true
+  end
+
+  def label_angles
+    @parameters[:label_angles?] = true
+  end
+
+  def edge_labels(short, medium, long)
+    # calculate midpoint of each edge
+    l = [(vertices[0][0] + vertices[1][0])/2.0, (vertices[0][1] + vertices[1][1])/2.0]
+    # find vector from center of triangle to midpoint of edge
+    l_v = unit_vector(center, l)
+    m = [(vertices[0][0] + vertices[2][0])/2.0, (vertices[0][1] + vertices[2][1])/2.0]
+    m_v = unit_vector(center, m)
+    s = [(vertices[1][0] + vertices[2][0])/2.0, (vertices[1][1] + vertices[2][1])/2.0]
+    s_v = unit_vector(center, s)
+    # add label, moving slighlty along vector (scaled to graph range)
+    add_label(short, s[0] + 0.05*s_v[0]*x_range, s[1] + 0.05*s_v[1]*y_range, 12)
+    add_label(medium, m[0] + 0.05*m_v[0]*x_range, m[1] + 0.05*m_v[1]*y_range, 12)
+    add_label(long, l[0] + 0.05*l_v[0]*x_range, l[1] + 0.05*l_v[1]*y_range, 12)
+  end
+
+  def plot
+    # find angle midpoint vectors
+    vectors = vertices.each_with_index.map do |v, i|
+      a = [0,1,2]
+      a.delete(i)
+      # vector to other points
+      v1 = unit_vector(v, vertices[a[0]])
+      v2 = unit_vector(v, vertices[a[1]])
+      # average them
+      average_vector(v1, v2)
+    end
+    if label_vertices?
+      vertices.each_with_index do |v, i|
+        x, y = v
+        # round display values, but not positioning values
+        x_r = (x*10).round/10.0
+        x_r = x if x_r == x
+        y_r = (y*10).round/10.0
+        y_r = y if y_r == y
+        uv = vectors[i]
+        # move opposite of angle midpoint vector
+        add_label("(#{x_r}, #{y_r})", x - 0.1*uv[0]*x_range, y - 0.1*uv[1]*y_range, 12)
+      end
+    end
+    if label_angles?
+      vertices.each_with_index do |v, i|
+        # round displayed angles
+        calculated_angles.map! do |a|
+          a = (a*10).round/10.0
+          if a == a.to_i
+            a.to_i
+          else
+            a
+          end
+        end
+        uv = vectors[i]
+        # move in direction of angle midpoint vector
+        add_label(calculated_angles[i], v[0] + 0.1*uv[0]*x_range, v[1] + 0.1*uv[1]*y_range, 12)
+      end
+    end
+    plot_polygon(vertices)
+  end
+
+  def method_missing(n)
+    @parameters[n]
+  end
+
+  private
+  # find center of triangle
+  def center
+    @center ||= begin
+                  xs, ys = vertices.transpose
+                  [xs.inject(:+)/xs.size.to_f, ys.inject(:+)/ys.size.to_f]
+                end
+  end
+
+  # find unit vector from p1 to p2
+  def unit_vector(p1, p2)
+    x = p2[0] - p1[0]
+    y = p2[1] - p1[1]
+    normalize_vector([x,y])
+  end
+
+  # normalize vector to 1 unit length
+  def normalize_vector(v)
+    d = v[0]*v[0] + v[1]*v[1]
+    if d != 1
+      root = Math.sqrt(d)
+      v[0] /= root
+      v[1] /= root
+    end
+    v
+  end
+
+  # find average of two vectors (recommend normalizing first)
+  def average_vector(v1, v2)
+    [(v1[0] + v2[0])/2.0, (v1[1] + v2[1])/2.0]
   end
 end
