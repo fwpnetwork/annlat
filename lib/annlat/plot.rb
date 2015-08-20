@@ -235,6 +235,11 @@ class CoordinatePlane < Plot
     @points << [x, y, self.color(color)]
   end
 
+  def add_line(p1, p2, color=nil)
+    @lines ||= []
+    @lines << [p1, p2, self.color(nil)]
+  end
+
   def xlabel(lab)
     @parameters[:xlabel] = lab
   end
@@ -328,6 +333,12 @@ class CoordinatePlane < Plot
           plot.data << Gnuplot::DataSet.new([[x], [y]]) do |ds|
             ds.with = "points pt 7 lc rgb '#{c}'"
             ds.notitle
+          end
+        end
+        @lines ||= []
+        @lines.each do |p1, p2, c|
+          plot.data << Gnuplot::DataSet.new([p1, p2].transpose) do |ds|
+            ds.with = "lines lc rgb '#{c}'"
           end
         end
       end
