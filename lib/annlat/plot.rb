@@ -237,7 +237,7 @@ class CoordinatePlane < Plot
 
   def add_line(p1, p2, color=nil)
     @lines ||= []
-    @lines << [p1, p2, self.color(nil)]
+    @lines << [p1, p2, self.color(color)]
   end
 
   def xlabel(lab)
