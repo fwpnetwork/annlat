@@ -1043,6 +1043,8 @@ class PlotTriangle < CoordinatePlane
       x += 0.125
       y += 0.125
       final_point = [x, y]
+      @y_max = y
+      @y_min = 0
       @parameters[:vertices] = [[0.125, 0.125],
                                 [0.875, 0.125],
                                 final_point]
@@ -1057,6 +1059,8 @@ class PlotTriangle < CoordinatePlane
       x_max = (xs.max + 1).ceil
       y_min = (ys.min - 1).floor
       y_max = (ys.max + 1).ceil
+      @y_max = y_max
+      @y_min = y_min
       x_tics = [1, (x_max - x_min)/10].max
       y_tics = [1, (y_max - y_min)/10].max
       super(x_min, x_max, y_min, y_max, x_tics, y_tics)
@@ -1172,6 +1176,10 @@ class PlotTriangle < CoordinatePlane
       end
     end
     plot_polygon(vertices)
+    ic = ImageCropper.new(self)
+    top = 1.5*(@y_max - @y_min)*460.0/y_range
+    ic.crop(top, 0, 0, 460)
+    self
   end
 
   def method_missing(n)
@@ -1208,5 +1216,24 @@ class PlotTriangle < CoordinatePlane
   # find average of two vectors (recommend normalizing first)
   def average_vector(v1, v2)
     [(v1[0] + v2[0])/2.0, (v1[1] + v2[1])/2.0]
+  end
+end
+
+class ImageCropper
+  def initialize(image)
+    @fn = image.path
+  end
+
+  # crop to bounding box
+  # top, left, bottom, right
+  def crop(t, l, b, r)
+    orig_w = orig_h = 460
+    new_w = r - l
+    new_h = t - b
+    o_x = l
+    o_y = orig_h - t
+    geom = "#{new_w.round}x#{new_h.round}+#{o_x.round}+#{o_y.round}"
+    puts geom
+    `convert #{@fn} -crop #{geom} +repage #{@fn}`
   end
 end
