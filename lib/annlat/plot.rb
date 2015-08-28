@@ -1060,6 +1060,7 @@ class PlotTriangle < CoordinatePlane
       y_min = ys.min - margin
       y_max = ys.max + margin
       @y_max = y_max
+      @y_max = y_min
       y_max = [y_max, x_max].max
       y_min = [y_min, x_min].min
       tics = [1, (y_max - y_min).ceil/10].max
@@ -1096,7 +1097,7 @@ class PlotTriangle < CoordinatePlane
         v
       end
       @parameters[:x_range] = x_max - x_min
-      @parameters[:y_range] = y_max - y_min
+      @parameters[:y_range] = @y_max - @y_min
     end
     self.label_align = 'center'
   end
