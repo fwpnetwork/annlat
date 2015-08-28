@@ -1233,7 +1233,6 @@ class ImageCropper
     o_x = l
     o_y = orig_h - t
     geom = "#{new_w.round}x#{new_h.round}+#{o_x.round}+#{o_y.round}"
-    puts geom
     `convert #{@fn} -crop #{geom} +repage #{@fn}`
   end
 end
