@@ -1044,6 +1044,7 @@ class PlotTriangle < CoordinatePlane
       y += 0.125
       final_point = [x, y]
       @y_max = y
+      @y_min = 0
       @parameters[:vertices] = [[0.125, 0.125],
                                 [0.875, 0.125],
                                 final_point]
