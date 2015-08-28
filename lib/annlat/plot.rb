@@ -1060,11 +1060,10 @@ class PlotTriangle < CoordinatePlane
       x_max = xs.max + margin
       y_min = ys.min - margin
       y_max = ys.max + margin
-      @y_max = y_max
-      @y_min = y_min
-      x_tics = [1, (x_max - x_min).ceil/10].max
-      y_tics = [1, (y_max - y_min).ceil/10].max
-      super(x_min, x_max, y_min, y_max, x_tics, y_tics)
+      @y_max = [y_max, x_max].max
+      @y_min = [y_min, x_min].min
+      tics = [1, (@y_max - @y_min).ceil/10].max
+      super(@y_min, @y_max, @y_min, @y_max, tics, tics)
       @parameters.merge!(params)
       # calculate angles
       side1 = Math.sqrt((vertices[0][0] - vertices[1][0])**2 +
