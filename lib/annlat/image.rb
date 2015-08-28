@@ -266,7 +266,7 @@ class Polygon
 
     c = Math.cos(theta)
     s = Math.sin(theta)
-    r = Math.sqrt(200)
+    r = Math.sqrt(size**2+size**2)
 
     xs = [x]
     ys = [y]
