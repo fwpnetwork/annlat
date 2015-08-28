@@ -260,7 +260,7 @@ class Polygon
 
   end
 
-  def add_right_angle(x, y, theta = 0)
+  def add_right_angle(x, y, theta = 0, size=10)
     x+=@x_off
     y+=@y_off
 
@@ -270,12 +270,12 @@ class Polygon
 
     xs = [x]
     ys = [y]
-    xs << x+(10 * s)
-    ys << y-(10 * c)
+    xs << x+(size * s)
+    ys << y-(size * c)
     xs << x+(r * Math.sin(theta + Math::PI/4))
     ys << y-(r * Math.cos(theta + Math::PI/4))
-    xs << x+(10 * c)
-    ys << y+(10 * s)
+    xs << x+(size * c)
+    ys << y+(size * s)
     @addl_coords << [xs, ys]
   end
 
