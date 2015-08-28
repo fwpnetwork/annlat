@@ -219,5 +219,11 @@ module Geometry
         p.rotate(degrees, center)
       end
     end
+
+    def vertices_as_pairs
+      @points.map do |p|
+        [p.x, p.y]
+      end
+    end
   end
 end
