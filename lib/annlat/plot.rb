@@ -1056,14 +1056,14 @@ class PlotTriangle < CoordinatePlane
       xs, ys = params[:vertices].transpose
       # determine bounds
       margin = (params[:margin].nil? ? 1 : params[:margin])
-      x_min = (xs.min - margin).floor
-      x_max = (xs.max + margin).ceil
-      y_min = (ys.min - margin).floor
-      y_max = (ys.max + margin).ceil
+      x_min = xs.min - margin
+      x_max = xs.max + margin
+      y_min = ys.min - margin
+      y_max = ys.max + margin
       @y_max = y_max
       @y_min = y_min
-      x_tics = [1, (x_max - x_min)/10].max
-      y_tics = [1, (y_max - y_min)/10].max
+      x_tics = [1, (x_max - x_min).ceil/10].max
+      y_tics = [1, (y_max - y_min).ceil/10].max
       super(x_min, x_max, y_min, y_max, x_tics, y_tics)
       @parameters.merge!(params)
       # calculate angles
