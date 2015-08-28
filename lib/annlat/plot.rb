@@ -1055,10 +1055,11 @@ class PlotTriangle < CoordinatePlane
       # vertices
       xs, ys = params[:vertices].transpose
       # determine bounds
-      x_min = (xs.min - 1).floor
-      x_max = (xs.max + 1).ceil
-      y_min = (ys.min - 1).floor
-      y_max = (ys.max + 1).ceil
+      margin = (params[:margin].nil? ? 1 : params[:margin])
+      x_min = (xs.min - margin).floor
+      x_max = (xs.max + margin).ceil
+      y_min = (ys.min - margin).floor
+      y_max = (ys.max + margin).ceil
       @y_max = y_max
       @y_min = y_min
       x_tics = [1, (x_max - x_min)/10].max
