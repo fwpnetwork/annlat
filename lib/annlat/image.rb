@@ -70,6 +70,9 @@ end
 # how_text => just like text but requires a 4th option for fill color
 def createPolygon(x_coords,y_coords, opts,dashed_lines = [], text = [], addl_coords = [], how_text = [])
   text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "black", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
+  if opts[:font_weight] != nil
+    text_opts[:font_weight] = opts[:font_weight]
+  end
   rvg = RVG.new(opts[:width], opts[:height]).viewbox(0,0,opts[:xcoord],opts[:ycoord]) do |canvas|
     canvas.background_fill = 'white'
     canvas.g.translate(0, 0) do |draw|
@@ -260,22 +263,22 @@ class Polygon
 
   end
 
-  def add_right_angle(x, y, theta = 0, size=10)
+  def add_right_angle(x, y, theta = 0)
     x+=@x_off
     y+=@y_off
 
     c = Math.cos(theta)
     s = Math.sin(theta)
-    r = Math.sqrt(size**2+size**2)
+    r = Math.sqrt(200)
 
     xs = [x]
     ys = [y]
-    xs << x+(size * s)
-    ys << y-(size * c)
+    xs << x+(10 * s)
+    ys << y-(10 * c)
     xs << x+(r * Math.sin(theta + Math::PI/4))
     ys << y-(r * Math.cos(theta + Math::PI/4))
-    xs << x+(size * c)
-    ys << y+(size * s)
+    xs << x+(10 * c)
+    ys << y+(10 * s)
     @addl_coords << [xs, ys]
   end
 
