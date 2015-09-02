@@ -69,7 +69,7 @@ end
 # addl_coords => list of x/y coordinates; each list should be [list-of-x-coods, list-of-y-coords]; the idea being use this for right-angle overlays, etc. Will display with transparent fill and 0.8x stroke width
 # how_text => just like text but requires a 4th option for fill color
 def createPolygon(x_coords,y_coords, opts,dashed_lines = [], text = [], addl_coords = [], how_text = [])
-  text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "blue", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
+  text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "black", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
   if opts[:font_stroke] != nil
     text_opts[:stroke_width] = opts[:font_stroke]
   end
