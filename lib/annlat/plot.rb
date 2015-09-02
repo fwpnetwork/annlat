@@ -394,6 +394,11 @@ class Plot3D < Plot
     @lines << [x, y, z]
   end
 
+  def add_vertex(vertex, color=nil)
+    @vertexes ||= []
+    @vertexes << [vertex, self.color(color)]
+  end
+
   def add_gridded_polygon(vertices)
     add_polygon(vertices)
     # extract first vector
@@ -462,6 +467,14 @@ class Plot3D < Plot
             ds.notitle
           end
         end
+        @vertexes ||= []
+        @vertexes.each do |p, c|
+          plot.data << Gnuplot::DataSet.new([p[0], p[1], p[2]]) do |ds|
+            ds.with = "lines lc rgb '#{c}'"
+            ds.notitle
+          end
+        end
+
       end
     end
     self
