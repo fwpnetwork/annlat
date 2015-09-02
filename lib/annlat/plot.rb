@@ -377,7 +377,7 @@ class Plot3D < Plot
     @labels << [text, x, y, z, size, self.color(color)]
   end
 
-  def add_polygon(vertices)
+  def add_polygon(vertices, color=nil)
     @lines ||= []
     # add outline
     x = []
@@ -391,7 +391,7 @@ class Plot3D < Plot
     x << vertices[0][0]
     y << vertices[0][1]
     z << vertices[0][2]
-    @lines << [x, y, z]
+    @lines << [x, y, z, color]
   end
 
   def add_vertex(vertex, color=nil)
@@ -463,18 +463,14 @@ class Plot3D < Plot
         @lines ||= []
         @lines.each do |x, y, z, c|
           plot.data << Gnuplot::DataSet.new([x, y, z]) do |ds|
-            ds.with = "lines lc rgb '#{color}'"
+            if c == nil
+              ds.with = "lines lc rgb '#{color}'"
+            else
+              ds.with = "lines lc rgb '#{c}'"
+            end
             ds.notitle
           end
         end
-        @vertexes ||= []
-        @vertexes.each do |p, c|
-          plot.data << Gnuplot::DataSet.new([p[0], p[1], p[2]]) do |ds|
-            ds.with = "lines lc rgb '#{c}'"
-            ds.notitle
-          end
-        end
-
       end
     end
     self
