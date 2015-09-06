@@ -59,128 +59,128 @@ def drawCircle(r, x_orig, y_orig, opts, text = [], dashed_lines = [])
   rvg.draw.write(opts[:name])
 end
 
-class Tree
-  attr_accessor(:text, :children, :width, :height, :x, :y)
+# class Tree
+#   attr_accessor(:text, :children, :width, :height, :x, :y)
 
-  def initialize(text, children=nil)
-    @text= text
-    c = []
-    children.each do |x|
-      if x.class.name == "Tree"
-        c << x
-      else
-        c << Tree.new("#{x}")
-      end
-    end unless children == nil
-    @children = c
-    @x = 0
-    @y = 0
-  end
+#   def initialize(text, children=nil)
+#     @text= text
+#     c = []
+#     children.each do |x|
+#       if x.class.name == "Tree"
+#         c << x
+#       else
+#         c << Tree.new("#{x}")
+#       end
+#     end unless children == nil
+#     @children = c
+#     @x = 0
+#     @y = 0
+#   end
 
-  def add_child(c)
-    @children ||= []
-    @children << c
-  end
+#   def add_child(c)
+#     @children ||= []
+#     @children << c
+#   end
 
-  def height()
-    if @children == nil || @children.count == 0
-      return 1
-    else
-      return 1 + (@children.map { |x| x.height}).max
-    end
-  end
+#   def height()
+#     if @children == nil || @children.count == 0
+#       return 1
+#     else
+#       return 1 + (@children.map { |x| x.height}).max
+#     end
+#   end
 
-  def width()
-    if @children == nil || @children.count == 0
-      return 1
-    else
-      w = 0
-      @children.each do |x|
-        w += x.width
-      end
-      w
-    end
-  end
+#   def width()
+#     if @children == nil || @children.count == 0
+#       return 1
+#     else
+#       w = 0
+#       @children.each do |x|
+#         w += x.width
+#       end
+#       w
+#     end
+#   end
 
-  def setPos(x, y)
-    @x = x
-    @y = y
-  end
+#   def setPos(x, y)
+#     @x = x
+#     @y = y
+#   end
 
-  def calcPos(p_x, p_y, w=nil)
-    if w == nil
-      @x = p_x/2
-      @y = 10
-      w=p_x
-    end
+#   def calcPos(p_x, p_y, w=nil)
+#     if w == nil
+#       @x = p_x/2
+#       @y = 10
+#       w=p_x
+#     end
 
-    if @children == nil || @children.count == 0
-      return
-    end
+#     if @children == nil || @children.count == 0
+#       return
+#     end
 
-    space = (w-20)/@children.count
-    x = space/2
-    y = 30
-    @children.each do |t|
-      t.setPos(x, @y+y)
-      t.calcPos(x, @y+y, (w-20)/@children.count)
+#     space = (w-20)/@children.count
+#     x = space/2
+#     y = 30
+#     @children.each do |t|
+#       t.setPos(x, @y+y)
+#       t.calcPos(x, @y+y, (w-20)/@children.count)
 
-      x+=space
-    end unless @children == nil || @children.count == 0
+#       x+=space
+#     end unless @children == nil || @children.count == 0
 
-  end
+#   end
 
-  def texts()
+#   def texts()
 
-  end
+#   end
 
-  def lines()
-    l = []
-    if @children != nil && @children.count != 0
-      @children.each do |x|
-          l << [@x, @y, x.x, x.y]
-          l = l + x.lines
-        end
-    end
-    l
-  end
+#   def lines()
+#     l = []
+#     if @children != nil && @children.count != 0
+#       @children.each do |x|
+#           l << [@x, @y, x.x, x.y]
+#           l = l + x.lines
+#         end
+#     end
+#     l
+#   end
 
-  def to_s
-    @text
-  end
+#   def to_s
+#     @text
+#   end
 
-end
+# end
 
-def createTree(tree, opts)
-  text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "black", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
-  if opts[:font_stroke] != nil
-    text_opts[:stroke_width] = opts[:font_stroke]
-  end
+# def createTree(tree, opts)
+#   text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "black", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
+#   if opts[:font_stroke] != nil
+#     text_opts[:stroke_width] = opts[:font_stroke]
+#   end
 
-  rvg = RVG.new(opts[:width], opts[:height]).viewbox(0,0,opts[:xcoord],opts[:ycoord]) do |canvas|
-    canvas.background_fill = 'white'
-    canvas.g.translate(0, 0) do |draw|
-      draw.styles({:fill_opacity => 0.8, :fill => opts[:color], :stroke_width => opts[:stroke_width], :stroke => "black"})
-      di=opts[:di]
-      draw.polygon(x_coords, y_coords).styles(:fill=>opts[:color], :stroke=>opts[:stroke_color], :stroke_width=>opts[:stroke_width])
+#   rvg = RVG.new(opts[:width], opts[:height]).viewbox(0,0,opts[:xcoord],opts[:ycoord]) do |canvas|
+#     canvas.background_fill = 'white'
+#     canvas.g.translate(0, 0) do |draw|
+#       draw.styles({:fill_opacity => 0.8, :fill => opts[:color], :stroke_width => opts[:stroke_width], :stroke => "black"})
+#       di=opts[:di]
+#       draw.polygon(x_coords, y_coords).styles(:fill=>opts[:color], :stroke=>opts[:stroke_color], :stroke_width=>opts[:stroke_width])
 
 
-      lines_draw = Magick::RVG::Group.new.styles({:stroke=>'black', :fill=>'none', :stroke_width => 0.5*opts[:stroke_width]) do |fig|
-        tree.lines.each do |x|
-          fig.line(x[0], x[1], x[2], x[3])
-        end
-      end
-      draw.use(lines_draw)
-    end
+#       lines_draw = Magick::RVG::Group.new.styles({:stroke=>'black', :fill=>'none', :stroke_width => 0.5*opts[:stroke_width]) do |fig|
+#         tree.lines.each do |x|
+#           fig.line(x[0], x[1], x[2], x[3])
+#         end
+#       end
+#       draw.use(lines_draw)
+#     end
 
-    # text.each do |x|
-    #   canvas.text(x[0], x[1], x[2]).styles(text_opts)
-    # end
+#     # text.each do |x|
+#     #   canvas.text(x[0], x[1], x[2]).styles(text_opts)
+#     # end
 
-  end
+#   end
 
-  rvg.draw.write(opts[:name])
-end
+#   rvg.draw.write(opts[:name])
+# end
 
 # Currently, nothing is rotated so convention is as RMagick expects: origin is top-left, +X is right, +Y is down
 # Params:
