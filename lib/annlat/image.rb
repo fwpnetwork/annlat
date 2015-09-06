@@ -176,9 +176,9 @@ end
 #     # text.each do |x|
 #     #   canvas.text(x[0], x[1], x[2]).styles(text_opts)
 #     # end
-
+# 
 #   end
-
+# 
 #   rvg.draw.write(opts[:name])
 # end
 
