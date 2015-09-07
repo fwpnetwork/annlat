@@ -119,7 +119,10 @@ class Tree
     end
 
     space = (w-20)/@children.count
-    x = space/2
+
+    # if @children[0].height > 1
+
+    x = p_x-space/2
     y = 60
     @children.each do |t|
       t.setPos(x, @y+y)
