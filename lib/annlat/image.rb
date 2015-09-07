@@ -131,7 +131,7 @@ class Tree
   end
 
   def texts()
-    l = []
+    l = [[@x, @y, @text]]
     if @children != nil && @children.count != 0
       @children.each do |x|
           l << [x.x, x.y, x.text]
@@ -159,7 +159,7 @@ class Tree
 end
 
 def createTree(tree, opts)
-  text_opts={:font_weight => 100, :font_size => opts[:font_size], :stroke => "black", :stroke_width => 0.8*opts[:stroke_width], :fill => 'black', :text_anchor => "middle"}
+  text_opts={:font_weight => 100, :font_size => opts[:font_size], :fill => opts[:font_color], :stroke_width => 0.8*opts[:stroke_width], :text_anchor => "middle"}
   if opts[:font_stroke] != nil
     text_opts[:stroke_width] = opts[:font_stroke]
   end
@@ -172,7 +172,7 @@ def createTree(tree, opts)
       # draw.polygon(x_coords, y_coords).styles(:fill=>opts[:color], :stroke=>opts[:stroke_color], :stroke_width=>opts[:stroke_width])
 
 
-      lines_draw = Magick::RVG::Group.new.styles({:stroke=>'black', :fill=>'none', :stroke_width => 0.5*opts[:stroke_width]}) do |fig|
+      lines_draw = Magick::RVG::Group.new.styles({:stroke=>opts[:color], :fill=>'none', :stroke_width => 0.5*opts[:stroke_width]}) do |fig|
         tree.lines.each do |x|
           fig.line(x[0], x[1], x[2], x[3])
         end
