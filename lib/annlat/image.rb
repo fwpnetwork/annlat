@@ -162,7 +162,7 @@ def createTree(tree, opts)
     canvas.g.translate(0, 0) do |draw|
       draw.styles({:fill_opacity => 0.8, :fill => opts[:color], :stroke_width => opts[:stroke_width], :stroke => "black"})
       di=opts[:di]
-      draw.polygon(x_coords, y_coords).styles(:fill=>opts[:color], :stroke=>opts[:stroke_color], :stroke_width=>opts[:stroke_width])
+      # draw.polygon(x_coords, y_coords).styles(:fill=>opts[:color], :stroke=>opts[:stroke_color], :stroke_width=>opts[:stroke_width])
 
 
       lines_draw = Magick::RVG::Group.new.styles({:stroke=>'black', :fill=>'none', :stroke_width => 0.5*opts[:stroke_width]}) do |fig|
