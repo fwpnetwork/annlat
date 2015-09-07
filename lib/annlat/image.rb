@@ -120,10 +120,10 @@ class Tree
 
     space = (w-20)/@children.count
     x = space/2
-    y = 30
+    y = 40
     @children.each do |t|
       t.setPos(x, @y+y)
-      t.calcPos(x, @y+y, (w-20)/@children.count)
+      t.calcPos(x, @y+y+20, (w-20)/@children.count)
 
       x+=space
     end unless @children == nil || @children.count == 0
@@ -131,7 +131,14 @@ class Tree
   end
 
   def texts()
-
+    l = []
+    if @children != nil && @children.count != 0
+      @children.each do |x|
+          l << [x.x, x.y, x.text]
+          l = l + x.lines
+        end
+    end
+    l
   end
 
   def lines()
@@ -173,9 +180,9 @@ def createTree(tree, opts)
       draw.use(lines_draw)
     end
 
-    # text.each do |x|
-    #   canvas.text(x[0], x[1], x[2]).styles(text_opts)
-    # end
+    tree.texts.each do |x|
+      canvas.text(x[0], x[1], x[2]).styles(text_opts)
+    end
 
   end
 
