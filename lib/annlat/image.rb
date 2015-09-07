@@ -110,7 +110,7 @@ class Tree
   def calcPos(p_x, p_y, w=nil)
     if w == nil
       @x = p_x/2
-      @y = 10
+      @y = 30
       w=p_x
     end
 
@@ -120,7 +120,7 @@ class Tree
 
     space = (w-20)/@children.count
     x = space/2
-    y = 40
+    y = 60
     @children.each do |t|
       t.setPos(x, @y+y)
       t.calcPos(x, @y+y+20, (w-20)/@children.count)
@@ -145,7 +145,7 @@ class Tree
     l = []
     if @children != nil && @children.count != 0
       @children.each do |x|
-          l << [@x, @y, x.x, x.y]
+          l << [@x, @y, x.x, x.y-20]
           l = l + x.lines
         end
     end
