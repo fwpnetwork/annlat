@@ -126,7 +126,7 @@ class Tree
     y = 60
     @children.each do |t|
       t.setPos(x, @y+y)
-      t.calcPos(x, @y+y+20, (w-20)/@children.count)
+      t.calcPos(x, @y+y, (w-20)/@children.count)
 
       x+=space
     end unless @children == nil || @children.count == 0
