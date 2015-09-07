@@ -122,7 +122,7 @@ class Tree
 
     # if @children[0].height > 1
 
-    x = p_x-space/2
+    x = space/2
     y = 60
     @children.each do |t|
       t.setPos(x, @y+y)
@@ -137,7 +137,7 @@ class Tree
     l = [[@x, @y, @text]]
     if @children != nil && @children.count != 0
       @children.each do |x|
-          l << [x.x, x.y, x.text]
+          l << [x.x, x.y-5, x.text]
           l = l + x.texts
         end
     end
@@ -148,7 +148,7 @@ class Tree
     l = []
     if @children != nil && @children.count != 0
       @children.each do |x|
-          l << [@x, @y, x.x, x.y-20]
+          l << [@x, @y, x.x, x.y-25]
           l = l + x.lines
         end
     end
