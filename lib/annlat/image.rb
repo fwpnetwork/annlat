@@ -114,24 +114,31 @@ class Tree
 
   def calcPos(p_x, p_y, w=nil)
     if w == nil
+      w=p_x
       @x = p_x/2
       @y = 30
-      w=p_x
+      p_x = @x
+      p_y = @y
     end
 
     if @children == nil || @children.count == 0
       return
     end
 
-    space = (w-20)/@children.count
-
     # if @children[0].height > 1
 
-    x = p_x-w/2
+    if @children.count == 1
+      space = 1
+      x = p_x
+    else
+      space = (w-20)/(@children.count-1)
+      x = p_x-(w-20)/2
+    end
+
     y = 60
     @children.each do |t|
       t.setPos(x, @y+y)
-      t.calcPos(x, @y+y+20, (w-20)/@children.count)
+      t.calcPos(x, @y+y+20, space)
 
       x+=space
     end unless @children == nil || @children.count == 0
