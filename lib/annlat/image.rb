@@ -140,7 +140,7 @@ class Tree
     y = 60
     @children.each do |t|
       t.setPos(x, @y+y)
-      t.calcPos(x, @y+y+20, space)
+      t.calcPos(x, @y+y+40, space)
 
       x+=space
     end unless @children == nil || @children.count == 0
@@ -149,7 +149,7 @@ class Tree
 
   def texts(root=true)
     if root
-      l = [[@x, @y, @text]]
+      l = [[@x, @y-5, @text]]
     else
       l = []
     end
