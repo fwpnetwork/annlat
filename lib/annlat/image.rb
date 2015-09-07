@@ -125,14 +125,16 @@ class Tree
       return
     end
 
+    w -= 20
+    w = w - width*5
     # if @children[0].height > 1
 
     if @children.count == 1
-      space = 1
+      space = w
       x = p_x
     else
-      space = (w-20)/(@children.count-1)
-      x = p_x-(w-20)/2
+      space = w/(@children.count-1)
+      x = p_x-w/2
     end
 
     y = 60
