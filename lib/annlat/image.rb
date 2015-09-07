@@ -79,7 +79,12 @@ class Tree
 
   def add_child(c)
     @children ||= []
-    @children << c
+
+    if c.class.name == "Tree"
+        @children << c
+      else
+        @children << Tree.new("#{c}")
+      end
   end
 
   def height()
@@ -122,23 +127,28 @@ class Tree
 
     # if @children[0].height > 1
 
-    x = space/2
+    x = p_x-w/2
     y = 60
     @children.each do |t|
       t.setPos(x, @y+y)
-      t.calcPos(x, @y+y, (w-20)/@children.count)
+      t.calcPos(x, @y+y+20, (w-20)/@children.count)
 
       x+=space
     end unless @children == nil || @children.count == 0
 
   end
 
-  def texts()
-    l = [[@x, @y, @text]]
+  def texts(root=true)
+    if root
+      l = [[@x, @y, @text]]
+    else
+      l = []
+    end
+
     if @children != nil && @children.count != 0
       @children.each do |x|
           l << [x.x, x.y-5, x.text]
-          l = l + x.texts
+          l = l + x.texts(false)
         end
     end
     l
