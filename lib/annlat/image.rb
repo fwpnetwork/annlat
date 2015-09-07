@@ -135,7 +135,7 @@ class Tree
     if @children != nil && @children.count != 0
       @children.each do |x|
           l << [x.x, x.y, x.text]
-          l = l + x.lines
+          l = l + x.texts
         end
     end
     l
