@@ -137,7 +137,7 @@ class Tree
       x = p_x-w/2
     end
 
-    y = 60
+    y = 90
     @children.each do |t|
       t.setPos(x, @y+y)
       t.calcPos(x, @y+y+40, space)
