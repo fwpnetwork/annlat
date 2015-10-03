@@ -133,7 +133,7 @@ class Tree
       space = w
       x = p_x
     else
-      space = w/(@children.count-1)
+      space = w/(@children.count-1)/2
       x = p_x-w/2
     end
 
