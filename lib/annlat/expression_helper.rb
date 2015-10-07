@@ -303,15 +303,15 @@ module ExpressionHelper
   end
 
   def birds
-    @@birds ||= ["blue jay", "cardinal", "swallow", "finch", "hawk", "eagle"]
+    @@birds ||= ["blue jay", "cardinal", "swallow", "finch", "sparrow", "hummingbird", "warbler"]
   end
 
   def crops
-    @@crops ||= ["soybeans", "corn", "bell peppers", "wheat", "carrots", "green beans", "lettuce", "kale"]
+    @@crops ||= ["soybeans", "corn", "bell peppers", "wheat", "carrots", "green beans", "lettuce", "kale", "tomatoes", "potatoes"]
   end
 
   def dogs
-    @@dogs ||= ["beagle", "golden retriever", "poodle", "bulldog", "pitbull"]
+    @@dogs ||= ["beagle", "golden retriever", "poodle", "bulldog", "pitbull", "terrier", "poodle"]
   end
 
   def fish
