@@ -334,6 +334,14 @@ module ExpressionHelper
     @@fruit ||= ["apples", "bananas", "strawberries", "grapes", "oranges", "peaches"]
   end
 
+  def short_words
+    @@short_words ||= ["agile", "allot", "aloof", "amiss", "avail", "avid", "cite", "cache", "dire", "dub", "muse", "muster", "wage", "vie", "tract", "stint", "hover", "sleek", "glut", "sage", "rue", "flair", "foe", "fend", "pithy", "era", "pang", "elite"]
+  end
+
+  def long_words
+    @@long_words ||= ["anonymous", "compassion", "fortuitous", "procrastinate", "phenomenon", "audacious", "apprehend", "capacious", "commemorate", "conscientious", "conventional", "culminate", "disgruntled", "millennium", "indifferent", "exceptional", "pseudonym", "proficient", "spontaneous", "trepidation", "voracious"]
+  end
+
   # round
   def r(answer, places = 2)
     if answer == answer.to_i
