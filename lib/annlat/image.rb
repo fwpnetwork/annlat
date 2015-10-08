@@ -158,8 +158,8 @@ class Tree
       prob_text = "#{1.0/@children.count}"
       up = false
       @children.each do |x|
-          scale = (stagger ? (up ? 0.3 : 0.7) : 0.5)
-          l << [@x+(x.x-@x)*scale, @y+(x.y-@y)*scale, prob_text]
+          scale = (stagger ? (up ? 0.3 : 0.6) : 0.5)
+          l << [@x+(x.x-@x)*scale*1.3, @y+(x.y-@y)*scale, prob_text]
           l << [x.x, x.y-5, x.text]
           l = l + x.texts(false, !stagger)
           up = !up
