@@ -147,7 +147,7 @@ class Tree
 
   end
 
-  def texts(root=true)
+  def texts(root=true, stagger=false)
     if root
       l = [[@x, @y-5, @text]]
     else
@@ -155,9 +155,14 @@ class Tree
     end
 
     if @children != nil && @children.count != 0
+      prob_text = "#{1.0/@children.count}"
+      up = false
       @children.each do |x|
+          scale = (stagger ? (up ? 0.3 : 0.7) : 0.5)
+          l << [@x+(x.x-@x)*scale, @y+(x.y-@y)*scale, prob_text]
           l << [x.x, x.y-5, x.text]
-          l = l + x.texts(false)
+          l = l + x.texts(false, !stagger)
+          up = !up
         end
     end
     l
