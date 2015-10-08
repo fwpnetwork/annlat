@@ -155,7 +155,7 @@ class Tree
     end
 
     if @children != nil && @children.count != 0
-      prob_text = "#{1.0/@children.count}"
+      prob_text = "#{(1.0/@children.count).round(2)}"
       up = false
       @children.each do |x|
           scale = (stagger ? (up ? 0.4 : 0.6) : 0.5)
