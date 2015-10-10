@@ -160,9 +160,10 @@ class Tree
       @children.each_with_index do |x,i|
           scale = (stagger ? (up ? 0.4 : 0.6) : 0.5)
           l << [@x+(x.x-@x)*scale*1.9*((stagger && up) ? 1.5 : 1), @y+(x.y-@y)*scale, prob_text]
-          if (@children%2 == 1 && i%2 == 1)
+          if (@children.length%2 == 1 && i%2 == 1)
             l << [x.x, x.y-5, x.text]
           else
+            l << [x.x, x.y-5, x.text]
             l << [x.x, x.y+20, x.text]
           end
           l = l + x.texts(false, !stagger)
