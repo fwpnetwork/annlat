@@ -163,7 +163,7 @@ class Tree
           if (@children.length%2 == 1 && i%2 == 1)
             l << [x.x, x.y+20, x.text]
           else
-            l << [x.x, x.y-20, x.text]
+            l << [x.x, x.y-5, x.text]
           end
           l = l + x.texts(false, !stagger)
           up = !up
