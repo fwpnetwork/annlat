@@ -125,7 +125,7 @@ class Tree
       return
     end
 
-    w -= 64
+    w -= 70
     w = w - width*5
     # if @children[0].height > 1
 
@@ -160,7 +160,7 @@ class Tree
       @children.each_with_index do |x,i|
           scale = (stagger ? (up ? 0.4 : 0.6) : 0.5)
           #l << [@x+(x.x-@x)*scale*1.9*((stagger && up) ? 1.5 : 1), @y+(x.y-@y)*scale, prob_text]
-          if (@children.length%2 == 1 && i%2 == 1)
+          if (i%2 == 1)
             l << [x.x, x.y+20, x.text]
           else
             l << [x.x, x.y-5, x.text]
