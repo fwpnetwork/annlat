@@ -125,7 +125,7 @@ class Tree
       return
     end
 
-    w -= 65
+    w -= 62
     w = w - width*5
     # if @children[0].height > 1
 
