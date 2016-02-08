@@ -307,15 +307,15 @@ module ExpressionHelper
   end
 
   def crops
-    @@crops ||= ["soybeans", "corn", "bell peppers", "wheat", "carrots", "green beans", "lettuce", "kale", "tomatoes", "potatoes"]
+    @@crops ||= ["soybeans", "corn", "bell peppers", "wheat", "carrots", "green beans", "lettuce", "kale", "tomatoes", "potatoes", "peas", "collard greens", "squash", "cucumber"]
   end
 
   def dogs
-    @@dogs ||= ["beagle", "golden retriever", "poodle", "bulldog", "pitbull", "terrier", "poodle"]
+    @@dogs ||= ["beagle", "golden retriever", "poodle", "bulldog", "pitbull", "terrier", "poodle", "pug", "lab", "chihuahua", "doberman pinscher", "cocker spaniel"]
   end
 
   def fish
-    @@fish ||= ["salmon", "blue gill", "trout", "bass", "swordfish"]
+    @@fish ||= ["salmon", "blue gill", "trout", "bass", "swordfish", "shark", "sunfish", "angelfish", "cod", "halibut", "barracuda", "pufferfish"]
   end
 
   def girl_names
